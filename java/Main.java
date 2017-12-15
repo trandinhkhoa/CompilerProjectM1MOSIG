@@ -13,9 +13,11 @@ public class Main {
       expression.accept(new PrintVisitor());
       System.out.println();
       
-      /*System.out.println("------ AST ------");
-      expression.accept(new K_norm());
-      System.out.println();*/
+      expression = expression.accept(new K_Norm());
+      
+      System.out.println("------ AST ------");
+      expression.accept(new PrintVisitor());
+      System.out.println();
 
       System.out.println("------ Height of the AST ----");
       int height = Height.computeHeight(expression);
