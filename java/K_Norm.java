@@ -7,7 +7,7 @@ class K_Norm implements ObjVisitor<Exp> {
 	static int x = -1;
     static String gen() {
         x++;
-        return "?v" + x;
+        return "temp" + x;
     }
     
     public Exp visit(Unit e) {
@@ -19,7 +19,9 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Int e) {
-        return e;
+    	Var v1 = new Var(new Id(gen()));
+    	Let l = new Let(v1.id,new TInt(),e, v1);   
+    	return l;
     }
 
     public Exp visit(Float e) {
@@ -43,11 +45,6 @@ class K_Norm implements ObjVisitor<Exp> {
     	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
     	return l1;
     }
-
-  /*  private Exp visit(Exp e1) {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 	public Exp visit(Sub e) {
     	Var v1 = new Var(new Id(gen()));
@@ -112,7 +109,6 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(If e){
-      
        Let l1 = (Let) e.e1.accept(this);
        Let l2 = (Let) l1.e2;
        Exp eq = l2.e2;
@@ -139,11 +135,11 @@ class K_Norm implements ObjVisitor<Exp> {
             return new Unit();
         }
         Iterator<E> it = l.iterator();
-        E e = it.next();
+        it.next();
         while (it.hasNext()) {
             it.next();
         }
-        return new Unit(); //TODO
+        return new Unit();
     }
 
    
