@@ -168,9 +168,42 @@ class K_Norm implements ObjVisitor<Exp> {
     	return lr;
     }
 
+    public Exp rec_app(Exp e, Exp app) {
+    	Let l = (Let)e;
+    	if (l.id.id.equals("\0")) {
+    		System.out.println(l.id.id);
+    		return app;
+    	}else {
+    		return (Exp) new Let(l.id,l.t,l.e1,rec_app(l.e2,app));
+    	}
+    }
+    
     public Exp visit(App e){
        App app = new App(e.e.accept(this),printInfix2(e.es));
        return app;
+    	/*List<Exp> l = printInfix2(e.es);
+    	Iterator it = l.iterator();
+    	List<Exp> l2 = new LinkedList<Exp>();
+    	Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
+    	while (it.hasNext()) {
+    		Exp exp = (Exp) it.next();
+    		if(exp.getClass()==Let.class){
+
+        		System.out.println("YO");
+    			Let lt = (Let) exp;
+    			l2.add(new Var(lt.id));
+    			new_l = new Let(lt.id,lt.t,lt.e1,new_l);
+    		}else {
+    			l2.add(exp);
+    		}
+    	}
+    	Exp app;
+    	app = new App(e.e.accept(this),l2);
+    	if (!new_l.id.id.equals("\0")) {
+    		new_l = (Let) rec_app(new_l,app);
+    		app = new_l;
+    	}
+       return app;*/
     }
 
     public Exp visit(Tuple e){
