@@ -16,7 +16,7 @@ public class Main {
       Exp expression2 = expression.accept(new Copy());
       expression2 = expression2.accept(new K_Norm());
       
-      System.out.println("------ AST ------");
+      System.out.println("------ AST K-Normalization ------");
       expression2.accept(new PrintVisitor());
       System.out.println();
 
