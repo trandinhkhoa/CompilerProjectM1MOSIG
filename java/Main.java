@@ -13,10 +13,11 @@ public class Main {
       expression.accept(new PrintVisitor());
       System.out.println();
       
-      expression = expression.accept(new K_Norm());
+      Exp expression2 = expression.accept(new Copy());
+      expression2 = expression2.accept(new K_Norm());
       
       System.out.println("------ AST ------");
-      expression.accept(new PrintVisitor());
+      expression2.accept(new PrintVisitor());
       System.out.println();
 
       System.out.println("------ Height of the AST ----");
