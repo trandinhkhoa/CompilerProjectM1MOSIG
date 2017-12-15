@@ -106,17 +106,20 @@ class K_Norm implements ObjVisitor<Exp> {
     public Exp visit(LE e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Eq(v1,v2));  
+    	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new LE(v1,v2));  
     	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
     	return l1;
     }
 
     public Exp visit(If e){
+      
        Let l1 = (Let) e.e1.accept(this);
-       Let l2 = (Let) l1.e2.accept(this);
-       Eq eq = (Eq) l2.e2;
+       Let l2 = (Let) l1.e2;
+       Exp eq = l2.e2;
        If si = new If(eq,e.e2.accept(this),e.e3.accept(this));
-       return si;
+       Let lt2 = new Let(l2.id,l2.t,l2.e1,si);
+       Let lt1 = new Let(l1.id,l1.t,l1.e1,lt2);
+       return lt1;
        
     }
 
@@ -186,22 +189,13 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Get e){
-        /*e.e1.accept(this);
-        System.out.print(".(");
-        e.e2.accept(this);
-        System.out.print(")");*/
-    	return new Unit();
+        Get g = new Get(e.e1.accept(this),e.e2.accept(this));
+    	return g;
     }
 
     public Exp visit(Put e){
-        /*System.out.print("(");
-        e.e1.accept(this);
-        System.out.print(".(");
-        e.e2.accept(this);
-        System.out.print(") <- ");
-        e.e3.accept(this);
-        System.out.print(")");*/
-    	return new Unit();
+       Put p = new Put(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
+    	return p;
     }
 }
 
