@@ -3,7 +3,7 @@ import java.util.*;
 
 parser code {:
     Lexer l;
-    Parser(Lexer l){
+    public Parser(Lexer l){
 	   this.l = l;
     }
 

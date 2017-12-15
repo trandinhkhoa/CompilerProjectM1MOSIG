@@ -137,7 +137,7 @@ public abstract class lr_parser {
         symbolFactory = symfac;
         setScanner(s);
     }
-    public SymbolFactory symbolFactory;// = new DefaultSymbolFactory();
+    public SymbolFactory symbolFactory = new DefaultSymbolFactory();
     /**
      * Whenever creation of a new Symbol is necessary, one should use this factory.
      */

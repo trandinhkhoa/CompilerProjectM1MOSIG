@@ -12,6 +12,10 @@ public class Main {
       System.out.println("------ AST ------");
       expression.accept(new PrintVisitor());
       System.out.println();
+      
+      /*System.out.println("------ AST ------");
+      expression.accept(new K_norm());
+      System.out.println();*/
 
       System.out.println("------ Height of the AST ----");
       int height = Height.computeHeight(expression);
