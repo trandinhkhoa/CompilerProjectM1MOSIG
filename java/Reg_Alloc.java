@@ -14,7 +14,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 	}
 	
 	public int get_free_register() {
-		for (int i = 0 ; i <=15;i++) {
+		for (int i = 4 ; i <=12;i++) {
 			//System.out.println(register_tab[i]);
 			if (register_tab[i].equals("")) {
 				return i;
@@ -24,7 +24,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 	}
 	
 	public int get_var_register(String s) {
-		for (int i = 0 ; i <=15;i++) {
+		for (int i = 4 ; i <=12;i++) {
 			//System.out.println( register_tab[i] +" = " + s +" ?");
 			if (register_tab[i].equals(s)) {
 				return i;
@@ -215,7 +215,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
     	}
        return app;*/
        
-       List<Exp> la = new LinkedList<Exp>();
+      /* List<Exp> la = new LinkedList<Exp>();
        la.addAll(printInfix2(e.es));
        List<Exp> llet = new LinkedList<Exp>();
        List<Exp> lvar = new LinkedList<Exp>();
@@ -228,7 +228,8 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
     	   System.err.println("No remaining register");
     	   id = new Id("temp");
        }
-       return new Let (id,new TVar(id.id),a,new Var(id));
+       return new Let (id,new TVar(id.id),a,new Var(id));*/
+    	return new App(e.e,printInfix2(e.es));
        
     }
 
