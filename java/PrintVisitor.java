@@ -104,8 +104,10 @@ class PrintVisitor implements Visitor {
         System.out.print("(if ");
         e.e1.accept(this);
         System.out.print(" then ");
+        System.out.println("");
         e.e2.accept(this);
         System.out.print(" else ");
+        System.out.println("");
         e.e3.accept(this);
         System.out.print(")");
     }
@@ -116,6 +118,7 @@ class PrintVisitor implements Visitor {
         System.out.print(" = ");
         e.e1.accept(this);
         System.out.print(" in ");
+        System.out.println("");
         e.e2.accept(this);
         System.out.print(")");
     }
@@ -156,6 +159,7 @@ class PrintVisitor implements Visitor {
         System.out.print(" = ");
         e.fd.e.accept(this);
         System.out.print(" in ");
+        System.out.println("");
         e.e.accept(this);
         System.out.print(")");
     }
@@ -180,6 +184,7 @@ class PrintVisitor implements Visitor {
         System.out.print(") = ");
         e.e1.accept(this);
         System.out.print(" in ");
+        System.out.println("");
         e.e2.accept(this);
         System.out.print(")");
     }

@@ -174,9 +174,31 @@ class K_Norm implements ObjVisitor<Exp> {
     	}
     }
     
+    Exp app_rec(List<Exp> la,List<Exp> llet,List<Exp> lvar,Exp e) {
+    	if (la.isEmpty()) {
+    		return new App(e,lvar);
+    	}else {
+    		Exp first = la.remove(0);
+    		if(first.getClass()!=Let.class){
+    			lvar.add(first);
+    			return app_rec(la,llet,lvar ,e);
+    		}else {
+
+    			System.out.println(("HEEEEEY"+ ((Var)e).id.id));
+    			Let l = (Let) first;
+    			Var x = new Var(l.id);
+    			llet.add(l);
+    			lvar.add(x);
+    			return new Let(l.id,l.t,l.e1,
+    					app_rec(la,llet,lvar,e)
+    					);
+    		}
+    	}
+    }
+    
     public Exp visit(App e){
-       App app = new App(e.e.accept(this),printInfix2(e.es));
-       return app;
+      // App app = new App(e.e.accept(this),printInfix2(e.es));
+      // return app;
     	/*List<Exp> l = printInfix2(e.es);
     	Iterator it = l.iterator();
     	List<Exp> l2 = new LinkedList<Exp>();
@@ -200,6 +222,15 @@ class K_Norm implements ObjVisitor<Exp> {
     		app = new_l;
     	}
        return app;*/
+       
+       List<Exp> la = new LinkedList<Exp>();
+       la.addAll(printInfix2(e.es));
+       List<Exp> llet = new LinkedList<Exp>();
+       List<Exp> lvar = new LinkedList<Exp>();
+       Exp a =  app_rec(la,llet,lvar,e.e.accept(this));
+       Id i = new Id(gen());
+       return new Let (i,new TVar(i.id),a,new Var(i));
+       
     }
 
     public Exp visit(Tuple e){
