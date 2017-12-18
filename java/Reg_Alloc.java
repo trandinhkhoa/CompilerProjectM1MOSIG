@@ -153,7 +153,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 
     public Exp visit(LetRec e){
     	
-    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e);
+    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
     	return lr;
     }
