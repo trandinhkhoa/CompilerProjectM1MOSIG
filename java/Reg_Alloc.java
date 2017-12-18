@@ -118,12 +118,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
     	if (i!=-1) {
     		return new Var(new Id("r"+i));
     	}else {
-    		i = get_free_register();
-    		if (i!=-1) {
-        		return new Var(new Id("r"+i));
-        	}else {
         		return e;
-        	}
     	}
     }
     
@@ -158,7 +153,7 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 
     public Exp visit(LetRec e){
     	
-    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e);
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
     	return lr;
     }
