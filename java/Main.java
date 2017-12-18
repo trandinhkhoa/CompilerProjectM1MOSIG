@@ -19,6 +19,12 @@ public class Main {
       System.out.println("------ AST K-Normalization ------");
       expression2.accept(new PrintVisitor());
       System.out.println();
+      
+      expression2 = expression2.accept(new Reg_Alloc());
+      
+      System.out.println("------ AST Register Allocation ------");
+      expression2.accept(new PrintVisitor());
+      System.out.println();
 
       System.out.println("------ Height of the AST ----");
       int height = Height.computeHeight(expression);
