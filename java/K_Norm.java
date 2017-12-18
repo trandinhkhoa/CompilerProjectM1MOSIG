@@ -19,9 +19,10 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Int e) {
-    	Var v1 = new Var(new Id(gen()));
+    	/*Var v1 = new Var(new Id(gen()));
     	Let l = new Let(v1.id,new TInt(),e, v1);   
-    	return l;
+    	return l;*/
+    	return e;
     }
 
     public Exp visit(Float e) {
@@ -29,7 +30,7 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Not e) {
-       return e.e.accept(this);
+       return new Not(e.e.accept(this));
     }
 
     public Exp visit(Neg e) {
@@ -183,8 +184,6 @@ class K_Norm implements ObjVisitor<Exp> {
     			lvar.add(first);
     			return app_rec(la,llet,lvar ,e);
     		}else {
-
-    			System.out.println(("HEEEEEY"+ ((Var)e).id.id));
     			Let l = (Let) first;
     			Var x = new Var(l.id);
     			llet.add(l);
