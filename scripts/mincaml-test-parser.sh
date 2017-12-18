@@ -12,25 +12,57 @@ MINCAMLC=java/mincamlc
 # TODO extends this script to run test in subdirectories
 # 
 
+echo "*************************Syntax Tests*************************"
+
+echo "1. Valid Tests:"
 for test_case in tests/syntax/valid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "OK"
+        echo "Success"
     else 
-        echo "KO"
+        echo "Check!!"
     fi
 done
 
+echo "2. InValid Tests:"
 for test_case in tests/syntax/invalid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "OK"
+        echo "Check!!"
     else 
-        echo "KO"
+        echo "Success"
     fi
 done
 
+echo "*************************Type Checking Tests*************************"
+
+echo "1. Valid Tests:"
+for test_case in tests/typechecking/valid/*.ml
+do
+        name = $(basename $test_case) ${test_case%.*}
+
+    echo "testing parser on: $test_case"
+    result = $(diff tests/typechecking/ExpectedOutput/name.txt java -cp java-cup-11b-runtime.jar:. Main test_case.ml)
+    if [ $result -eq 0 ]$MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    then
+        echo "Success"
+    else 
+        echo "Check!!"
+    fi
+done
+
+echo "2. InValid Tests:"
+for test_case in tests/typechecking/invalid/*.ml
+do
+    echo "testing parser on: $test_case"
+    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    then
+        echo "Check!!"
+    else 
+        echo "Success"
+    fi
+done
