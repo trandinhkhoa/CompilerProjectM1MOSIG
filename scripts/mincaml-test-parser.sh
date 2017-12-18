@@ -15,26 +15,26 @@ MINCAMLC=java/mincamlc
 echo "*************************Syntax Tests*************************"
 
 echo "1. Valid Tests:"
-for test_case in tests/syntax/valid/*.ml
+for test_case in tests/syntax_Parser/valid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "Success"
+        echo "OK"
     else 
-        echo "Check!!"
+        echo "KO"
     fi
 done
 
 echo "2. InValid Tests:"
-for test_case in tests/syntax/invalid/*.ml
+for test_case in tests/syntax_Parser/invalid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "Check!!"
+        echo "KO"
     else 
-        echo "Success"
+        echo "OK"
     fi
 done
 
@@ -43,15 +43,16 @@ echo "*************************Type Checking Tests*************************"
 echo "1. Valid Tests:"
 for test_case in tests/typechecking/valid/*.ml
 do
-        name = $(basename $test_case) ${test_case%.*}
+#        name = $(basename $test_case) | sed #${test_case%.*}
 
     echo "testing parser on: $test_case"
-    result = $(diff tests/typechecking/ExpectedOutput/name.txt java -cp java-cup-11b-runtime.jar:. Main test_case.ml)
-    if [ $result -eq 0 ]$MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+#    result = $(diff tests/typechecking/ExpectedOutput/name.txt "java -cp java-cup-11b-runtime.jar:. Main test_case.ml")
+#    [ $result -eq 0 ]
+    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "Success"
+        echo "OK"
     else 
-        echo "Check!!"
+        echo "KO"
     fi
 done
 
@@ -61,8 +62,8 @@ do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
     then
-        echo "Check!!"
+        echo "KO"
     else 
-        echo "Success"
+        echo "OK"
     fi
 done
