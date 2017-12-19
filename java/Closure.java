@@ -202,8 +202,9 @@ public class Closure implements ObjVisitor<Exp> {
     	ht.remove(e.fd.id.id);
     	ht.put(e.fd.id.id, new LinkedList<Id>());
     	ht.get(e.fd.id.id).addAll(e.fd.args);
-    	FunDef fd2= new FunDef(new Id("_"+e.fd.id.id), e.fd.type, e.fd.args, e.fd.e.accept(this));
-    	fun_List.add(e.fd.id);
+    	Id id = new Id("_"+e.fd.id.id);
+    	fun_List.add(id);
+    	FunDef fd2= new FunDef(id, e.fd.type, e.fd.args, e.fd.e.accept(this));
     	Id i = s.pop();
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
     	Closure_Element ce = new Closure_Element(lr);

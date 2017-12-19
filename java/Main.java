@@ -43,6 +43,10 @@ public class Main {
       System.out.println();
       System.out.println();
       
+      System.out.println("------ AST Nested-Let ------");
+      expression2 = expression2.accept(new Nested_Let());
+      expression2.accept(new PrintVisitor());
+      System.out.println();
       
       Closure c = new Closure();
       expression2.accept(c);

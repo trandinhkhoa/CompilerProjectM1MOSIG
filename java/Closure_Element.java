@@ -48,14 +48,14 @@ public class Closure_Element {
 			System.out.println(parameters.get(parameters.size()-1).id);;
 		}
 		System.out.println("Code: ");
-		code.accept(new PrintVisitor());
+		code.accept(new PrintASML());
 		
 		
 	}
 	
 	public void printASML() {
 		System.out.println("let " + label+" =");
-		code.accept(new PrintVisitor());		
+		code.accept(new PrintASML());		
 	}
 	
 	

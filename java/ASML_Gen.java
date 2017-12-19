@@ -10,6 +10,18 @@ public class ASML_Gen implements ObjVisitor<Exp> {
 	
 	public ASML_Gen(List<Id> fun_List) {
 		this.fun_List = fun_List;
+		for(int i = 0; i<this.fun_List.size();i++) {
+			System.out.println(this.fun_List.get(i));
+		}
+	}
+	
+	public boolean contains(Id i) {
+		Iterator<Id> it = fun_List.iterator();
+		while(it.hasNext()) {
+			if(it.next().id.equals(i.id)) {
+				return true;
+			}
+		}return false;
 	}
 	
 	 List<Exp> printInfix2(List<Exp> l) {
@@ -33,14 +45,52 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     public Exp visit(Var e){return e;}
     
     public Exp visit(Not e){return new Not(e.e.accept(this));}
-    public Exp visit(Neg e){return new Neg(e.e.accept(this));}
-    public Exp visit(Add e){return new Add(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(Sub e){return new Sub(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(FNeg e){return new FNeg(e.e.accept(this));}
-    public Exp visit(FAdd e){return new FAdd(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(FSub e){return new FSub(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(FMul e){return new FMul(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(FDiv e){return new FDiv(e.e1.accept(this),e.e2.accept(this));}
+    public Exp visit(Neg e){
+    	Var v = new Var(new Id("neg"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e.accept(this));
+    	return new App(v,l);}
+    public Exp visit(Add e){
+    	Var v = new Var(new Id("add"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
+    public Exp visit(Sub e){
+    	Var v = new Var(new Id("sub"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
+    public Exp visit(FNeg e){
+    	Var v = new Var(new Id("fneg"));
+		List<Exp> l = new LinkedList<Exp>();
+		l.add(e.e.accept(this));
+		return new App(v,l);}
+    public Exp visit(FAdd e){
+    	Var v = new Var(new Id("fadd"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
+    public Exp visit(FSub e){
+    	Var v = new Var(new Id("fsub"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
+    public Exp visit(FMul e){
+    	Var v = new Var(new Id("fmul"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
+    public Exp visit(FDiv e){
+    	Var v = new Var(new Id("fdiv"));
+    	List<Exp> l = new LinkedList<Exp>();
+    	l.add(e.e1.accept(this));
+    	l.add(e.e2.accept(this));
+    	return new App(v,l);}
     public Exp visit(Eq e){return new Eq(e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(LE e){return new LE(e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(If e){return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));}
@@ -64,7 +114,7 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     		le.addAll(e.es.subList(1, e.es.size()));
     		return new App(v,le);
     		
-    	}else if(!fun_List.contains(v.id)) {
+    	}else if(!contains(v.id)) {
     		v = new Var(new Id("_min_caml"+v.id.id));
     	}
     	return new App(v,printInfix2(e.es));
