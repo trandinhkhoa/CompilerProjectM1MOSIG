@@ -20,6 +20,8 @@ class TTuple extends Type { }
 
 class TArray extends Type { }
 
+class TUnresolvedType extends Type { }
+
 class TVar extends Type {
     String v;
     TVar(String v) {
