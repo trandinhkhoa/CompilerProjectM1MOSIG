@@ -13,12 +13,15 @@ public class Main {
       System.out.println("------ AST ------");
       expression.accept(new PrintVisitor());
       System.out.println();
+      System.out.println();
       
       System.out.println("------ Type Check ------");
       VisitorTypeCheck t = new VisitorTypeCheck();
       expression.accept(t);
       if(t.errorSet){
     	  System.out.println("Error from type check");
+      }else {
+    	  System.out.println("Type check is ok");
       }
       System.out.println();
       
@@ -28,11 +31,23 @@ public class Main {
       System.out.println("------ AST K-Normalization ------");
       expression2.accept(new PrintVisitor());
       System.out.println();
+      System.out.println();
+      
+      Closure c = new Closure();
+      expression2.accept(c);
+      
+      System.out.println("------ AST Closure ------");
+      for (int i = 0 ; i < c.closure_list.size(); i++){
+    	  c.closure_list.get(i).print();
+          System.out.println();
+      } System.out.println();
+     
       
       expression2 = expression2.accept(new Reg_Alloc());
       
       System.out.println("------ AST Register Allocation ------");
       expression2.accept(new PrintVisitor());
+      System.out.println();
       System.out.println();
 
       System.out.println("------ Height of the AST ----");
