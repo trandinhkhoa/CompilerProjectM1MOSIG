@@ -22,7 +22,6 @@ public class Main {
       }
       System.out.println();
       
-      
       Exp expression2 = expression.accept(new Copy());
       expression2 = expression2.accept(new K_Norm());
       
