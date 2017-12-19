@@ -230,7 +230,7 @@ class K_Norm implements ObjVisitor<Exp> {
        List<Exp> lvar = new LinkedList<Exp>();
        Exp a =  app_rec(la,llet,lvar,e.e.accept(this));
        Id i = new Id(gen());
-       /*return new Let (i,new TVar(i.id),a,new Var(i)); */return a ;
+       return new Let (i,new TVar(i.id),a,new Var(i)); //return a ;
     }
 
     public Exp visit(Tuple e){
