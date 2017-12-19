@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry excluding="jflex/examples/java/|jflex/src/main/java/|jflex/src/test/java/|jflex/examples/interpreter/|jflex/examples/simple-maven/src/test/java/|jflex/examples/simple-maven/src/main/java/|jflex/examples/cup/|jflex/examples/standalone-maven/src/test/java/" kind="src" path=""/>
+	<classpathentry excluding="jflex/examples/java/|jflex/src/main/java/|jflex/src/test/java/|jflex/examples/interpreter/|jflex/examples/simple-maven/src/test/java/|jflex/examples/simple-maven/src/main/java/|jflex/examples/cup/|jflex/target/generated-sources/jflex/|jflex/examples/standalone-maven/src/test/java/" kind="src" path=""/>
 	<classpathentry kind="src" path="jflex/examples/cup"/>
 	<classpathentry kind="src" path="jflex/examples/interpreter"/>
 	<classpathentry kind="src" path="jflex/examples/java"/>
@@ -10,6 +10,7 @@
 	<classpathentry kind="src" path="jflex/examples/standalone-maven/src/test/java"/>
 	<classpathentry kind="src" path="jflex/src/main/java"/>
 	<classpathentry kind="src" path="jflex/src/test/java"/>
+	<classpathentry kind="src" path="jflex/target/generated-sources/jflex"/>
 	<classpathentry kind="lib" path="/home/sebastien/Documents/Master1/Project.git/CompilerProjectM1MOSIG/java/java-cup-11b-runtime.jar"/>
 	<classpathentry kind="lib" path="/home/sebastien/Documents/Master1/Project.git/CompilerProjectM1MOSIG/java/java-cup-11b.jar"/>
 	<classpathentry kind="output" path="bin"/>

@@ -110,8 +110,8 @@ public class Closure implements ObjVisitor<Exp> {
     public Exp visit(Var e){
     	if_main(e);
     	if (s.isEmpty()) {
-    		ht.put("main",new LinkedList<Id>() );
-    		s.push(new Id("main"));
+    		ht.put("Main",new LinkedList<Id>() );
+    		s.push(new Id("Main"));
     	}
     	Id i = s.peek();
     	ht.get(i.id).add(e.id);

@@ -35,8 +35,9 @@ public class Main {
       expression2.accept(c);
       
       System.out.println("------ AST Closure ------");
-      for (int i = 0 ; i < c.closure_list.size(); i++){
+      for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
     	  c.closure_list.get(i).print();
+          System.out.println();
           System.out.println();
       } System.out.println();
      
