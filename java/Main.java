@@ -1,4 +1,6 @@
 import java_cup.runtime.*;
+import sun.awt.FwDispatcher;
+
 import java.io.*;
 import java.util.*;
 
@@ -82,19 +84,29 @@ public class Main {
 
       expression2 = expression2.accept(new Reg_Alloc());
       
+      String[] tab = argv[0].split("/", argv[0].length());
+      
+      String s = "../asml/"+ tab[tab.length-1].replace(".ml", ".asml");
+      
+      File f = new File(s);
+      FileWriter fw = new FileWriter(f) ;
+      
       System.out.println("------ AST Register Allocation ------");
       for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
     	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new Reg_Alloc()));
     	  c.closure_list.get(i).printASML();
+    	  c.closure_list.get(i).printIn(fw);
           System.out.println();
           System.out.println();
       }       
+      fw.close();
       System.out.println();
       System.out.println();
+      
 
       System.out.println("------ Height of the AST ----");
       int height = Height.computeHeight(expression);
-      System.out.println("using Height.computeHeight: " + height);
+      System.out.println("using Height.computeHeight: " + height); 
 
       ObjVisitor<Integer> v = new HeightVisitor();
       height = expression.accept(v);
