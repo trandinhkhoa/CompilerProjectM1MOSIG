@@ -13,108 +13,156 @@ public class Closure implements ObjVisitor<Exp> {
 	public Closure() {
 		closure_list = new LinkedList<Closure_Element>();
 	}
-    
-	public void if_main(Exp e) {
-		if ((s.isEmpty())&&(!main_done)) {
-    		closure_list.add(new Closure_Element(e));
-    		main_done = true;
-    	}
-	}
 	
     public Exp visit(Unit e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(e));
+    	}
         return e;
     }
 
     public Exp visit(Bool e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(e));
+    	}
         return e;
     }
 
     public Exp visit(Int e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(e));
+    	}
     	return e;
     }
 
     public Exp visit(Float e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(e));
+    	}
         return e;
     }
 
     public Exp visit(Not e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Not(e.e.accept(this))));
+    	}
        return new Not(e.e.accept(this));
     }
 
     public Exp visit(Neg e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Neg(e.e.accept(this))));
+    	}
     	return new Neg(e.e.accept(this));
     }
 
     public Exp visit(Add e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Add(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new Add(e.e1.accept(this),e.e2.accept(this));
     }
 
 	public Exp visit(Sub e) {
-		if_main(e);
+		if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Sub(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new Sub(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FNeg e){
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new FNeg(e.e.accept(this))));
+    	}
     	return new FNeg(e.e.accept(this));
     }
 
     public Exp visit(FAdd e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new FAdd(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new FAdd(e.e1.accept(this),e.e2.accept(this));
     }
 
 	public Exp visit(FSub e) {
-		if_main(e);
+		if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new FSub(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new FSub(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FMul e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new FMul(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new FMul(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FDiv e){
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new FDiv(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new FDiv(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Eq e){
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Eq(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new Eq(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(LE e){
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new LE(e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new LE(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(If e){
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this))));
+    	}
        return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
        
     }
 
     public Exp visit(Let e) {
-    	if_main(e);
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this))));
+    	}
     	return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Var e){
-    	if_main(e);
     	if (s.isEmpty()) {
     		ht.put("Main",new LinkedList<Id>() );
     		s.push(new Id("Main"));
     	}
     	Id i = s.peek();
     	ht.get(i.id).add(e.id);
+    	
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(e));
+    	}
     	return e;
     }
 
@@ -146,44 +194,65 @@ public class Closure implements ObjVisitor<Exp> {
     }
     
     public Exp visit(App e){
-    	if_main(e);
+    	boolean here = false;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+			here = true;
+    	}
     	Var name = (Var) e.e;
     	Var v = new Var(new Id("_"+name.id.id));
-    	App a =  new App( v  ,printInfix2(e.es));
+    	List<Exp> lis = new LinkedList<Exp>();
+    	lis.add(v);
+    	lis.addAll(printInfix2(e.es));
+    	Tuple t = new Tuple(lis);
     	List<Exp> l = new LinkedList<Exp>();
-    	l.add(a);
-    	return new App(new Var(new Id("apply_direct")), l);
+    	l.add(t);
+    	App a = new App(new Var(new Id("apply_direct")), l);
+    	if (here) {
+		closure_list.add(new Closure_Element(a));
+    	}
+    	return a;
        
     }
 
     public Exp visit(Tuple e){
-    	if_main(e);
-       Tuple t = new Tuple(printInfix2(e.es));
-    	return t;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Tuple(printInfix2(e.es))));
+    	}
+    	return new Tuple(printInfix2(e.es));
     }
 
     public Exp visit(LetTuple e){
-    	if_main(e);
-       LetTuple lt = new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this));
-    	return lt;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this))));
+    	}
+    	return new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Array e){
-    	if_main(e);
-    	Array a = new Array(e.e1.accept(this),e.e2.accept(this));
-    	return a;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Array(e.e1.accept(this),e.e2.accept(this))));
+    	}
+    	return new Array(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Get e){
-    	if_main(e);
-        Get g = new Get(e.e1.accept(this),e.e2.accept(this));
-    	return g;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element( new Get(e.e1.accept(this),e.e2.accept(this))));
+    	}
+    	return  new Get(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Put e){
-    	if_main(e);
-       Put p = new Put(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
-    	return p;
+    	if ((s.isEmpty())&&(!main_done)) {
+			main_done = true;
+    		closure_list.add(new Closure_Element(new Put(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this))));
+    	}
+    	return new Put(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
     }
 }
 

@@ -44,7 +44,7 @@ public class Main {
       
       System.out.println("------ AST Alpha-Conversion ------");
       alpha_conversion alpha = new alpha_conversion();
-      expression2 = expression2.accept(alpha);
+      //expression2 = expression2.accept(alpha);
       expression2.accept(new PrintVisitor());
       System.out.println();
 
