@@ -3,8 +3,9 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+  
   static public void main(String argv[]) {    
-    try {
+    try {    	
       Parser p = new Parser(new Lexer(new FileReader(argv[0])));
       Exp expression = (Exp) p.parse().value;      
       assert (expression != null);
@@ -12,6 +13,15 @@ public class Main {
       System.out.println("------ AST ------");
       expression.accept(new PrintVisitor());
       System.out.println();
+      
+      System.out.println("------ Type Check ------");
+      VisitorTypeCheck t = new VisitorTypeCheck();
+      expression.accept(t);
+      if(t.errorSet){
+    	  System.out.println("Error from type check");
+      }
+      System.out.println();
+      
       
       Exp expression2 = expression.accept(new Copy());
       expression2 = expression2.accept(new K_Norm());
