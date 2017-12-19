@@ -9,7 +9,7 @@ public class Closure_Element {
 	public Exp code;
 
 	public Closure_Element(Exp e) {
-		this.label = "Main";
+		this.label = "_";
 		this.free_variables = new LinkedList<Id>();
 		this.parameters = new LinkedList<Id>();
 		this.code = e;

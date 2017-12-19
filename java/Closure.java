@@ -8,6 +8,7 @@ public class Closure implements ObjVisitor<Exp> {
 	
 	List<Closure_Element> closure_list;
 	Stack<Id> s = new Stack<Id>();
+	List<Id> fun_List = new LinkedList<Id>();
 	Hashtable<String,List<Id>> ht = new Hashtable<String,List<Id>>(); 
 	boolean main_done = false;
 	public Closure() {
@@ -159,8 +160,8 @@ public class Closure implements ObjVisitor<Exp> {
 
     public Exp visit(Var e){
     	if (s.isEmpty()) {
-    		ht.put("Main",new LinkedList<Id>() );
-    		s.push(new Id("Main"));
+    		ht.put("_",new LinkedList<Id>() );
+    		s.push(new Id("_"));
     	}
     	Id i = s.peek();
     	List<Id> li= ht.get(i.id);
@@ -202,6 +203,7 @@ public class Closure implements ObjVisitor<Exp> {
     	ht.put(e.fd.id.id, new LinkedList<Id>());
     	ht.get(e.fd.id.id).addAll(e.fd.args);
     	FunDef fd2= new FunDef(new Id("_"+e.fd.id.id), e.fd.type, e.fd.args, e.fd.e.accept(this));
+    	fun_List.add(e.fd.id);
     	Id i = s.pop();
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
     	Closure_Element ce = new Closure_Element(lr);
