@@ -13,6 +13,8 @@ public class Main {
       expression.accept(new PrintVisitor());
       System.out.println();
       
+      expression.accept(new VisitorTypeCheck());
+      
       Exp expression2 = expression.accept(new Copy());
       expression2 = expression2.accept(new K_Norm());
       
