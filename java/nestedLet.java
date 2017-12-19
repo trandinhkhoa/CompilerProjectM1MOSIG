@@ -1,50 +1,58 @@
-import java.util.List;
 
 public class nestedLet implements ObjVisitor<Exp> {
 
-	
 	@Override
 	public Exp visit(Let e) {
 		// TODO Auto-generated method stub
-		Id x = e.id;
-		Type tx = e.t;
-		Let E1 = (Let) e.e1.accept(this);
-		
-		Id y = E1.id;
-		Type ty = E1.t;
-		 
-		Let e1 = (Let) E1.e1;
-		Let e2 = (Let) E1.e2;
-		
-		Let e3 = (Let) e.e2.accept(this);
-		
-		return new Let(y,ty,e1,new Let(x,tx,e2,e3));
-	}
+		//Id x = e.id;
+		//Type tx = e.t;
+		if (e.e1.getClass() == Let.class && e.e2.getClass() == Let.class) {
+			e.e2 = e.e2.accept(this);
+
+			Let E1 = (Let) e.e1.accept(this);
+			//Id y = E1.id;
+			//Type ty = E1.t;
+			e.e1 = E1.e2;
+			E1.e2 = e;
+			E1.accept(this);
+			return E1;
+		}
+		e.e1 = e.e1.accept(this);
 	
+		return e;
+	}
+
 	@Override
 	public Exp visit(LetTuple e) {
 		// TODO Auto-generated method stub
-		List<Id> x = e.ids;
-		List<Type> tx = e.ts;
-		LetTuple E1 = (LetTuple) e.e1.accept(this);
-		
-		List<Id> y = E1.ids;
-		List<Type> ty = E1.ts;
-		Exp e1 = E1.e1;
-		Exp e2 = E1.e2;
-		
-		Exp e3 = e.e2.accept(this);
-		return new LetTuple(y,ty,e1,new LetTuple(x,tx,e2,e3));
-		
+		//List<Id> x = e.ids;
+		//List<Type> tx = e.ts;
+		if (e.e1.getClass() == LetTuple.class) {
+			e.e2 = e.e2.accept(this);
+
+			Let E1 = (Let) e.e1.accept(this);
+			//List<Id> y = E1.ids;
+			//List<Type> ty = E1.ts;
+			
+			e.e1 = E1.e2;
+			E1.e2 = e;
+			E1.accept(this);
+			return E1;
+		}
+		e.e1 = e.e1.accept(this);
+		return e;
+
 	}
 
 	@Override
 	public Exp visit(LetRec e) {
 		// TODO Auto-generated method stub
 		/* No modification for Let recursive */
-		return e;
+		FunDef fd2 = new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+		LetRec lr = new LetRec(fd2, e.e.accept(this));
+		return lr;
 	}
-	
+
 	@Override
 	public Exp visit(Unit e) {
 		// TODO Auto-generated method stub
@@ -158,7 +166,7 @@ public class nestedLet implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		return e;
 	}
-	
+
 	@Override
 	public Exp visit(Array e) {
 		// TODO Auto-generated method stub
@@ -176,10 +184,5 @@ public class nestedLet implements ObjVisitor<Exp> {
 		// TODO Auto-generated method stub
 		return e;
 	}
-	
-	
-	
-	
-	
-	
+
 }

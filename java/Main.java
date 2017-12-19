@@ -8,6 +8,7 @@ public class Main {
     try {    	
       Parser p = new Parser(new Lexer(new FileReader(argv[0])));
       Exp expression = (Exp) p.parse().value;      
+      System.out.println("------ Print here ------");
       assert (expression != null);
 
       System.out.println("------ AST ------");
@@ -45,6 +46,16 @@ public class Main {
       
       Closure c = new Closure();
       expression2.accept(c);
+      
+      System.out.println("------ AST nested Let-Exp ------");
+      nestedLet nest = new nestedLet();
+      expression2.accept(nest);
+      expression2.accept(new PrintVisitor());
+      System.out.println();
+      
+      
+      
+      
       
       System.out.println("------ AST Closure ------");
       for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
