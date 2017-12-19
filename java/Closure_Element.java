@@ -52,4 +52,11 @@ public class Closure_Element {
 		
 		
 	}
+	
+	public void printASML() {
+		System.out.println("let " + label+" =");
+		code.accept(new PrintVisitor());		
+	}
+	
+	
 }
