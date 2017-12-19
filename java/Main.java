@@ -29,6 +29,12 @@ public class Main {
       expression2.accept(new PrintVisitor());
       System.out.println();
       
+      System.out.println("------ AST Alpha-Conversion ------");
+      alpha_conversion alpha = new alpha_conversion();
+      expression2 = expression2.accept(alpha);
+      expression2.accept(new PrintVisitor());
+      System.out.println();
+
       expression2 = expression2.accept(new Reg_Alloc());
       
       System.out.println("------ AST Register Allocation ------");
