@@ -20,8 +20,6 @@ public class Main {
       expression.accept(t);
       if(t.errorSet){
     	  System.out.println("Error from type check");
-      }else {
-    	  System.out.println("Type check is ok");
       }
       System.out.println();
       
