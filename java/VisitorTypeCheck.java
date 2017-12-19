@@ -3,6 +3,7 @@ import java.util.*;
 public class VisitorTypeCheck implements ObjVisitor<Type>{
 	
 	HashMap<String,Type> delVar= new HashMap<>(); // to store inferred variables' type
+	boolean errorSet = false;
 	
 	@Override
 	public Type visit(Unit e) {
@@ -35,6 +36,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Integer Not "+e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}	
 	}
@@ -51,6 +54,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Integer Negation" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}			
 	}
@@ -74,6 +79,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Integer Addition" + e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -97,6 +104,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Integer Subtraction" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -113,6 +122,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Float Negation" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -136,6 +147,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Float Addition" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -159,6 +172,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Float Subtraction" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -183,6 +198,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Float Multiplication" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -207,6 +224,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Float Division" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -238,6 +257,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Equality" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -269,6 +290,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			System.err.println("Type check error in Lesser than equal" +e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -284,21 +307,29 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 					}
 					else{
 						System.err.println("Type check error in If" + e);
+						errorSet=true;
+						System.exit(1);
 						return null;
 					}
 				}
 				else{
 					System.err.println("Type check error in If" + e);
+					errorSet=true;
+					System.exit(1);
 					return null;
 				}
 			}
 			else{
 				System.err.println("Type check error in If" + e);
+				errorSet=true;
+				System.exit(1);
 				return null;
 			}
 		}
 		else{
 			System.err.println("Type check error in If" + e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
@@ -385,9 +416,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		
 		if(type1.getClass() != TArray.class){	//if its not array
 			System.err.println("Expression is not array" + e);
+			errorSet=true;
+			System.exit(1);
 		}
 		if(TInt.class != e.e2.accept(this).getClass()){	//if the index is not int
 			System.err.println("Second expression of get must be of type Int");
+			errorSet=true;
+			System.exit(1);
 		}
 		if(type1.getClass()==TInt.class){
 			return new TInt();
@@ -405,9 +440,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		
 		if(type1.getClass() != TArray.class){	//if its not array
 			System.err.println("Expression is not array" + e);
+			errorSet=true;
+			System.exit(1);
 		}
 		if(TInt.class != e.e2.accept(this).getClass()){	//if the index is not int
 			System.err.println("Second expression of get must be of type Int");
+			errorSet=true;
+			System.exit(1);
 		}
 		if (type1.getClass()==TArray.class && type3.getClass()==TUnresolvedType.class){	//if e3 is undefined type
 			if (TVar.class == type3.getClass()){
@@ -419,16 +458,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 				}
 				else{
 					System.err.println("Type check error in Put" + e);
+					errorSet=true;
+					System.exit(1);
 					return null;
 				}
 			}
 			else{
 				System.err.println("Type check error in Put" + e);
+				errorSet=true;
+				System.exit(1);
 				return null;
 			}
 		}
 		else{
 			System.err.println("Type check error in Put" + e);
+			errorSet=true;
+			System.exit(1);
 			return null;
 		}
 	}
