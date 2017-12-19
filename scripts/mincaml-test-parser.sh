@@ -12,7 +12,6 @@ MINCAMLC=java/mincamlc
 # TODO extends this script to run test in subdirectories
 # 
 
-
 echo "*************************Syntax Tests*************************"
 
 echo "1. Valid Tests:"
@@ -38,7 +37,7 @@ do
         echo "OK"
     fi
 done
-: '
+
 echo "*************************Type Checking Tests*************************"
 
 echo "1. Valid Tests:"
@@ -68,4 +67,3 @@ do
         echo "OK"
     fi
 done
-'

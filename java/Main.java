@@ -50,12 +50,13 @@ public class Main {
       
       Closure c = new Closure();
       expression2.accept(c);
-      
+      /*
       System.out.println("------ AST nested Let-Exp ------");
       nestedLet nest = new nestedLet();
       expression2.accept(nest);
       expression2.accept(new PrintVisitor());
       System.out.println();
+      */
       
       
       
