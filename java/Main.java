@@ -52,13 +52,24 @@ public class Main {
           System.out.println();
           System.out.println();
       } System.out.println();
+      
+      
+      System.out.println("------ AST ASML Gen ------");
+      for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
+    	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ASML_Gen(c.fun_List)));
+    	  c.closure_list.get(i).printASML();
+          System.out.println();
+          System.out.println();
+      }       
+      System.out.println();
+      System.out.println();
 
       expression2 = expression2.accept(new Reg_Alloc());
       
       System.out.println("------ AST Register Allocation ------");
       for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
     	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new Reg_Alloc()));
-    	  c.closure_list.get(i).print();
+    	  c.closure_list.get(i).printASML();
           System.out.println();
           System.out.println();
       }       

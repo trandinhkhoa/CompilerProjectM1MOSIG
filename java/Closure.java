@@ -221,6 +221,7 @@ public class Closure implements ObjVisitor<Exp> {
     	}
     	Var name = (Var) e.e;
     	Var v = new Var(new Id("_"+name.id.id));
+    	//App t = new App(v,printInfix2(e.es));
     	List<Exp> lis = new LinkedList<Exp>();
     	lis.add(v);
     	lis.addAll(printInfix2(e.es));
@@ -240,6 +241,7 @@ public class Closure implements ObjVisitor<Exp> {
 			main_done = true;
     		closure_list.add(new Closure_Element(new Tuple(printInfix2(e.es))));
     	}
+    	
     	return new Tuple(printInfix2(e.es));
     }
 
@@ -247,6 +249,11 @@ public class Closure implements ObjVisitor<Exp> {
     	if ((s.isEmpty())&&(!main_done)) {
 			main_done = true;
     		closure_list.add(new Closure_Element(new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this))));
+    	}if (!s.isEmpty()){
+    	Id i = s.peek();
+	    	List<Id> li= ht.get(i.id);
+	    	li.addAll(e.ids);
+	    	ht.put(i.id, li);
     	}
     	return new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this));
     }
