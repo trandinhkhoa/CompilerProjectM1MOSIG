@@ -24,18 +24,20 @@ public class Main {
       System.out.println();
       
       Exp expression2 = expression.accept(new Copy());
-      expression2 = expression2.accept(new K_Norm());
+      K_Norm k = new K_Norm();
+      expression2 = expression2.accept(k);
       
       System.out.println("------ AST K-Normalization ------");
       expression2.accept(new PrintVisitor());
       System.out.println();
       System.out.println();
       
+      int x = k.x;
      
       
       System.out.println("------ AST Alpha-Conversion ------");
-      alpha_conversion alpha = new alpha_conversion();
-      //expression2 = expression2.accept(alpha);
+      alpha_conversion alpha = new alpha_conversion(x);
+      expression2 = expression2.accept(alpha);
       expression2.accept(new PrintVisitor());
       System.out.println();
       System.out.println();

@@ -12,6 +12,10 @@ class alpha_conversion implements ObjVisitor<Exp> {
         x++;
         return "temp" + x;
     }
+    
+    public alpha_conversion(int x) {
+    	this.x = x;
+    }
 
     public void displayHashMap(){
         Set set = hm.entrySet();
