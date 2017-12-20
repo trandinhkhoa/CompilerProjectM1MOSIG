@@ -23,6 +23,10 @@ public class Closure_Element {
 		this.code = lr.fd.e;
 	}
 	
+	public void set_Exp(Exp e) {
+		this.code = e;
+	}
+	
 	public void print() {
 		System.out.println("Label: " + label);
 		System.out.print("Free variables: ");

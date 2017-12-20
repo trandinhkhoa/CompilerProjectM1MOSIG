@@ -31,6 +31,16 @@ public class Main {
       System.out.println();
       System.out.println();
       
+     
+      
+      System.out.println("------ AST Alpha-Conversion ------");
+      alpha_conversion alpha = new alpha_conversion();
+      //expression2 = expression2.accept(alpha);
+      expression2.accept(new PrintVisitor());
+      System.out.println();
+      System.out.println();
+      
+      
       Closure c = new Closure();
       expression2.accept(c);
       
@@ -40,18 +50,18 @@ public class Main {
           System.out.println();
           System.out.println();
       } System.out.println();
-     
       
-      System.out.println("------ AST Alpha-Conversion ------");
-      alpha_conversion alpha = new alpha_conversion();
-      //expression2 = expression2.accept(alpha);
-      expression2.accept(new PrintVisitor());
-      System.out.println();
+      
 
       expression2 = expression2.accept(new Reg_Alloc());
       
       System.out.println("------ AST Register Allocation ------");
-      expression2.accept(new PrintVisitor());
+      for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
+    	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new Reg_Alloc()));
+    	  c.closure_list.get(i).print();
+          System.out.println();
+          System.out.println();
+      }       
       System.out.println();
       System.out.println();
 

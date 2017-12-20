@@ -148,6 +148,12 @@ public class Closure implements ObjVisitor<Exp> {
 			main_done = true;
     		closure_list.add(new Closure_Element(new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this))));
     	}
+    	if (!s.isEmpty()){
+    	Id i = s.peek();
+	    	List<Id> li= ht.get(i.id);
+	    	li.add(e.id);
+	    	ht.put(i.id, li);
+    	}
     	return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));
     }
 
@@ -157,7 +163,10 @@ public class Closure implements ObjVisitor<Exp> {
     		s.push(new Id("Main"));
     	}
     	Id i = s.peek();
-    	ht.get(i.id).add(e.id);
+    	List<Id> li= ht.get(i.id);
+    	ht.remove(i.id);
+    	li.add(e.id);
+    	ht.put(i.id, li);
     	
     	if ((s.isEmpty())&&(!main_done)) {
 			main_done = true;
@@ -182,14 +191,23 @@ public class Closure implements ObjVisitor<Exp> {
     }
 
     public Exp visit(LetRec e){
+    	List<Id> fv = new LinkedList<Id>();
+    	if (!s.isEmpty()) {
+	    	Id i = s.peek();
+	    	fv = ht.get(i.id);
+    	}
+    	
     	s.push(e.fd.id);
     	ht.remove(e.fd.id.id);
     	ht.put(e.fd.id.id, new LinkedList<Id>());
-    	ht.get(e.fd.id.id).add(e.fd.id);
+    	ht.get(e.fd.id.id).addAll(e.fd.args);
     	FunDef fd2= new FunDef(new Id("_"+e.fd.id.id), e.fd.type, e.fd.args, e.fd.e.accept(this));
-    	s.pop();
+    	Id i = s.pop();
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
-    	closure_list.add(new Closure_Element(lr));
+    	Closure_Element ce = new Closure_Element(lr);
+    	ce.free_variables = fv;
+    	closure_list.add(ce);
+    	
     	return lr;
     }
     
