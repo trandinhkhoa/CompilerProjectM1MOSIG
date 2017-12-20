@@ -52,8 +52,6 @@ public class Main {
           System.out.println();
           System.out.println();
       } System.out.println();
-      
-      
 
       expression2 = expression2.accept(new Reg_Alloc());
       
