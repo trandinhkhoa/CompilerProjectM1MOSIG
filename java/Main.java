@@ -134,9 +134,6 @@ public class Main {
       */
       
       
-      
-      
-      
       if(options.contains("-v")) {
 	      System.out.println("------ AST Closure ------");
 	      for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
