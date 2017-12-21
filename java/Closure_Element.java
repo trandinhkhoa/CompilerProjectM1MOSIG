@@ -1,4 +1,5 @@
 import java.util.List;
+import java.io.*;
 import java.util.LinkedList;
 
 public class Closure_Element {
@@ -49,9 +50,19 @@ public class Closure_Element {
 		}
 		System.out.println("Code: ");
 		code.accept(new PrintASML());
-		
-		
 	}
+	
+	public void printIn(FileWriter fw){
+		try {
+			fw.write("let " + label+" =");
+			code.accept(new PrintASMLFile(fw));
+		}
+		catch (IOException exception)
+		{
+			System.out.println ("Error during the writing : " + exception.getMessage());
+		}
+	}
+	
 	
 	public void printASML() {
 		System.out.println("let " + label+" =");
