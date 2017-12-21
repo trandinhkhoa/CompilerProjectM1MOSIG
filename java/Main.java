@@ -5,6 +5,16 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+	
+		static String getNames() {
+			String s = "\n\t\tBuchra Aboubakr\n"+
+						"\t\tKhoa Tran\n"+ 
+					   "\t\tPierric Mazodier \n"+       
+					   "\t\tSébastien Riou \n"+ 
+					   "\t\tSwathi Sree \n";
+			return s;
+			 
+		}
 
 		static String getLogo() {
 			String s = ""+ 
@@ -31,6 +41,7 @@ public class Main {
 					"\t -asml : output ASML\n"+
 					"\t -v : display version\n" +
 					"Warning: \n\tOnly [-option1] [-option2]* [file.ml] is allowed\n"
+					+getNames()
 					);
 		}
 		
@@ -70,7 +81,7 @@ public class Main {
     	
       Parser p = new Parser(new Lexer(new FileReader(argv[argv.length-1])));
       Exp expression = (Exp) p.parse().value;      
-      System.out.println("------ Print here ------");
+      //System.out.println("------ Print here ------");
       assert (expression != null);
       
       
@@ -82,7 +93,9 @@ public class Main {
 	  if(options.contains("-p")) {}else{
 		  if(options.contains("-v")) {System.out.println("------ Type Check ------");}
       VisitorTypeCheck t = new VisitorTypeCheck();
-      expression.accept(t);
+
+      Exp expression2 = expression.accept(new Copy());
+      expression2.accept(t);
       if(options.contains("-v")) {
 	      if(t.errorSet){
 	    	  System.out.println("Error from type check");
@@ -92,7 +105,6 @@ public class Main {
 	      System.out.println();
       }
       if(options.contains("-t")) {}else {
-      Exp expression2 = expression.accept(new Copy());
       K_Norm k = new K_Norm();
       expression2 = expression2.accept(k);
       
@@ -174,7 +186,7 @@ public class Main {
       if(options.contains("-v")) {
       System.out.println();
 	      
-	      System.out.println("------ Height of the AST ----");
+	      System.out.println("------ Height of the initial AST ----");
 	      int height = Height.computeHeight(expression);
 	      System.out.println("using Height.computeHeight: " + height); 
 	
