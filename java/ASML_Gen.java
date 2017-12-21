@@ -10,11 +10,19 @@ public class ASML_Gen implements ObjVisitor<Exp> {
 	
 	public ASML_Gen(List<Id> fun_List) {
 		this.fun_List = fun_List;
+		for(int i = 0; i<this.fun_List.size();i++) {
+			System.out.println(this.fun_List.get(i));
+		}
 	}
 	
-	/*public boolean contains(Id i) {
-		Iterator it = fun_List.iterator();
-	}*/
+	public boolean contains(Id i) {
+		Iterator<Id> it = fun_List.iterator();
+		while(it.hasNext()) {
+			if(it.next().id.equals(i.id)) {
+				return true;
+			}
+		}return false;
+	}
 	
 	 List<Exp> printInfix2(List<Exp> l) {
 	    	List<Exp> new_list = new LinkedList<Exp>();
@@ -106,7 +114,7 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     		le.addAll(e.es.subList(1, e.es.size()));
     		return new App(v,le);
     		
-    	}else if(!fun_List.contains(v.id)) {
+    	}else if(!contains(v.id)) {
     		v = new Var(new Id("_min_caml"+v.id.id));
     	}
     	return new App(v,printInfix2(e.es));
