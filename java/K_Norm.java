@@ -50,10 +50,12 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
 	public Exp visit(Sub e) {
-    	Var v1 = new Var(new Id(gen()));
+		Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Sub(v1,v2));  
-    	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TInt(),l3,v3);
     	return l1;
     }
 
@@ -66,48 +68,60 @@ class K_Norm implements ObjVisitor<Exp> {
     public Exp visit(FAdd e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FAdd(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2, l2);  
+    	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
     	return l1;
     }
 
     public Exp visit(FSub e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FSub(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
     	return l1;
     }
 
     public Exp visit(FMul e) {
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FMul(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
     	return l1;
     }
 
     public Exp visit(FDiv e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FDiv(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
     	return l1;
     }
 
     public Exp visit(Eq e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Eq(v1,v2));  
-    	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TBool(),l3,v3);
     	return l1;
     }
 
     public Exp visit(LE e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
+    	Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new LE(v1,v2));  
-    	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
+    	Let l1 = new Let(v3.id,new TBool(),l3,v3);
     	return l1;
     }
 
