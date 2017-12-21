@@ -94,7 +94,7 @@ public class Main {
 
       System.out.println("------ Height of the AST ----");
       int height = Height.computeHeight(expression);
-      System.out.println("using Height.computeHeight: " + height);
+      System.out.println("using Height.computeHeight: " + height); 
 
       ObjVisitor<Integer> v = new HeightVisitor();
       height = expression.accept(v);
