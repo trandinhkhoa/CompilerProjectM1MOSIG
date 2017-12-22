@@ -137,13 +137,6 @@ public class Main {
       }
       Closure c = new Closure();
       expression2.accept(c);
-      /*
-      System.out.println("------ AST nested Let-Exp ------");
-      nestedLet nest = new nestedLet();
-      expression2.accept(nest);
-      expression2.accept(new PrintVisitor());
-      System.out.println();
-      */
       
       
       if(options.contains("-v")) {
@@ -167,7 +160,7 @@ public class Main {
       }  
       expression2 = expression2.accept(new Reg_Alloc());
       
-      String[] tab = argv[0].split("/", argv[0].length());
+      String[] tab = argv[argv.length-1].split("/", argv[argv.length-1].length());
       
       String s = "../asml/"+ tab[tab.length-1].replace(".ml", ".asml");
       
