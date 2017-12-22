@@ -64,7 +64,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
 	public Exp visit(Sub e) {
-        Add a = new Add(e.e1.accept(this), e.e2.accept(this));
+        Sub a = new Sub(e.e1.accept(this), e.e2.accept(this));
         return a;
     }
 

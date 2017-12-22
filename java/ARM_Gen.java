@@ -229,6 +229,15 @@ public class ARM_Gen implements ObjVisitor<Exp> {
             System.out.println("add\t" + destReg + "\t" + operand2 + "\t" + operand1);
             myWriter("add\t" + destReg + ", " + operand2 + ", " + operand1 + "\n");
             // System.out.println("Current stack is " + this.myStack); 
+        }else if (((Var)e.e).id.id.equals("sub")){
+            // System.out.println("POPPING");
+            String operand1 = (String) this.myStack.pop();
+            // System.out.println("POPPING");
+            String operand2 = (String) this.myStack.pop();
+            // System.out.println("POPPING");
+            String destReg = (String) this.myStack.pop();
+            System.out.println("sub\t" + destReg + "\t" + operand1 + "\t" + operand2);
+            myWriter("sub\t" + destReg + ", " + operand1 + ", " + operand2 + "\n");
         }else if (((Var)e.e).id.id.equals("call")){
             // System.out.println("This is CALL. ArgList is " + e.es + " size is " + e.es.size());
         }else if (((Var)e.e).id.id.equals("_min_caml_print_int")){
