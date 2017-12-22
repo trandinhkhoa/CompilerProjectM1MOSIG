@@ -178,7 +178,22 @@ public class Main {
       fw.close();
       if(options.contains("-v")) {
       System.out.println();
-	      
+
+	      // String s_arm = "/home/khoa/Study/armExamples/"+ tab[tab.length-1].replace(".ml", ".s");
+      String s_arm = "../ARM/" + tab[tab.length-1].replace(".ml", ".s");
+      File f_arm = new File(s_arm);
+      FileWriter fw_arm = new FileWriter(f_arm) ;
+
+      System.out.println("------ ARM Generation ------");
+      for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
+    	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ARM_Gen(fw_arm)));
+          System.out.println();
+    	  c.closure_list.get(i).printASML();
+          System.out.println();
+          System.out.println();
+      }       
+      fw_arm.close();      
+
 	      System.out.println("------ Height of the initial AST ----");
 	      int height = Height.computeHeight(expression);
 	      System.out.println("using Height.computeHeight: " + height); 
