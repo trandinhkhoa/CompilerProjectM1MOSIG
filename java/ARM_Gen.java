@@ -50,10 +50,15 @@ public class ARM_Gen implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Int e) {
-        // System.out.println("POPPING");
-        String destReg = (String)this.myStack.pop();
-        System.out.println("mov\t" + destReg + "\t" + "#" + e.i);
-        myWriter("mov\t" + destReg + ", " + "#" + e.i + "\n");
+        if (this.tail){
+            // System.out.println("POPPING");
+            String destReg = (String)this.myStack.pop();
+            System.out.println("mov\t" + destReg + "\t" + "#" + e.i);
+            myWriter("mov\t" + destReg + ", " + "#" + e.i + "\n");
+        }else{
+            // System.out.println("Pushing");
+            this.myStack.push(Integer.toString(e.i));
+        }
     	return e;
     }
 
@@ -227,10 +232,17 @@ public class ARM_Gen implements ObjVisitor<Exp> {
         }else if (((Var)e.e).id.id.equals("call")){
             // System.out.println("This is CALL. ArgList is " + e.es + " size is " + e.es.size());
         }else if (((Var)e.e).id.id.equals("_min_caml_print_int")){
-            String operand1 = (String) this.myStack.pop();
+            // System.out.println("This is PRINT. ARG is " + e.es.get(0).getClass() + " size is " + e.es.size());
             String destReg = "r0";
-            System.out.println("mov\t" + destReg + ", " + operand1);
-            myWriter("mov\t" + destReg + ", " + operand1 + "\n");
+            if (e.es.get(0) instanceof Int){
+                String number = (String)this.myStack.pop();
+                System.out.println("mov\t" + destReg + "\t" + "#" + number);
+                myWriter("mov\t" + destReg + ", " + "#" + number + "\n");
+            }else{
+                String operand1 = (String) this.myStack.pop();
+                System.out.println("mov\t" + destReg + ", " + operand1);
+                myWriter("mov\t" + destReg + ", " + operand1 + "\n");
+            }
             System.out.println("bl\tmin_caml_print_int");
             myWriter("bl\tmin_caml_print_int\n");
             destReg = (String) this.myStack.pop();
