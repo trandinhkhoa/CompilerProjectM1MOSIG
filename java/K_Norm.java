@@ -19,10 +19,10 @@ class K_Norm implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Int e) {
-    	/*Var v1 = new Var(new Id(gen()));
+    	Var v1 = new Var(new Id(gen()));
     	Let l = new Let(v1.id,new TInt(),e, v1);   
-    	return l;*/
-    	return e;
+    	return l;
+    	//return e;
     }
 
     public Exp visit(Float e) {
