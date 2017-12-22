@@ -162,7 +162,7 @@ public class Main {
       
       String[] tab = argv[argv.length-1].split("/", argv[argv.length-1].length());
       
-      String s = "../asml/"+ tab[tab.length-1].replace(".ml", ".asml");
+      String s = "asml/"+ tab[tab.length-1].replace(".ml", ".asml");
       
       File f = new File(s);
       FileWriter fw = new FileWriter(f) ;
@@ -180,15 +180,13 @@ public class Main {
       System.out.println();
 
 	      // String s_arm = "/home/khoa/Study/armExamples/"+ tab[tab.length-1].replace(".ml", ".s");
-      String s_arm = "../ARM/" + tab[tab.length-1].replace(".ml", ".s");
+      String s_arm = "ARM/" + tab[tab.length-1].replace(".ml", ".s");
       File f_arm = new File(s_arm);
       FileWriter fw_arm = new FileWriter(f_arm) ;
 
       System.out.println("------ ARM Generation ------");
       for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
     	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ARM_Gen(fw_arm)));
-          System.out.println();
-    	  c.closure_list.get(i).printASML();
           System.out.println();
           System.out.println();
       }       
@@ -202,14 +200,14 @@ public class Main {
 	      height = expression.accept(v);
 	      System.out.println("using HeightVisitor: " + height);
 
-	    	System.exit(1);
+	    	System.exit(0);
       }
       }}
     } catch (Exception e) {
     	
     	//printHelp();
-    	//System.exit(1);
-    	e.printStackTrace();
+    	System.exit(1);
+    	//e.printStackTrace();
     	
     }
   }
