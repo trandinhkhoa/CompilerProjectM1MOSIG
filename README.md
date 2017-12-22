@@ -19,14 +19,14 @@
 
 (Commands of the Website:
 
-git clone [repo_url]
-cd [repo]
-make # compile your program
-echo "let x = 42 in print_int x" > test1.ml
-scripts/mincamlc -t test1.ml 
-echo $? # should be 0
-scripts/mincamlc -asml test1.ml -o test1.asml
-tools/asml test1.asml  # displays 42
-scripts/mincamlc -o test1.s test1.ml
-make test # should run your tests
+          git clone [repo_url]
+          cd [repo]
+          make # compile your program
+          echo "let x = 42 in print_int x" > test1.ml
+          scripts/mincamlc -t test1.ml 
+          echo $? # should be 0
+          scripts/mincamlc -asml test1.ml -o test1.asml
+          tools/asml test1.asml  # displays 42
+          scripts/mincamlc -o test1.s test1.ml
+          make test # should run your tests
 )
