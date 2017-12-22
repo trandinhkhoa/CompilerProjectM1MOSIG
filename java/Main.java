@@ -64,7 +64,7 @@ public class Main {
 			  }
 			  if(options.contains("-t")&&options.contains("-p")) {
 				  printHelp();
-				  System.exit(0);
+				 // System.exit(-1);
 			  }
 		  }else {
 			  for (int i = 0 ;i<argv.length;i++) {
@@ -77,7 +77,7 @@ public class Main {
 		
 	}else {
 	  
-    try {    	
+    try {  	
     	
       Parser p = new Parser(new Lexer(new FileReader(argv[argv.length-1])));
       Exp expression = (Exp) p.parse().value;      
@@ -193,11 +193,16 @@ public class Main {
 	      ObjVisitor<Integer> v = new HeightVisitor();
 	      height = expression.accept(v);
 	      System.out.println("using HeightVisitor: " + height);
+
+	    	System.exit(1);
       }
       }}
     } catch (Exception e) {
-    	printHelp();
-    	System.exit(0);
+    	
+    	//printHelp();
+    	//System.exit(1);
+    	e.printStackTrace();
+    	
     }
   }
   }
