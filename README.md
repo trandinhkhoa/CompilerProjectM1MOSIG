@@ -6,13 +6,15 @@
           git clone git@github.com:trandinhkhoa/CompilerProjectM1MOSIG.git
           cd CompilerProjectM1MOSIG
           make
-          echo "print_int 42" > test1.ml
+          echo "let x = 42 in print_int x" > test1.ml
           scripts/mincamlc -t test1.ml
           echo $?
           scripts/mincamlc -asml test1.ml
           tools/asml asml/test1.asml
           scripts/mincamlc -o test1.ml
           make test
+ ## The asml generated files are in the asml directory
+ ## The ARM generated files are in the ARM directory
 
 
 
