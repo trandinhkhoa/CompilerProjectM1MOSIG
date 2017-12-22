@@ -15,7 +15,7 @@ MINCAMLC=java/mincamlc
 echo "*************************Syntax Tests*************************"
 
 echo "1. Valid Tests:"
-for test_case in tests/syntax_Parser/valid/*.ml
+for test_case in tests/syntax/valid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
@@ -27,7 +27,7 @@ do
 done
 
 echo "2. InValid Tests:"
-for test_case in tests/syntax_Parser/invalid/*.ml
+for test_case in tests/syntax/invalid/*.ml
 do
     echo "testing parser on: $test_case"
     if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
