@@ -56,9 +56,9 @@ public class Main {
   static public void main(String argv[]) {    
 	  options = new LinkedList<String>();
 	  if(argv.length!=1) {
-		  /*if (argv.length>3) {
-			  System.out.println("Only [-option1] [file.ml] or [-option1][-v][file.ml] are allowed");
-		  }else*/ if (argv.length>1) {
+		  /*if (argv.length != 2){ TODO;*/
+		  if (argv.length>1) {
+			 /*if (argv.length > 2){ TODO;*/
 			  for (int i = 0 ;i<argv.length;i++) {
 				 add_option(argv[i]);
 			  }
@@ -80,6 +80,7 @@ public class Main {
     try {  	
     	
       Parser p = new Parser(new Lexer(new FileReader(argv[argv.length-1])));
+	/*Parser p = new Parser(new Lexer(new FileReader(argv[argv.length-2])));TODO;*/   
       Exp expression = (Exp) p.parse().value;      
       //System.out.println("------ Print here ------");
       assert (expression != null);
@@ -147,7 +148,7 @@ public class Main {
 	      } System.out.println();
       
       
-	      System.out.println("------ AST ASML Gen ------");
+	System.out.println("------ AST ASML Gen ------");
       }
       for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
     	  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ASML_Gen(c.fun_List)));
@@ -160,6 +161,7 @@ public class Main {
       }  
       expression2 = expression2.accept(new Reg_Alloc());
       
+	/*TODO; add -asml flag depending on the last parameter. same for s file.*/
       String[] tab = argv[argv.length-1].split("/", argv[argv.length-1].length());
       
       String s = "asml/"+ tab[tab.length-1].replace(".ml", ".asml");
