@@ -1,5 +1,10 @@
 import java.util.List;
 
+/**
+ * Nested Let class eliminates all the nested lets except letRec 
+ * This phase is inclusive in the optimization level.
+ * */
+
 public class Nested_Let implements ObjVisitor<Exp> {
 
 	

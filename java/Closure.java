@@ -4,6 +4,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+/**
+ * Closure Conversion class eliminates the nested functions and letRec.
+ * It generates a flatten code using blocks of Closure Elements.  
+ * 
+ * 
+ * 
+ * */
+
 public class Closure implements ObjVisitor<Exp> {
 	
 	List<Closure_Element> closure_list;

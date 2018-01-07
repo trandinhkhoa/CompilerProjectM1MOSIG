@@ -1,24 +1,33 @@
 import java.util.*;
 
+/**
+ * K-Normalization class is the first bridge between Min-Caml and Assembly language.
+ * for each nested expression, a new variable generated to be ready eventually for the register allocation phase
+ * Followed the pseudo-code mentioned in the project paper.
+ * */
 
-
-class K_Norm implements ObjVisitor<Exp> {
+class K_Norm implements ObjVisitor<Exp>{
 	
+	/* Prepare variables generator function*/
 	static int x = -1;
     static String gen() {
         x++;
         return "temp" + x;
     }
+    /* **************************************/
     
     public Exp visit(Unit e) {
         return e;
     }
 
     public Exp visit(Bool e) {
-        return e;
+    	return e;
     }
 
     public Exp visit(Int e) {
+    	/* Can an Int, Float, bool be declared without let?*
+    	 * If not so it will be constant, and constant should not be 
+    	 * normalized per the paper*/
     	Var v1 = new Var(new Id(gen()));
     	Let l = new Let(v1.id,new TInt(),e, v1);   
     	return l;
