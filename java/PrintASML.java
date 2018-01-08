@@ -107,10 +107,10 @@ class PrintASML implements Visitor {
         System.out.print(" then (");
         System.out.println("");
         e.e2.accept(this);
-        System.out.print(") else (");
+        System.out.print("\n) else (");
         System.out.println("");
         e.e3.accept(this);
-        System.out.print(")");
+        System.out.println("\n)");
     }
 
     public void visit(Let e) {

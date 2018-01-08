@@ -1,5 +1,6 @@
 
 all: 
+	cd ./java && $(MAKE) clean
 	cd ./java && $(MAKE)
 	
 clean:

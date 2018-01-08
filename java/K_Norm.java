@@ -25,13 +25,7 @@ class K_Norm implements ObjVisitor<Exp>{
     }
 
     public Exp visit(Int e) {
-    	/* Can an Int, Float, bool be declared without let?*
-    	 * If not so it will be constant, and constant should not be 
-    	 * normalized per the paper*/
-    	Var v1 = new Var(new Id(gen()));
-    	Let l = new Let(v1.id,new TInt(),e, v1);   
-    	return l;
-    	//return e;
+    	return e;
     }
 
     public Exp visit(Float e) {
@@ -51,21 +45,21 @@ class K_Norm implements ObjVisitor<Exp>{
     public Exp visit(Add e) {
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Add(v1,v2));  
     	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TInt(),l3,v3);//TODO changer ça partout !!
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TInt(),l3,v3);
+    	return l3;
     }
 
 	public Exp visit(Sub e) {
 		Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Sub(v1,v2));  
     	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TInt(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TInt(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(FNeg e){
@@ -77,71 +71,79 @@ class K_Norm implements ObjVisitor<Exp>{
     public Exp visit(FAdd e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FAdd(v1,v2));  
     	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TFloat(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(FSub e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FSub(v1,v2));  
     	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TFloat(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(FMul e) {
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FMul(v1,v2));  
     	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TFloat(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(FDiv e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FDiv(v1,v2));  
     	Let l3 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TFloat(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TFloat(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(Eq e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Eq(v1,v2));  
     	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TBool(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TBool(),l3,v3);
+    	return l3;
     }
 
     public Exp visit(LE e){
     	Var v1 = new Var(new Id(gen()));
     	Var v2 = new Var(new Id(gen()));
-    	Var v3 = new Var(new Id(gen()));
+    	//Var v3 = new Var(new Id(gen()));
     	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new LE(v1,v2));  
     	Let l3 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	Let l1 = new Let(v3.id,new TBool(),l3,v3);
-    	return l1;
+    	//Let l1 = new Let(v3.id,new TBool(),l3,v3);
+    	return l3;
     }
 
+    
+    public Exp rec_If(Exp e, If i) { 
+    	if (e.getClass() == Let.class){
+    		return new Let( ((Let)e).id,((Let)e).t,((Let)e).e1,
+    				rec_If( ((Let)e).e2,i ));
+    	}else {
+    		return new If(e,i.e2.accept(this),i.e3.accept(this));
+    	}
+    }
+    
     public Exp visit(If e){
-       Let l1 = (Let) e.e1.accept(this);
-       Let l2 = (Let) l1.e2;
-       Exp eq = l2.e2;
-       If si = new If(eq,e.e2.accept(this),e.e3.accept(this));
-       Let lt2 = new Let(l2.id,l2.t,l2.e1,si);
-       Let lt1 = new Let(l1.id,l1.t,l1.e1,lt2);
-       return lt1;
+       Exp l1 = e.e1.accept(this);
+      // Var v1 = new Var(new Id(gen()));
+      // If si = new If(v1,e.e2.accept(this),e.e3.accept(this));
+      // Let lt2 = new Let(v1.id,new TBool(),l1,si);
+       return rec_If(l1,e);
        
     }
 
@@ -190,72 +192,25 @@ class K_Norm implements ObjVisitor<Exp>{
     	return lr;
     }
 
-   /* public Exp rec_app(Exp e, Exp app) {
-    	Let l = (Let)e;
-    	if (l.id.id.equals("\0")) {
-    		//System.out.println(l.id.id);
-    		return app;
-    	}else {
-    		return (Exp) new Let(l.id,l.t,l.e1,rec_app(l.e2,app));
-    	}
-    }*/
+  
     
-    Exp app_rec(List<Exp> la,List<Exp> llet,List<Exp> lvar,Exp e) {
-    	if (la.isEmpty()) {
-    		return new App(e,lvar);
+    Exp app_rec(List<Exp> llet,List<Exp> la,Exp e) {
+    	if (llet.isEmpty()) {
+    		return new App(e,la);
     	}else {
-    		Exp first = la.remove(0);
-    		if(first.getClass()!=Let.class){
-    			lvar.add(first);
-    			return app_rec(la,llet,lvar,e);
-    		}else {
-    			Let l = (Let) first;
-    			//System.out.println("Heeey " + l.id);
-    			//Var x = new Var(l.id);
-    			llet.add(l);
-    			//lvar.add(x);
-    			la.add(l.e2);
-    			return new Let(l.id,l.t,l.e1,
-    					app_rec(la,llet,lvar,e)
-    					);
-    		}
+    		Id i = new Id(gen());
+    		la.add(new Var(i));
+    		Exp elt = llet.remove(0);
+    		Let l = new Let(i,new TUnresolvedType(), elt, app_rec(llet,la,e) );
+    		return l;
     	}
     }
     
     public Exp visit(App e){
-      // App app = new App(e.e.accept(this),printInfix2(e.es));
-      // return app;
-    	/*List<Exp> l = printInfix2(e.es);
-    	Iterator it = l.iterator();
-    	List<Exp> l2 = new LinkedList<Exp>();
-    	Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
-    	while (it.hasNext()) {
-    		Exp exp = (Exp) it.next();
-    		if(exp.getClass()==Let.class){
-
-        		System.out.println("YO");
-    			Let lt = (Let) exp;
-    			l2.add(new Var(lt.id));
-    			new_l = new Let(lt.id,lt.t,lt.e1,new_l);
-    		}else {
-    			l2.add(exp);
-    		}
-    	}
-    	Exp app;
-    	app = new App(e.e.accept(this),l2);
-    	if (!new_l.id.id.equals("\0")) {
-    		new_l = (Let) rec_app(new_l,app);
-    		app = new_l;
-    	}
-       return app;*/
        
        List<Exp> la = new LinkedList<Exp>();
-       la.addAll(printInfix2(e.es));			
-       List<Exp> llet = new LinkedList<Exp>();
-       List<Exp> lvar = new LinkedList<Exp>();
-       Exp a =  app_rec(la,llet,lvar,e.e.accept(this));
-       Id i = new Id(gen());
-       return new Let (i,new TUnit(),a,new Var(i)); //return a ;
+       Exp a =  app_rec(printInfix2(e.es),la,e.e);
+       return a ;
     }
 
     public Exp visit(Tuple e){

@@ -1,5 +1,6 @@
 import java.util.List;
 import java.io.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Closure_Element {
@@ -54,7 +55,15 @@ public class Closure_Element {
 	
 	public void printIn(FileWriter fw){
 		try {
-			fw.write("let " + label+" =");
+			
+			fw.write("let " + label);
+			Iterator<Id> it = parameters.iterator();
+			while (it.hasNext()){
+				fw.write(" "+it.next());
+			}
+			fw.write(" = ");
+			
+			
 			code.accept(new PrintASMLFile(fw));
 		}
 		catch (IOException exception)
@@ -65,7 +74,12 @@ public class Closure_Element {
 	
 	
 	public void printASML() {
-		System.out.println("let " + label+" =");
+		System.out.print("let " + label);
+		Iterator<Id> it = parameters.iterator();
+		while (it.hasNext()){
+			System.out.print(" "+it.next());
+		}
+		System.out.println(" = ");
 		code.accept(new PrintASML());		
 	}
 	

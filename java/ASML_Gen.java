@@ -10,9 +10,9 @@ public class ASML_Gen implements ObjVisitor<Exp> {
 	
 	public ASML_Gen(List<Id> fun_List) {
 		this.fun_List = fun_List;
-		for(int i = 0; i<this.fun_List.size();i++) {
+		/*for(int i = 0; i<this.fun_List.size();i++) {
 			System.out.println(this.fun_List.get(i));
-		}
+		}*/
 	}
 	
 	public boolean contains(Id i) {

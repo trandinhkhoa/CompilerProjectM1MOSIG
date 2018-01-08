@@ -154,12 +154,12 @@ public class RegAllocImp implements ObjVisitor<Exp> {
 		int i = get_free_register();
     	if (i!=-1) { 
     		register_tab[i] = e.id.id;
-    		Let l = new Let(new Id("R"+i),e.t,e.e1.accept(this),e.e2.accept(this));
+    		Let l = new Let(new Id("r"+i),e.t,e.e1.accept(this),e.e2.accept(this));
     		return l;
     	}
     	else {
     		StackAdd new_addr=setRegister(e.id.id); 
-    		Let l = new Let(new Id("S" + new_addr.count),e.t,e.e1.accept(this),e.e2.accept(this));
+    		Let l = new Let(new Id("s" + new_addr.count),e.t,e.e1.accept(this),e.e2.accept(this));
     		return l;
     	}
 	}
@@ -167,12 +167,12 @@ public class RegAllocImp implements ObjVisitor<Exp> {
     public Exp visit(Var e){
     	int i = get_var_register(e.id.id);
     	if (i!=-1) {
-    		return new Var(new Id("R"+i));
+    		return new Var(new Id("r"+i));
     	}
     	else {
     		StackAdd new_addr=getRegister(e.id.id);
     		if(new_addr!=null){
-    			Var v = new Var(new Id("S"+ new_addr.count));
+    			Var v = new Var(new Id("s"+ new_addr.count));
     			new_addr.count--;
     			return v;
     		}
