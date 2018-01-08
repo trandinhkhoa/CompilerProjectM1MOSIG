@@ -41,8 +41,11 @@ echo "${Yellow}${Bold}${Uline}Given Syntax Test:${NC}${Normal}${NUline}"
 echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
 for test_case in tests/syntax/valid/*.ml
 do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    #name =$(basename "$test_case")
+    #fname = "${name%.*}"
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
     then
         echo "${Green}|-> OK${NC}"
     else 
@@ -53,8 +56,9 @@ done
 echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
 for test_case in tests/syntax/invalid/*.ml
 do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
     then
         echo "${Red}|-> KO${NC}"
     else 
@@ -66,8 +70,9 @@ echo "${Yellow}${Bold}${Uline}Type Checking Test:${NC}${Normal}${NUline}"
 echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
 for test_case in tests/typechecking/valid/*.ml
 do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
     then 
 	echo "${Green}|-> OK${NC}"
     else 
@@ -78,36 +83,9 @@ done
 echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
 for test_case in tests/typechecking/invalid/*.ml
 do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
-    then
-        echo "${Red}|-> KO${NC}"
-    else 
-        echo "${Green}|-> OK${NC}"
-    fi
-done
-
-echo "${Yellow}${Bold}${Uline}Code Generation Test:${NC}${Normal}${NUline}"
-echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
-#    result = $(diff tests/typechecking/ExpectedOutput/name.txt "java -cp java-cup-11b-runtime.jar:. Main test_case.ml")
-#    [ $result -eq 0 ]
-
-for test_case in tests/CodeGen/valid/*.ml
-do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
-    then 
-	echo "${Green}|-> OK${NC}"
-    else 
-	echo "${Red}|-> KO${NC}"
-    fi
-done
-
-echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
-for test_case in tests/CodeGen/invalid/*.ml
-do
-    echo -n "${test_case##*/}"
-    if $MINCAMLC "$test_case" 2> /dev/null 1> /dev/null
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
     then
         echo "${Red}|-> KO${NC}"
     else 
