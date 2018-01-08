@@ -10,11 +10,11 @@ public class ARM_Gen implements ObjVisitor<Exp> {
 	
 	static String[] register_tab = new String[16];
     FileWriter fw_arm;	 
-    Stack myStack;
+    Stack<String> myStack;
     boolean tail;
 	
 	public ARM_Gen(FileWriter fw_arm) {
-        myStack = new Stack();
+        myStack = new Stack<String>();
         this.fw_arm = fw_arm;
         this.tail = true;
         // System.out.println("HELOO");
