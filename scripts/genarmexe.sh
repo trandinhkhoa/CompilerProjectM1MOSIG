@@ -2,6 +2,17 @@
 cd "$(dirname "$0")"/.. || exit 1
 MINCAMLC=java/mincamlc
 
+Red='\033[1;31m'
+Green='\033[1;32m'
+Yellow='\033[1;33m'
+
+Bold=$(tput bold)
+Normal=$(tput sgr0)
+Uline=$(tput smul)
+NUline=$(tput rmul)
+NC='\033[0m'
+
+echo "${Yellow}${Bold}${Uline}Code Gen Test:${NC}${Normal}${NUline}"
 
 cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG"
 for test_case in tests/CodeGen/valid/*.ml
@@ -30,9 +41,9 @@ qemu-arm actual/"$name.arm" > actual/"$name.txt"
 
 if diff actual/"$name.txt" expected/"$name.txt" 2> /dev/null 1> /dev/null
 then 
-	echo "match"
+	echo "${Green}|-> OK${NC}"
 else
-	echo "not match"
+	echo "${Red}|-> KO${NC}"
 fi
 
 cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG"
