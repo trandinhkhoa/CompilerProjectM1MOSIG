@@ -6,4 +6,5 @@ clean:
 	cd ./java && $(MAKE) clean
 	
 test:
-	 ./scripts/mincaml-test-parser.sh
+	./scripts/mincaml-test-parser.sh	 
+	./scripts/genarmexe.sh
