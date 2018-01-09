@@ -170,11 +170,11 @@ class PrintASMLFile implements Visitor {
     }
 
     public void visit(Eq e){try {
-        fw.write("(");
+       // fw.write("(");
         e.e1.accept(this);
         fw.write(" = ");
         e.e2.accept(this);
-        fw.write(")");}
+       /* fw.write(")");*/}
 	catch (IOException exception)
 	{
 		System.out.println ("Error during the reading : " + exception.getMessage());
@@ -182,11 +182,11 @@ class PrintASMLFile implements Visitor {
     }
 
     public void visit(LE e){try {
-        fw.write("(");
+        //fw.write("(");
         e.e1.accept(this);
         fw.write(" <= ");
         e.e2.accept(this);
-        fw.write(")");}
+        /*fw.write(")");*/}
 	catch (IOException exception)
 	{
 		System.out.println ("Error during the reading : " + exception.getMessage());
@@ -197,13 +197,11 @@ class PrintASMLFile implements Visitor {
     	try {
         fw.write("if ");
         e.e1.accept(this);
-        fw.write(" then (");
-        fw.write('\n');
+        fw.write(" then (\n");
         e.e2.accept(this);
-        fw.write(") else (");
-        fw.write('\n');
+        fw.write("\n) else (\n");
         e.e3.accept(this);
-        fw.write(")");}
+        fw.write("\n)");}
 	catch (IOException exception)
 	{
 		System.out.println ("Error during the reading : " + exception.getMessage());

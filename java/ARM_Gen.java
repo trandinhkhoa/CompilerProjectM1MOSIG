@@ -32,7 +32,7 @@ public class ARM_Gen implements ObjVisitor<Exp> {
 
     public void myWriter(String s){
     	try {
-            this.fw_arm.write(s);
+            fw_arm.write(s);
     	}
 		catch (IOException exception)
 		{
@@ -249,13 +249,13 @@ public class ARM_Gen implements ObjVisitor<Exp> {
                 myWriter("mov\t" + destReg + ", " + "#" + number + "\n");
             }else{
                 String operand1 = (String) this.myStack.pop();
-                System.out.println("mov\t" + destReg + ", " + operand1);
+                System.out.println("mov\t" + destReg + "\t" + operand1);
                 myWriter("mov\t" + destReg + ", " + operand1 + "\n");
             }
             System.out.println("bl\tmin_caml_print_int");
             myWriter("bl\tmin_caml_print_int\n");
             destReg = (String) this.myStack.pop();
-            System.out.println("mov\t" + destReg + ", " + "r0");
+            System.out.println("mov\t" + destReg + "\t" + "r0");
             myWriter("mov\t" + destReg + ", " + "r0");
         }
 

@@ -31,17 +31,14 @@ public class Main {
 		static void printHelp() {
 			System.out.println(""+
 					getLogo()
-					+ "\n\nWelcome to the UltimateTeam Mincaml Compiler !\n"
-					+"option1:\n"
+					+ "\n\nWelcome to the UltimateTeam Mincaml Compiler Help !\n"
 					+ "\t -t : type check only\n" + 
 					"\t -p : parse only\n" + 
-					"option2:\n"+
 					"\t -h : display help\n" + 
+					"\t -v : display version\n"+
 					"\t -o : output file\n" + 
 					"\t -asml : output ASML\n"+
-					"\t -v : display version\n" +
-					"Warning: \n\tOnly [-option1] [-option2]* [file.ml] is allowed\n"
-					+getNames()
+					"\n\t creators :\n"+getNames()
 					);
 		}
 		
@@ -55,17 +52,6 @@ public class Main {
 	  static boolean oopt=  false;
 	  static boolean asmlopt = false;
 	  static boolean vopt = false;
-	  
-	
-	  static void add_option(String s) {
-		  if (s.equals("-o")){			oopt = true; options.add(s);
-		  }else if (s.equals("-h")){	hopt = true; options.add(s);
-		  }else if (s.equals("-v")){	vopt = true; options.add(s);
-		  }else if (s.equals("-t")){	topt = true; options.add(s);
-		  }else if (s.equals("-p")){	popt = true; options.add(s);
-		  }else if (s.equals("-asml")){	asmlopt = true; options.add(s);
-		  }
-	  }
 	  
 	  static boolean checkOpt(String argv[]){
 		  int nb_file = 0 ;
@@ -102,12 +88,14 @@ public class Main {
 					}else {
 						if (fileIn.equals("")){
 							fileIn = s;
+						}else {
+							return false;
 						}
 					}
 				}
 		}
 		
-		if(hopt||(topt&&popt)){
+		if(hopt||(topt&&popt)||needIn||needOut||(asmlopt&&!oopt)){
 			return false;
 		}
 		
@@ -220,26 +208,32 @@ public class Main {
 							  System.out.println();System.out.println();
 						  }
 					  }  
-					  expression2 = expression2.accept(new Reg_Alloc());
+					 // expression2 = expression2.accept(new Reg_Alloc());
 					  
-					  String s = fileOut;
 					  
-					  File f = new File(s);
-					  FileWriter fw = new FileWriter(f) ;					  
 					  if(vopt) {
 						  System.out.println("------ AST Register Allocation ------");
 					  }
 					  
 					  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new Reg_Alloc()));
-						  
-						  if(vopt) { c.closure_list.get(i).printASML();}
-						  
-						  c.closure_list.get(i).printIn(fw);
-						  
-						  if(vopt){System.out.println();}
-					  }       
-					  fw.close();
+						  if(vopt) { 
+							  	c.closure_list.get(i).printASML();
+						  		System.out.println();
+						  	}
+					  }
+
+					  if (asmlopt) {
+						String s = fileOut;
+						File f = new File(s);  
+						FileWriter fw = new FileWriter(f) ;
+						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){  
+								c.closure_list.get(i).printIn(fw);
+								fw.write("\n\n");
+						  }
+							fw.close();
+					  }
+					 
 					  
 					  if(vopt) {
 					 	 System.out.println();
@@ -248,22 +242,22 @@ public class Main {
 						
 					  if (!asmlopt){
 						  String s_arm = fileOut;
-						  
 						  File f_arm = new File(s_arm);
 						  FileWriter fw_arm = new FileWriter(f_arm) ;
 						  if (vopt) {
 							  System.out.println("------ ARM Generation ------");
 						  }
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-							  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ARM_Gen(fw_arm)));
-							  
+							  ARM_Gen arm_g = new ARM_Gen(fw_arm);
+							  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(arm_g));
+							 
 							  if(vopt){
 							 	 System.out.println();System.out.println();
 							  }
 						  }       
-						  fw_arm.close();     
+						  fw_arm.close();  
 					 } 
-					/*
+					
 					  if(vopt){
 						  System.out.println("------ Height of the initial AST ----");
 						  int height = Height.computeHeight(expression);
@@ -273,10 +267,12 @@ public class Main {
 						  height = expression.accept(v);
 						  System.out.println("using HeightVisitor: " + height);
 					  }
-					 */
 				  }
 			  }
 			  System.exit(0);
+			} catch (FileNotFoundException e) {
+				System.out.print("Sorry, but the file doesn't exist ...");
+				System.exit(1);    	
 			} catch (Exception e) {
 				System.exit(1);    	
 			}

@@ -37,12 +37,12 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
     
     public Exp visit(Unit e) {
-        System.out.println("Current exp is " + e.toString());
+        //System.out.println("Current exp is " + e.toString());
         return e;
     }
 
     public Exp visit(Bool e) {
-        System.out.println("Current exp is " + e.toString());
+        //System.out.println("Current exp is " + e.toString());
         return e;
     }
 
@@ -58,12 +58,12 @@ class alpha_conversion implements ObjVisitor<Exp> {
 
     public Exp visit(Not e) {
         // System.out.println("Current exp is " + e.toString());
-        return e.e.accept(this);
+        return new Not(e.e.accept(this));
     }
 
     public Exp visit(Neg e) {
         // System.out.println("Current exp is " + e.toString());
-        return e;
+        return new Neg(e.e.accept(this));
     }
 
     public Exp visit(Add e) {
@@ -77,68 +77,37 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
     public Exp visit(FNeg e){
-    	Var v1 = new Var(new Id(gen()));
-    	Let l = new Let(v1.id,new TFloat(),e.e.accept(this), new FNeg(v1));   
-    	return l;
+    	return new FNeg(e.e.accept(this));
     }
 
     public Exp visit(FAdd e){
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FAdd(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2, l2);  
-    	return l1;
+    	return new FAdd(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FSub e){
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FSub(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	return l1;
+    	return new FSub(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FMul e) {
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FMul(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	return l1;
+    	return new FMul(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(FDiv e){
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TFloat(),e.e1.accept(this), new FDiv(v1,v2));  
-    	Let l1 = new Let(v2.id,new TFloat(),e.e2.accept(this), l2);  
-    	return l1;
+    	return new FDiv(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(Eq e){
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new Eq(v1,v2));  
-    	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	return l1;
+    	return new Eq(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(LE e){
-    	Var v1 = new Var(new Id(gen()));
-    	Var v2 = new Var(new Id(gen()));
-    	Let l2 = new Let(v1.id,new TInt(),e.e1.accept(this), new LE(v1,v2));  
-    	Let l1 = new Let(v2.id,new TInt(),e.e2.accept(this), l2);  
-    	return l1;
+    	return new LE(e.e1.accept(this),e.e2.accept(this));
     }
 
     public Exp visit(If e){
-       Let l1 = (Let) e.e1.accept(this);
-       Let l2 = (Let) l1.e2;
-       Exp eq = l2.e2;
-       If si = new If(eq,e.e2.accept(this),e.e3.accept(this));
-       Let lt2 = new Let(l2.id,l2.t,l2.e1,si);
-       Let lt1 = new Let(l1.id,l1.t,l1.e1,lt2);
-       return lt1;
-       
+       If si = new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
+       return si;
+       //TODO is that working ?
     }
 
     public Exp visit(Let e) {
@@ -208,9 +177,24 @@ class alpha_conversion implements ObjVisitor<Exp> {
 
     public Exp visit(LetRec e){
     	
-    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+    	FunDef fd2= new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e/*.accept(this)*/);
     	LetRec lr = new LetRec(fd2, e.e.accept(this));
     	return lr;
+    	
+    	/*FunDef fd2;
+    	if (hm.containsKey(e.fd.id.id)){
+            Var v = new Var(new Id(gen()));
+            hm.get(e.fd.id.id).add(v.id);
+             fd2 = new FunDef(v.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+        }else {
+            List<Id> newNameList = new ArrayList<Id>(); 
+            newNameList.add(e.fd.id);
+            hm.put(e.fd.id.id, newNameList);
+             fd2 = new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+        }
+    	LetRec lr = new LetRec(fd2, e.e.accept(this));
+    	return lr;*/
+    	
     }
 
     public Exp rec_app(Exp e, Exp app) {
