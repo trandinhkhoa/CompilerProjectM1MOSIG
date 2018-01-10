@@ -249,7 +249,7 @@ public class Main {
 						  }
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 							  ARM_Gen arm_g = new ARM_Gen(fw_arm);
-							  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(arm_g));
+							  /*c.closure_list.get(i).set_Exp(*/c.closure_list.get(i).code.accept(arm_g);//);
 							 
 							  if(vopt){
 							 	 System.out.println();System.out.println();
