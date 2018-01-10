@@ -83,5 +83,54 @@ public class Closure_Element {
 		code.accept(new PrintASML());		
 	}
 	
+	public void headerFile(FileWriter fw) {
+		try {
+			if(this.label.equals("_")) {
+				fw.write("_start:\n");
+			}else {
+				fw.write(this.label+":\n");
+			}
+    	}
+		catch (IOException exception)
+		{
+			System.out.println ("Error during the reading : " + exception.getMessage());
+		}
+	}
+	
+	
+	public void prologue() {
+		String n = ""+parameters.size();
+		System.out.println("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
+				"add fp, sp, #4         # position fp on the address of old fp\n" + 
+				"sub sp, #"+ n +" # allocate memory to store local variables");
+	}
+	
+	public void epilogue() {
+		System.out.println("sub sp, fp, #4\n" + 
+				"ldmfd  sp!, {fp, lr}  \n" + 
+				"bx lr  ");
+	}
+	
+	public void prologueFile(FileWriter fw) {
+		String n = ""+parameters.size();
+		try {
+		fw.write("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
+				"add fp, sp, #4         # position fp on the address of old fp\n" + 
+				"sub sp, #"+ n +" # allocate memory to store local variables\n");
+		}catch(Exception e) {
+			System.err.println ("Error during the reading : " + e.getMessage());
+		}
+	}
+	
+	public void epilogueFile(FileWriter fw) {
+		try {
+		fw.write("sub sp, fp, #4\n" + 
+				"ldmfd  sp!, {fp, lr}  \n" + 
+				"bx lr  \n");
+		}catch (Exception e) {
+			System.err.println ("Error during the reading : " + e.getMessage());
+		}
+	}
+	
 	
 }

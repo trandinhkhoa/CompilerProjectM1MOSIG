@@ -17,14 +17,6 @@ public class ARM_Gen implements ObjVisitor<Exp> {
         myStack = new Stack<String>();
         this.fw_arm = fw_arm;
         this.tail = true;
-        // System.out.println("HELOO");
-    	try {
-            this.fw_arm.write(".text\n.global _start\n_start:\n");
-    	}
-		catch (IOException exception)
-		{
-			System.out.println ("Error during the reading : " + exception.getMessage());
-		}
 		for (int i = 0 ; i <=15;i++) {
 			register_tab[i]="";
 		}
