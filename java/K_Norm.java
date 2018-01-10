@@ -139,11 +139,19 @@ class K_Norm implements ObjVisitor<Exp>{
     }
     
     public Exp visit(If e){
-       Exp l1 = e.e1.accept(this);
-      // Var v1 = new Var(new Id(gen()));
-      // If si = new If(v1,e.e2.accept(this),e.e3.accept(this));
-      // Let lt2 = new Let(v1.id,new TBool(),l1,si);
-       return rec_If(l1,e);
+    	if (e.e1.getClass() == Not.class) {
+    		If new_e = new If(((Not)e.e1).e,e.e3,e.e2);
+    		return new_e.accept(this);
+    	}else if ((e.e1.getClass() != Eq.class)&&(e.e1.getClass() != LE.class)) {
+    		If new_e = new If(new Eq(e.e1,new Bool(false)),e.e3,e.e2);
+    		return new_e.accept(this);
+    	}else {
+	       Exp l1 = e.e1.accept(this);
+	      /* Var v1 = new Var(new Id(gen()));
+	       If si = new If(v1,e.e2.accept(this),e.e3.accept(this));
+	       Let lt2 = new Let(v1.id,new TBool(),l1,si);*/
+	       return rec_If(l1,e);
+    	}
        
     }
 
