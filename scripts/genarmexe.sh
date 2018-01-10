@@ -13,24 +13,23 @@ NUline=$(tput rmul)
 NC='\033[0m'
 
 echo "${Yellow}${Bold}${Uline}Code Gen Test:${NC}${Normal}${NUline}"
-
-cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG"
+cd "../CompilerProjectM1MOSIG"
 for test_case in tests/CodeGen/valid/*.ml
 do
 fname=$(basename "$test_case")
 extension="${fname##*.}"
 name="${fname%.*}"
 echo -n $name": "
-ocaml $test_case > "$HOME/GitHubProjects/CompilerProjectM1MOSIG/ARM/expected/"$name.txt""
+ocaml $test_case > "./ARM/expected/"$name.txt""
 
 $MINCAMLC $test_case 2> /dev/null 1> /dev/null
 
-cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG"
+cd "../CompilerProjectM1MOSIG"
 #Generate .s file
 $MINCAMLC -o ARM/actual/"$name.s" "$test_case" 2> /dev/null 1> /dev/null
 
 #Generate .o file
-cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG/ARM/"
+cd "./ARM"
 arm-none-eabi-as -o actual/"$name.o" actual/"$name.s" libmincaml.S 2> /dev/null 1> /dev/null
 
 #Generate .arm
@@ -46,5 +45,5 @@ else
 	echo "${Red}|-> KO${NC}"
 fi
 
-cd "$HOME/GitHubProjects/CompilerProjectM1MOSIG"
+cd "../"
 done
