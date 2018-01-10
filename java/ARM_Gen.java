@@ -112,7 +112,19 @@ public class ARM_Gen implements ObjVisitor<Exp> {
     }
 
     public Exp visit(If e){
-       return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
+    	if (e.e1.getClass() == Eq.class) {
+    		System.out.println("cmp\t" + ((Var)((Eq)e.e1).e1).id.id + "\t" + ((Var)((Eq)e.e1).e2).id.id);
+    		System.out.println("beq\t" + "then");
+    		System.out.println("bal\t" + "else");
+    		System.out.println("then:\t");
+    		Exp x = e.e2.accept(this);
+    		System.out.println("bal\texit");
+    		System.out.println("else:\t"); 
+    		Exp y = e.e3.accept(this);
+    		System.out.println("exit:");
+    	}
+    	
+       return e;//new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
        
     }
 
@@ -214,7 +226,7 @@ public class ARM_Gen implements ObjVisitor<Exp> {
     }
     
     public Exp visit(App e){
-        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
+        //System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
         // System.out.println("Current expression is " + e.toString() + "\t App is " + e.e + "\tArgument list is " + e.es);
         this.tail = false;
         List<Exp> argList = printInfix2(e.es);
@@ -254,9 +266,12 @@ public class ARM_Gen implements ObjVisitor<Exp> {
             }
             System.out.println("bl\tmin_caml_print_int");
             myWriter("bl\tmin_caml_print_int\n");
-            destReg = (String) this.myStack.pop();
-            System.out.println("mov\t" + destReg + "\t" + "r0");
-            myWriter("mov\t" + destReg + ", " + "r0");
+            tail = true;
+            if (!myStack.isEmpty()) {
+	            destReg = (String) this.myStack.pop();
+	            System.out.println("mov\t" + destReg + "\t" + "r0");
+	            myWriter("mov\t" + destReg + ", " + "r0");
+            }
         }
 
         // App app = new App(e.e.accept(this),argList);
