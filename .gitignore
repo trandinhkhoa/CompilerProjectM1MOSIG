@@ -1,0 +1,9 @@
+*.class
+/bin/
+/jflex/
+/.classpath
+/.project
+/test1.ml
+/test1.asml
+/khoaTest.sh
+/.gitignore
