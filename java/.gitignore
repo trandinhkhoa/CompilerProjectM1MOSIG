@@ -1,6 +1,0 @@
-*.class
-/bin/
-/jflex/
-/.classpath
-/.project
-/.gitignore
