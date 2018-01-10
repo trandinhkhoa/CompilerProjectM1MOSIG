@@ -1,9 +1,6 @@
 import java.util.List;
-
-/**
- * Nested Let class eliminates all the nested lets except letRec 
- * This phase is inclusive in the optimization level.
- * */
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Nested_Let implements ObjVisitor<Exp> {
 
@@ -36,9 +33,45 @@ public class Nested_Let implements ObjVisitor<Exp> {
 	public Exp visit(LetRec e) {
 		// TODO Auto-generated method stub
 		/* No modification for Let recursive */
-		return e;
+        Exp e22 = e.e.accept(this);
+        FunDef fd2 = new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
+        LetRec lr = new LetRec(fd2, e22);
+        
+		return lr;
 	}
 	
+	@Override
+	public Exp visit(App e) {
+		// TODO Auto-generated method stub
+        App app;
+        List<Exp> argList = printInfix2(e.es);
+        app = new App(e.e.accept(this),argList);
+        // try{
+        //     // System.out.println("Current expression is " + e.toString()  + " It is " + e.e.getClass().toString());
+        //     if (e.e.getClass().toString().equals("class Var"))
+        //         System.out.println("Current expression is " + e.toString()  + " It is " + e.e.getClass() + "\t" + ((Var)e.e).id);
+        //     else if (e.e.getClass().toString().equals("class Let"))
+        //         System.out.println("Current expression is " + e.toString()  + " It is " + e.e.getClass() + "\t" + ((Let)e.e).id);
+        // } catch(Exception error){
+        //     error.printStackTrace(); 
+        // }
+		return app;
+	}
+
+	// print sequence of Exp
+    List<Exp> printInfix2(List<Exp> l) {
+    	List<Exp> new_list = new LinkedList<Exp>();
+    	new_list.clear();
+        if (l.isEmpty()) {
+            new_list.add(new Unit());
+        }
+        Iterator<Exp> it = l.iterator();
+        while (it.hasNext()) {
+        	  new_list.add(it.next().accept(this));
+        }
+        return new_list;
+    }
+
 	@Override
 	public Exp visit(Unit e) {
 		// TODO Auto-generated method stub
@@ -137,12 +170,6 @@ public class Nested_Let implements ObjVisitor<Exp> {
 
 	@Override
 	public Exp visit(Var e) {
-		// TODO Auto-generated method stub
-		return e;
-	}
-
-	@Override
-	public Exp visit(App e) {
 		// TODO Auto-generated method stub
 		return e;
 	}
