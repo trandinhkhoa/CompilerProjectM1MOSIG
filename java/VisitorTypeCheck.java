@@ -306,28 +306,38 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 						return new TUnit();
 					}
 					else{
-						System.err.println("Type check error in If" + e);
+						System.err.println("Type check error in If1" + e);
 						errorSet=true;
 						System.exit(1);
 						return null;
 					}
 				}
 				else{
-					System.err.println("Type check error in If" + e);
+					System.err.println("Type check error in If2" + e);
+					errorSet=true;
+					System.exit(1);
+					return null;
+				}
+			}else if(e.e3.accept(this).getClass()==TInt.class){
+				if(e.e2.accept(this).getClass()==e.e3.accept(this).getClass()){
+					return new TInt();
+				}
+				else{
+					System.err.println("Type check error in If1" + e);
 					errorSet=true;
 					System.exit(1);
 					return null;
 				}
 			}
 			else{
-				System.err.println("Type check error in If" + e);
+				System.err.println("Type check error in If3" + e);
 				errorSet=true;
 				System.exit(1);
 				return null;
 			}
 		}
 		else{
-			System.err.println("Type check error in If" + e);
+			System.err.println("Type check error in If4" + e);
 			errorSet=true;
 			System.exit(1);
 			return null;

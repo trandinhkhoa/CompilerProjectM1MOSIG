@@ -149,7 +149,6 @@ public class Main {
 					  }
 					  System.out.println();
 				  }
-				  
 				  if(!topt) {
 					  K_Norm k = new K_Norm();
 					  expression2 = expression2.accept(k);
@@ -216,7 +215,7 @@ public class Main {
 					  }
 					  
 					  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new Reg_Alloc()));
+						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new SpillAlloc()));
 						  if(vopt) { 
 							  	c.closure_list.get(i).printASML();
 						  		System.out.println();
@@ -248,12 +247,16 @@ public class Main {
 							  System.out.println("------ ARM Generation ------");
 						  }
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-							  ARM_Gen arm_g = new ARM_Gen(fw_arm);
-							  /*c.closure_list.get(i).set_Exp(*/c.closure_list.get(i).code.accept(arm_g);//);
-							 
-							  if(vopt){
-							 	 System.out.println();System.out.println();
+							  if (vopt) {
+								  PrintARM arm_g = new PrintARM();
+								  c.closure_list.get(i).code.accept(arm_g);
+								  System.out.println();System.out.println();
 							  }
+							  PrintARMFile arm_gf = new PrintARMFile(fw_arm);
+							  c.closure_list.get(i).code.accept(arm_gf);
+							  fw_arm.write("\n\n");
+							  
+							  
 						  }       
 						  fw_arm.close();  
 					 } 

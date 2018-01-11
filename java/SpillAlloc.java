@@ -10,7 +10,7 @@ public class SpillAlloc implements ObjVisitor<Exp> {
 	
 	public SpillAlloc() {
 		register_Map.clear();
-		index = 0;
+		index = 1;
 	}
 	
 	public int get_free_register() {
