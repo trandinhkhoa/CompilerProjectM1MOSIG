@@ -19,7 +19,6 @@ public class PrintARM implements Visitor {
 	     cpt_else=0;
 	     cpt_next=0;
         myStack = new Stack<String>();
-            System.out.println(".text\n.global _start\n_start:");
             System.out.println("mov fp, sp");
 		for (int i = 0 ; i <=15;i++) {
 			register_tab[i]="";
@@ -148,8 +147,6 @@ public class PrintARM implements Visitor {
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
     	System.out.println("strb "+myStack.pop()+", " + getFP(e.id));
-    	}else {
-    		System.out.println("empy");
     	}
     	e.e2.accept(this);
     	
@@ -218,7 +215,13 @@ public class PrintARM implements Visitor {
     
     public void visit(App e){
     	//System.out.println(e);
-       if (((Var)e.e).id.id.equals("add")){
+    	if (((Var)e.e).id.id.equals("sub")){
+     	   System.out.println("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id));
+     	   System.out.println("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id));
+     	   System.out.println("sub r6, r4, r5");
+     	  // System.out.println("strb "+"r6, " +myStack.pop());
+     	   myStack.push("r6");
+     }else if (((Var)e.e).id.id.equals("add")){
     	   System.out.println("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id));
     	   System.out.println("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id));
     	   System.out.println("add r6, r4, r5");

@@ -245,15 +245,20 @@ public class Main {
 						  FileWriter fw_arm = new FileWriter(f_arm) ;
 						  if (vopt) {
 							  System.out.println("------ ARM Generation ------");
+
+							  fw_arm.write(".text\n.global _start\n\n");
 						  }
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 							  if (vopt) {
 								  PrintARM arm_g = new PrintARM();
-								  c.closure_list.get(i).code.accept(arm_g);
+  							      c.closure_list.get(i).code.accept(arm_g);
 								  System.out.println();System.out.println();
 							  }
+							  c.closure_list.get(i).headerFile(fw_arm);
 							  PrintARMFile arm_gf = new PrintARMFile(fw_arm);
+                			  //c.closure_list.get(i).prologueFile(fw_arm);;
 							  c.closure_list.get(i).code.accept(arm_gf);
+                			  //c.closure_list.get(i).epilogueFile(fw_arm);;
 							  fw_arm.write("\n\n");
 							  
 							  

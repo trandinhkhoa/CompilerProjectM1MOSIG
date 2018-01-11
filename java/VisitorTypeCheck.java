@@ -382,9 +382,9 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		delVar.put(e.fd.id.id, t);
 		return t;*/
+		
 		return null;
 	}
-
 	@Override
 	public Type visit(App e) {
 		// TODO Auto-generated method stub

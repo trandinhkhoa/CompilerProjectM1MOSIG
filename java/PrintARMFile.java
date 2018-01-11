@@ -23,7 +23,6 @@ public class PrintARMFile implements Visitor {
 	        fw_arm = fw;
 	        // System.out.println("HELOO");
 	    	try {
-	            this.fw_arm.write(".text\n.global _start\n_start:\n");
 	            this.fw_arm.write("mov fp, sp\n");
 	    	}
 			catch (IOException exception)
