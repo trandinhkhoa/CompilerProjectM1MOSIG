@@ -391,9 +391,17 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		return null;
 	}
 
+	 void printInfix2(List<Exp> l) {
+	        Iterator<Exp> it = l.iterator();
+	        while (it.hasNext()) {
+	        	  it.next().accept(this);
+	        }
+	    }
+	
 	@Override
 	public Type visit(Tuple e) {
 		// TODO Auto-generated method stub
+		printInfix2(e.es);
 		return null;
 	}
 
