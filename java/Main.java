@@ -256,7 +256,8 @@ public class Main {
 								  c.closure_list.get(i).prologue();
 								  c.closure_list.get(i).code.accept(arm_g);
 								  if (!arm_g.myStack.isEmpty()) {
-								  System.out.println("mov r0, " + arm_g.myStack.pop());
+									  System.out.println("mov r0, " + arm_g.myStack.pop());
+									  arm_g.myStack.push("r0");
 								  }
 								  if(i!=0) {
 									  c.closure_list.get(i).epilogue();;

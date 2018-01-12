@@ -36,7 +36,8 @@ public class PrintARM implements Visitor {
     	String s = i.id;
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
-    		s = "[ fp, #"+s+" ]";
+    		int sn = Integer.parseInt(s);
+    		s = "[ fp, #"+(4*sn)+" ]";
     	}
     	return s;
     }
@@ -154,18 +155,6 @@ public class PrintARM implements Visitor {
     		System.out.println("strb "+myStack.pop()+", " + getFP(e.id));
     	}
     	e.e2.accept(this);
-    	
-    	/*System.out.print("mov ");
-        myWriter("mov ");
-        Var v1 = new Var(e.id);
-        v1.accept(this);
-        System.out.print(",");
-        myWriter(", ");
-        e.e1.accept(this);
-    	System.out.print("\n");
-        myWriter("\n");
-        
-    	e.e2.accept(this);*/
     }
     
     public int get_index(List<Id> lid, Id i) {
@@ -182,7 +171,7 @@ public class PrintARM implements Visitor {
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
     	if(index!=-1) {
-    		System.out.println("ldrb  r8, [ fp, #-"+ (1+index)+" ]");
+    		System.out.println("ldrb  r8, [ fp, #-"+ ((1+index)*4)+" ]");
 	    	myStack.push("r8");	
     	}else {
 	    	System.out.println("ldrb  r7, "+getFP(e.id));
@@ -243,11 +232,11 @@ public class PrintARM implements Visitor {
     	  // System.out.println("strb "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
-        	System.out.println("mov r9, #"+current_index);
+        	System.out.println("mov r9, #"+(current_index+1)*4);
         	System.out.println("add sp, fp, r9");
-        	System.out.println("mov r9, #"+e.es.size());
+        	System.out.println("mov r9, #"+e.es.size()*4);
         	System.out.println("add sp, sp, r9");
-        	System.out.println("mov r9, #2");
+        	System.out.println("mov r9, #8");
         	System.out.println("add sp, sp, r9");     	
         	 printInfix2(e.es);
         	 
@@ -259,13 +248,15 @@ public class PrintARM implements Visitor {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-        	    	System.out.println("strb "+myStack.pop()+", " + "[ sp , #-" + (i+1) +" ]");
+        	    	System.out.println("strb "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]");
         	    }
         	}
         	System.out.println("bl " + ((Var)e.e).id.id );
         	 if (!myStack.isEmpty()) {
 				  System.out.println("strb r0, " + myStack.pop());
 			}
+        	 
+        	myStack.push("r0");
         }
     }
 
