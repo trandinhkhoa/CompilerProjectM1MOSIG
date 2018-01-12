@@ -10,6 +10,10 @@ public class Closure_Element {
 	public List<Id> parameters;
 	public Exp code;
 
+	public Closure_Element() {
+        // Initialize the placeholder element for MAIN at the start of closure list
+	}
+
 	public Closure_Element(Exp e) {
 		this.label = "_";
 		this.free_variables = new LinkedList<Id>();

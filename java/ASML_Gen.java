@@ -107,15 +107,33 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     	if (v.id.id.equals("apply_direct")) {	
     		v = new Var(new Id("call"));
     		Tuple t = (Tuple)e.es.get(0);
+            // System.out.println("APP Tuple is " + t);
+            //a : name of function
     		Var a = (Var) t.es.remove(0);
+            // System.out.println("APP Var is " + a.id);
     		App app = new App(a,t.es);
+            //le :  list of all arguments
     		List<Exp> le = new LinkedList<Exp>();
+            //khoaNOTE: Why accept in le.add(app.accept(this))?
     		le.add(app.accept(this));
     		le.addAll(e.es.subList(1, e.es.size()));
     		return new App(v,le);
     		
+            //khoaNOTE: What is !contains(v.id)
     	}else if(!contains(v.id)) {
-    		v = new Var(new Id("_min_caml"+v.id.id));
+            // System.out.println("APP Name is " + v.id.id);
+    		// v = new Var(new Id("_min_caml"+v.id.id));
+
+            //v.id.id print_int
+            //e.es temp8
+            
+    		Var vCall = new Var(new Id("call"));
+    		Var vNew = new Var(new Id("_min_caml_"+v.id.id));
+    		App app = new App(vNew, e.es);
+    		List<Exp> le = new LinkedList<Exp>();
+    		le.add(app.e);
+    		le.addAll(e.es.subList(0, e.es.size()));
+    		return new App(vCall, le);
     	}
     	return new App(v,printInfix2(e.es));
     }

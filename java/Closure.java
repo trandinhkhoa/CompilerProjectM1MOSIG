@@ -1,6 +1,7 @@
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -9,8 +10,11 @@ import java.util.Stack;
  * It generates a flatten code using blocks of Closure Elements.  
  * 
  * 
- * 
  * */
+
+// khoaNOTE: Function list size is 4
+// Closure list size is 5
+// Function list is [succ double succ double]
 
 public class Closure implements ObjVisitor<Exp> {
 	
@@ -19,8 +23,15 @@ public class Closure implements ObjVisitor<Exp> {
 	List<Id> fun_List = new LinkedList<Id>();
 	Hashtable<String,List<Id>> ht = new Hashtable<String,List<Id>>(); 
 	boolean main_done = false;
+	boolean continueFlag = true;
+    //library function (predefined) list
+    List<String> libraryFuncList = new ArrayList<String>();
+
 	public Closure() {
 		closure_list = new LinkedList<Closure_Element>();
+        closure_list.add(new Closure_Element()); 
+        //initialize pre-defined function list
+        libraryFuncList.add("print_int");
 	}
 	
     public Exp visit(Unit e) {
@@ -40,6 +51,7 @@ public class Closure implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Int e) {
+        // System.out.println("Current exp is Int " + e.i);
     	// if ((s.isEmpty())&&(!main_done)) {
 		// 	main_done = true;
     	// 	closure_list.add(new Closure_Element(e));
@@ -153,21 +165,51 @@ public class Closure implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Let e) {
-        // System.out.println("Current exp is " + e.id);
+        // System.out.println("Current exp is LET " + e.id);
+        Exp newE1 = e.e1;
+        Exp newE2 = e.e2;
     	if ((s.isEmpty())&&(!main_done)) {
+            // System.out.println("FUCK YOU  :)");
 			main_done = true;
-    		closure_list.add(new Closure_Element(new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this))));
+            newE1 = e.e1.accept(this);
+            newE2 = e.e2.accept(this);
+    		// closure_list.add(new Closure_Element(new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this))));
+    		// closure_list.add(new Closure_Element(new Let(e.id,e.t,newE1,newE2)));
+    		closure_list.set(0, new Closure_Element(new Let(e.id,e.t,newE1,newE2)));
+            // System.out.println("[LET] ADDED TO CLOSURE LIST " + e.id);
+            continueFlag = false;
+            main_done = false;
     	}
     	if (!s.isEmpty()){
-    	Id i = s.peek();
-	    	List<Id> li= ht.get(i.id);
-	    	li.add(e.id);
-	    	ht.put(i.id, li);
+            Id i = s.peek();
+            List<Id> li= ht.get(i.id);
+            li.add(e.id);
+            ht.put(i.id, li);
     	}
-    	return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));
+
+        //khoaNOTE: when reach temp0, s is not Empty so e.e1.accept (and e2) didnt run
+        // but if accept(this) run here, it will repeat once the part inside if (s.isEmpty)) finished
+        // If first LET is after Let Rec => stack no longer empty  => skip if => main_done still = false => main is added first => maybe change visit order => but that would affect the scope? 
+        //
+        // System.out.println("[LET]FUCK THIS SHIT MAINDONE is " + main_done);
+      // System.out.println("Closure List Size is " + this.closure_list.size());
+		// 				for (int i = this.closure_list.size()-1 ; i >=0 ; i--){
+		// 				  this.closure_list.get(i).print();
+		// 				  System.out.println();
+		// 				} System.out.println();
+
+        //khoaNOTE: continueFlag = true => when let does not lead to the end of program (happen when let is e1 of letrec)
+        if ((main_done)||(continueFlag)){
+            newE1 = e.e1.accept(this);
+            newE2 = e.e2.accept(this);
+        }
+    	// return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));
+    	// return new Let(e.id,e.t,e.e1,e.e2);
+    	return new Let(e.id,e.t,newE1,newE2);
     }
 
     public Exp visit(Var e){
+        // System.out.println("Current exp is Var " + e.id);
     	// if (s.isEmpty()) {
     	// 	ht.put("_",new LinkedList<Id>() );
     	// 	s.push(new Id("_"));
@@ -201,6 +243,9 @@ public class Closure implements ObjVisitor<Exp> {
     }
 
     public Exp visit(LetRec e){
+        //LetRec go from left to right
+        // System.out.println("Current Exp is" + e);
+        // System.out.println("\tFunDef is " + e.fd.id + " \tArg List is " + e.fd.args + " and e is " + e.e);
     	List<Id> fv = new LinkedList<Id>();
     	if (!s.isEmpty()) {
 	    	Id i = s.peek();
@@ -219,6 +264,7 @@ public class Closure implements ObjVisitor<Exp> {
     	Closure_Element ce = new Closure_Element(lr);
     	ce.free_variables = fv;
     	closure_list.add(ce);
+        // System.out.println("[LETREC] ADDED TO CLOSURE LIST " + e.fd.id);
 
     	return lr.e;
 
@@ -227,6 +273,7 @@ public class Closure implements ObjVisitor<Exp> {
     }
     
     public Exp visit(App e){
+        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
     	boolean here = false;
     	if ((s.isEmpty())&&(!main_done)) {
 			main_done = true;
@@ -241,13 +288,19 @@ public class Closure implements ObjVisitor<Exp> {
     	Tuple t = new Tuple(lis);
     	List<Exp> l = new LinkedList<Exp>();
     	l.add(t);
-    	App a = new App(new Var(new Id("apply_direct")), l);
-    	if (here) {
-		closure_list.add(new Closure_Element(a));
-    	}
-    	return a;
-        // return e;
-       
+        if (libraryFuncList.contains(((Var)e.e).id.id)){
+            // System.out.println("\n Predefined call this is " + ((Var)e.e).id + "\n");
+            return e;
+        } else {
+            // System.out.println("\nNot Predefined call\n");
+            App a = new App(new Var(new Id("apply_direct")), l);
+            if (here) {
+                closure_list.add(new Closure_Element(a));
+                // System.out.println("[APP] ADDED TO CLOSURE LIST");
+                // System.out.println("[APP] MAINDONE is " + main_done);
+            }
+            return a;
+        }
     }
 
     public Exp visit(Tuple e){
