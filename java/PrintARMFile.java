@@ -240,6 +240,13 @@ public class PrintARMFile implements Visitor {
     	   myWriter("add r6, r4, r5"+"\n");
     	  // System.out.println("strb "+"r6, " +myStack.pop());
     	   myStack.push("r6");
+    	   
+       }else if (((Var)e.e).id.id.equals("sub")){
+        	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+        	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+        	   myWriter("sub r6, r4, r5"+"\n");
+        	  // System.out.println("strb "+"r6, " +myStack.pop());
+        	   myStack.push("r6");
     	      	   
         /*}else if (((Var)e.e).id.id.equals("sub")){
             System.out.println("sub, " + destReg + ", " + operand1 + ", " + operand2);

@@ -131,8 +131,9 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     		Var vNew = new Var(new Id("_min_caml_"+v.id.id));
     		App app = new App(vNew, e.es);
     		List<Exp> le = new LinkedList<Exp>();
-    		le.add(app.e);
-    		le.addAll(e.es.subList(0, e.es.size()));
+            // Add newle created app as an argument for vCall 
+    		le.add(app);
+    		// le.addAll(e.es.subList(0, e.es.size()));
     		return new App(vCall, le);
     	}
     	return new App(v,printInfix2(e.es));
