@@ -213,9 +213,11 @@ public class Main {
 					  if(vopt) {
 						  System.out.println("------ AST Register Allocation ------");
 					  }
-					  
+					  List<Integer> index_list = new ArrayList<Integer>();
 					  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new SpillAlloc()));
+						  SpillAlloc sa = new SpillAlloc();
+						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(sa));
+						  index_list.add(sa.index);
 						  if(vopt) { 
 							  	c.closure_list.get(i).printASML();
 						  		System.out.println();
@@ -250,12 +252,19 @@ public class Main {
 						  }
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 							  if (vopt) {
-								  PrintARM arm_g = new PrintARM();
-  							      c.closure_list.get(i).code.accept(arm_g);
+								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters);
+								  c.closure_list.get(i).prologue();
+								  c.closure_list.get(i).code.accept(arm_g);
+								  if (!arm_g.myStack.isEmpty()) {
+								  System.out.println("mov r0, " + arm_g.myStack.pop());
+								  }
+								  if(i!=0) {
+									  c.closure_list.get(i).epilogue();;
+								  }
 								  System.out.println();System.out.println();
 							  }
 							  c.closure_list.get(i).headerFile(fw_arm);
-							  PrintARMFile arm_gf = new PrintARMFile(fw_arm);
+							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters);
                 			  //c.closure_list.get(i).prologueFile(fw_arm);;
 							  c.closure_list.get(i).code.accept(arm_gf);
                 			  //c.closure_list.get(i).epilogueFile(fw_arm);;

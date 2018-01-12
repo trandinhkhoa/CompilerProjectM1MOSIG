@@ -13,22 +13,27 @@ public class PrintARMFile implements Visitor {
     int cpt_else;
     int cpt_next;
     Stack<String> myStack;
-    FileWriter fw_arm;	 
+    FileWriter fw_arm;	
+    int current_index;
+    List<Id> parameters;
 	
-	public PrintARMFile(FileWriter fw) {
+	public PrintARMFile(FileWriter fw,int ci,List<Id> param) {
 		 cpt_then=0;
 	     cpt_else=0;
 	     cpt_next=0;
+	     current_index = ci;
+	     parameters = new LinkedList<Id>();
+	     parameters.addAll(param);
 	     myStack = new Stack<String>();
 	        fw_arm = fw;
 	        // System.out.println("HELOO");
-	    	try {
+	    	/*try {
 	            this.fw_arm.write("mov fp, sp\n");
 	    	}
 			catch (IOException exception)
 			{
 				System.err.println ("Error during the reading : " + exception.getMessage());
-			}
+			}*/
 			for (int i = 0 ; i <=15;i++) {
 				register_tab[i]="";
 			}

@@ -116,8 +116,7 @@ public class Closure_Element {
 		/*System.out.println("sub sp, fp, #4\n" + 
 				"ldmfd  sp!, {fp, lr}  \n" + 
 				"bx lr  ");*/
-		System.out.println("sub sp, sp, #4");
-		System.out.println("lmdfd sp!, {fp,lr}");
+		System.out.println("ldmfd sp!, {fp,lr}");
 		System.out.println("bx lr");
 	}
 	
@@ -140,8 +139,7 @@ public class Closure_Element {
 		/*fw.write("sub sp, fp, #4\n" + 
 				"ldmfd  sp!, {fp, lr}  \n" + 
 				"bx lr  \n");*/
-		fw.write("sub sp, sp, #4\n");
-		fw.write("lmdfd sp!, {fp,lr}\n");
+		fw.write("ldmfd sp!, {fp,lr}\n");
 		fw.write("bx lr\n");
 			
 		}catch (Exception e) {
