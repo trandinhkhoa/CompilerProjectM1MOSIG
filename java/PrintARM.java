@@ -71,8 +71,8 @@ public class PrintARM implements Visitor {
 
     public void visit(Neg e) {
     	//System.out.println(e);
-    	myStack.push("-");
-         e.e.accept(this);  	
+    	//myStack.push("-");
+        // e.e.accept(this);  	
     }
 
     public void visit(Add e) {
@@ -236,7 +236,7 @@ public class PrintARM implements Visitor {
         	System.out.println("add sp, fp, r9");
         	System.out.println("mov r9, #"+e.es.size()*4);
         	System.out.println("add sp, sp, r9");
-        	System.out.println("mov r9, #8");
+        	System.out.println("mov r9, #"+2*4);
         	System.out.println("add sp, sp, r9");     	
         	 printInfix2(e.es);
         	 

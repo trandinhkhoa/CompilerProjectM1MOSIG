@@ -266,9 +266,15 @@ public class Main {
 							  }
 							  c.closure_list.get(i).headerFile(fw_arm);
 							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters);
-                			  //c.closure_list.get(i).prologueFile(fw_arm);;
+                			  c.closure_list.get(i).prologueFile(fw_arm);;
 							  c.closure_list.get(i).code.accept(arm_gf);
-                			  //c.closure_list.get(i).epilogueFile(fw_arm);;
+							  if (!arm_gf.myStack.isEmpty()) {
+								  fw_arm.write("mov r0, " + arm_gf.myStack.pop()+"\n");
+								  arm_gf.myStack.push("r0");
+							  }
+							  if(i!=0) {
+								  c.closure_list.get(i).epilogueFile(fw_arm);;
+							  }
 							  fw_arm.write("\n\n");
 							  
 							  

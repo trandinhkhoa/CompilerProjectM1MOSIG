@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class PrintARMFile implements Visitor {
 	
 	static String[] register_tab = new String[16];
@@ -26,7 +25,7 @@ public class PrintARMFile implements Visitor {
 	     parameters.addAll(param);
 	     myStack = new Stack<String>();
 	        fw_arm = fw;
-	        // System.out.println("HELOO");
+	        // myWriter("HELOO");
 	    	/*try {
 	            this.fw_arm.write("mov fp, sp\n");
 	    	}
@@ -49,13 +48,15 @@ public class PrintARMFile implements Visitor {
 			}
 	    }
 
+
    
 	
     public String getFP(Id i) {
     	String s = i.id;
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
-    		s = "[ fp, #"+s+" ]";
+    		int sn = Integer.parseInt(s);
+    		s = "[ fp, #"+(4*sn)+" ]";
     	}
     	return s;
     }
@@ -72,69 +73,69 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Int e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     	myWriter("mov r5, #"+e.i+"\n");
             myStack.push("r5");
     }
 
     public void visit(Float e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     	//myWriter(e.f);
         //myWriter(""+e.f);
     }
 
     public void visit(Not e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     }
 
     public void visit(Neg e) {
-    	//System.out.println(e);
-    	myStack.push("-");
-         e.e.accept(this);  	
+    	//myWriter(e);
+    	//myStack.push("-");
+       //  e.e.accept(this);  	
     }
 
     public void visit(Add e) {
-    	//System.out.println(e);
+    	//myWriter(e);
         //ERROR
     }
 
 	public void visit(Sub e) {
-    	//System.out.println(e);
+    	//myWriter(e);
 		 //ERROR
     }
 
     public void visit(FNeg e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	 //ERROR
     }
 
     public void visit(FAdd e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     	 //ERROR
     }
 
 	public void visit(FSub e) {
-    	//System.out.println(e);
+    	//myWriter(e);
 		 //ERROR
     }
 
     public void visit(FMul e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     	 //ERROR
     }
 
     public void visit(FDiv e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	 //ERROR
     }
 
     public void visit(Eq e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	//
     }
 
     public void visit(LE e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	//
     }
 
@@ -149,7 +150,7 @@ public class PrintARMFile implements Visitor {
     }
     
     public void visit(If e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
     		 ((Var)((Eq)e.e1).e2).accept(this);
@@ -167,37 +168,35 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Let e) {
-    	//System.out.println(e);
+    	//myWriter(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
     		myWriter("strb "+myStack.pop()+", " + getFP(e.id)+"\n");
     	}
     	e.e2.accept(this);
+    }
+    
+    public int get_index(List<Id> lid, Id i) {
+    	    	
+    	for (int j= 0; j< lid.size();j++) {
+    		if (lid.get(j).id.equals(i.id)) {
+    			return j;
+    		}
+    	}
+    	return -1;
     	
-    	/*myWriter("mov ");
-        myWriter("mov ");
-        Var v1 = new Var(e.id);
-        v1.accept(this);
-        myWriter(",");
-        myWriter(", ");
-        e.e1.accept(this);
-    	myWriter("\n");
-        myWriter("\n");
-        
-    	e.e2.accept(this);*/
     }
 
     public void visit(Var e){
-    	//System.out.println(e);
-       /* if (e.id.id.charAt(0)=='s'){
-    			String offset = e.id.id.substring(1);
-	            myWriter("[ fp , "+offset+" ]");
-	            myWriter("[ fp , "+offset+" ]"+ "\n");		
-        }else {
-        	myWriter(e.id.id);
-        }*/
-    	myWriter("ldrb  r7, "+getFP(e.id)+"\n");
-    	myStack.push("r7");
+    	int index = get_index(parameters, e.id);
+    	if(index!=-1) {
+    		myWriter("ldrb  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
+	    	myStack.push("r8");	
+    	}else {
+    		myWriter("ldrb  r7, "+getFP(e.id)+"\n");
+	    	myStack.push("r7");
+    	}
+    	
     }
     
 
@@ -230,58 +229,73 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(LetRec e){
-    	//System.out.println(e);
+    	//myWriter(e);
     	
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 
   
     
     public void visit(App e){
-    	//System.out.println(e);
-       if (((Var)e.e).id.id.equals("add")){
+    	//myWriter(e);
+    	if (((Var)e.e).id.id.equals("sub")){
+     	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+     	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+     	   myWriter("sub r6, r4, r5\n");
+     	  // myWriter("strb "+"r6, " +myStack.pop());
+     	   myStack.push("r6");
+     }else if (((Var)e.e).id.id.equals("add")){
     	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
     	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
-    	   myWriter("add r6, r4, r5"+"\n");
-    	  // System.out.println("strb "+"r6, " +myStack.pop());
+    	   myWriter("add r6, r4, r5\n");
+    	  // myWriter("strb "+"r6, " +myStack.pop());
     	   myStack.push("r6");
-    	   
-       }else if (((Var)e.e).id.id.equals("sub")){
-        	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
-        	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
-        	   myWriter("sub r6, r4, r5"+"\n");
-        	  // System.out.println("strb "+"r6, " +myStack.pop());
-        	   myStack.push("r6");
-    	      	   
-        /*}else if (((Var)e.e).id.id.equals("sub")){
-            System.out.println("sub, " + destReg + ", " + operand1 + ", " + operand2);
-            myWriter("sub, " + destReg + ", " + operand1 + ", " + operand2 + "\n");*/
         }else if (((Var)e.e).id.id.equals("call")){
+        	myWriter("mov r9, #"+(current_index+1)*4+"\n");
+        	myWriter("add sp, fp, r9\n");
+        	myWriter("mov r9, #"+e.es.size()*4+"\n");
+        	myWriter("add sp, sp, r9\n");
+        	myWriter("mov r9, #"+2*4+"\n");
+        	myWriter("add sp, sp, r9\n");     	
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
         	myWriter("ldrb  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
-        	myWriter("bl min_caml_print_int"+"\n");
+            myWriter("bl min_caml_print_int\n");
+            
+        }else {
+        	for (int i = 0; i < e.es.size() ; i++) {
+        		e.es.get(i).accept(this);
+        		if (!myStack.isEmpty()) {
+        	    	myWriter("strb "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
+        	    }
+        	}
+        	myWriter("bl " + ((Var)e.e).id.id +"\n");
+        	 if (!myStack.isEmpty()) {
+				  myWriter("strb r0, " + myStack.pop()+"\n");
+			}
+        	 
+        	myStack.push("r0");
         }
     }
 
     public void visit(Tuple e){
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(LetTuple e){
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Array e){
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Get e){
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Put e){
-        // System.out.println("Current expression is " + e.toString());
+        // myWriter("Current expression is " + e.toString());
     }
 }
