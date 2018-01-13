@@ -171,7 +171,7 @@ public class PrintARMFile implements Visitor {
     	//myWriter(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
-    		myWriter("strb "+myStack.pop()+", " + getFP(e.id)+"\n");
+    		myWriter("str "+myStack.pop()+", " + getFP(e.id)+"\n");
     	}
     	e.e2.accept(this);
     }
@@ -190,10 +190,10 @@ public class PrintARMFile implements Visitor {
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
     	if(index!=-1) {
-    		myWriter("ldrb  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
+    		myWriter("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
 	    	myStack.push("r8");	
     	}else {
-    		myWriter("ldrb  r7, "+getFP(e.id)+"\n");
+    		myWriter("ldr  r7, "+getFP(e.id)+"\n");
 	    	myStack.push("r7");
     	}
     	
@@ -239,19 +239,19 @@ public class PrintARMFile implements Visitor {
     public void visit(App e){
     	//myWriter(e);
     	if (((Var)e.e).id.id.equals("sub")){
-     	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
-     	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+     	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+     	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
      	   myWriter("sub r6, r4, r5\n");
-     	  // myWriter("strb "+"r6, " +myStack.pop());
+     	  // myWriter("str "+"r6, " +myStack.pop());
      	   myStack.push("r6");
      }else if (((Var)e.e).id.id.equals("add")){
-    	   myWriter("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
-    	   myWriter("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+    	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+    	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
     	   myWriter("add r6, r4, r5\n");
-    	  // myWriter("strb "+"r6, " +myStack.pop());
+    	  // myWriter("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
-        	myWriter("mov r9, #"+(current_index+1)*4+"\n");
+        	myWriter("mov r9, #"+(current_index)*4+"\n");
         	myWriter("add sp, fp, r9\n");
         	myWriter("mov r9, #"+e.es.size()*4+"\n");
         	myWriter("add sp, sp, r9\n");
@@ -260,19 +260,19 @@ public class PrintARMFile implements Visitor {
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
-        	myWriter("ldrb  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
             myWriter("bl min_caml_print_int\n");
             
         }else {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-        	    	myWriter("strb "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
+        	    	myWriter("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
         	    }
         	}
         	myWriter("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
-				  myWriter("strb r0, " + myStack.pop()+"\n");
+				  myWriter("str r0, " + myStack.pop()+"\n");
 			}
         	 
         	myStack.push("r0");

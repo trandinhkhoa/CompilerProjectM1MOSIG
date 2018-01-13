@@ -152,7 +152,7 @@ public class PrintARM implements Visitor {
     	//System.out.println(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
-    		System.out.println("strb "+myStack.pop()+", " + getFP(e.id));
+    		System.out.println("str "+myStack.pop()+", " + getFP(e.id));
     	}
     	e.e2.accept(this);
     }
@@ -171,10 +171,10 @@ public class PrintARM implements Visitor {
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
     	if(index!=-1) {
-    		System.out.println("ldrb  r8, [ fp, #-"+ ((1+index)*4)+" ]");
+    		System.out.println("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]");
 	    	myStack.push("r8");	
     	}else {
-	    	System.out.println("ldrb  r7, "+getFP(e.id));
+	    	System.out.println("ldr  r7, "+getFP(e.id));
 	    	myStack.push("r7");
     	}
     	
@@ -220,16 +220,16 @@ public class PrintARM implements Visitor {
     public void visit(App e){
     	//System.out.println(e);
     	if (((Var)e.e).id.id.equals("sub")){
-     	   System.out.println("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id));
-     	   System.out.println("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id));
+     	   System.out.println("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id));
+     	   System.out.println("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id));
      	   System.out.println("sub r6, r4, r5");
-     	  // System.out.println("strb "+"r6, " +myStack.pop());
+     	  // System.out.println("str "+"r6, " +myStack.pop());
      	   myStack.push("r6");
      }else if (((Var)e.e).id.id.equals("add")){
-    	   System.out.println("ldrb  "+"r4, " +getFP(((Var)e.es.get(0)).id));
-    	   System.out.println("ldrb  "+"r5, " +getFP(((Var)e.es.get(1)).id));
+    	   System.out.println("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id));
+    	   System.out.println("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id));
     	   System.out.println("add r6, r4, r5");
-    	  // System.out.println("strb "+"r6, " +myStack.pop());
+    	  // System.out.println("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
         	System.out.println("mov r9, #"+(current_index+1)*4);
@@ -241,19 +241,19 @@ public class PrintARM implements Visitor {
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
-        	System.out.println("ldrb  "+"r0, " +getFP(((Var)e.es.get(0)).id));
+        	System.out.println("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id));
             System.out.println("bl min_caml_print_int");
             
         }else {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-        	    	System.out.println("strb "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]");
+        	    	System.out.println("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]");
         	    }
         	}
         	System.out.println("bl " + ((Var)e.e).id.id );
         	 if (!myStack.isEmpty()) {
-				  System.out.println("strb r0, " + myStack.pop());
+				  System.out.println("str r0, " + myStack.pop());
 			}
         	 
         	myStack.push("r0");

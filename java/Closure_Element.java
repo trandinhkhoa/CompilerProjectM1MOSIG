@@ -109,7 +109,7 @@ public class Closure_Element {
 				"sub sp, #"+ n +" # allocate memory to store local variables");*/
 		
 		System.out.println("stmfd sp!, {fp, lr}");
-		System.out.println("add fp, sp, #4");
+		System.out.println("mov fp, sp");
 	}
 	
 	public void epilogue() {
@@ -127,7 +127,7 @@ public class Closure_Element {
 				"add fp, sp, #4         # position fp on the address of old fp\n" + 
 				"sub sp, #"+ n +" # allocate memory to store local variables\n");*/
 		fw.write("stmfd sp!, {fp, lr}\n");
-		fw.write("add fp, sp, #4\n");
+		fw.write("mov fp, sp\n");
 			
 		}catch(Exception e) {
 			System.err.println ("Error during the reading : " + e.getMessage());
