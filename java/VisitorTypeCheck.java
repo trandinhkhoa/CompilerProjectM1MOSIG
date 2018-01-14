@@ -350,7 +350,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			System.err.println("Definition already present "+e.id);
 		}
 		Type t = e.e1.accept(this);
-		if(TVar.class==t.getClass()){
+		if((t!=null)&&(t.getClass() == TVar.class)){
 			if(e.t != t){
 				System.err.println("Type do not match " + e.id);
 			}
@@ -413,13 +413,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 
 	@Override
 	public Type visit(Array e) {
-		if(TInt.class != e.e1.accept(this).getClass()){
+		Type type1 = e.e1.accept(this);
+		if((type1!=null)&&(TInt.class != type1.getClass())){
 			System.err.println("Array expression must be of type Int");
 			return null;
 		}
 		else{
 			Type e_t = e.e2.accept(this);
-			if(e_t.getClass() == TInt.class){
+			if((e_t!=null)&&(e_t.getClass() == TInt.class)){
 				return new TInt();
 			}
 			else{
@@ -432,17 +433,19 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	public Type visit(Get e) {
 		Type type1 = e.e1.accept(this);
 		
-		if(type1.getClass() != TArray.class){	//if its not array
+		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
 			System.err.println("Expression is not array" + e);
 			errorSet=true;
 			System.exit(1);
 		}
-		if(TInt.class != e.e2.accept(this).getClass()){	//if the index is not int
+		Type type2 = e.e2.accept(this);
+		
+		if((type2!=null)&&(TInt.class != type2.getClass())){	//if the index is not int
 			System.err.println("Second expression of get must be of type Int");
 			errorSet=true;
 			System.exit(1);
 		}
-		if(type1.getClass()==TInt.class){
+		if((type1!=null)&&(type1.getClass()==TInt.class)){
 			return new TInt();
 		}
 		else{
@@ -456,17 +459,17 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		Type type2 = e.e2.accept(this);
 		Type type3 = e.e3.accept(this);
 		
-		if(type1.getClass() != TArray.class){	//if its not array
+		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
 			System.err.println("Expression is not array" + e);
 			errorSet=true;
 			System.exit(1);
 		}
-		if(TInt.class != e.e2.accept(this).getClass()){	//if the index is not int
+		if((type2!=null)&&(TInt.class != type2.getClass())){	//if the index is not int
 			System.err.println("Second expression of get must be of type Int");
 			errorSet=true;
 			System.exit(1);
 		}
-		if (type1.getClass()==TArray.class && type3.getClass()==TUnresolvedType.class){	//if e3 is undefined type
+		if ((type1!=null)&&(type3!=null)&&(type1.getClass()==TArray.class && type3.getClass()==TUnresolvedType.class)){	//if e3 is undefined type
 			if (TVar.class == type3.getClass()){
 				String str = ((Var)e.e3).id.id;
 				if (delVar.containsKey(str)){

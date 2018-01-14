@@ -10,6 +10,10 @@ public class Closure_Element {
 	public List<Id> parameters;
 	public Exp code;
 
+    public Closure_Element(){
+        //Placeholder for main at the start of Closure_list
+    }
+
 	public Closure_Element(Exp e) {
 		this.label = "_";
 		this.free_variables = new LinkedList<Id>();
@@ -100,23 +104,31 @@ public class Closure_Element {
 	
 	public void prologue() {
 		String n = ""+parameters.size();
-		System.out.println("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
+		/*System.out.println("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
 				"add fp, sp, #4         # position fp on the address of old fp\n" + 
-				"sub sp, #"+ n +" # allocate memory to store local variables");
+				"sub sp, #"+ n +" # allocate memory to store local variables");*/
+		
+		System.out.println("stmfd sp!, {fp, lr}");
+		System.out.println("mov fp, sp");
 	}
 	
 	public void epilogue() {
-		System.out.println("sub sp, fp, #4\n" + 
+		/*System.out.println("sub sp, fp, #4\n" + 
 				"ldmfd  sp!, {fp, lr}  \n" + 
-				"bx lr  ");
+				"bx lr  ");*/
+		System.out.println("ldmfd sp!, {fp,lr}");
+		System.out.println("bx lr");
 	}
 	
 	public void prologueFile(FileWriter fw) {
 		String n = ""+parameters.size();
 		try {
-		fw.write("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
+		/*fw.write("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
 				"add fp, sp, #4         # position fp on the address of old fp\n" + 
-				"sub sp, #"+ n +" # allocate memory to store local variables\n");
+				"sub sp, #"+ n +" # allocate memory to store local variables\n");*/
+		fw.write("stmfd sp!, {fp, lr}\n");
+		fw.write("mov fp, sp\n");
+			
 		}catch(Exception e) {
 			System.err.println ("Error during the reading : " + e.getMessage());
 		}
@@ -124,9 +136,12 @@ public class Closure_Element {
 	
 	public void epilogueFile(FileWriter fw) {
 		try {
-		fw.write("sub sp, fp, #4\n" + 
+		/*fw.write("sub sp, fp, #4\n" + 
 				"ldmfd  sp!, {fp, lr}  \n" + 
-				"bx lr  \n");
+				"bx lr  \n");*/
+		fw.write("ldmfd sp!, {fp,lr}\n");
+		fw.write("bx lr\n");
+			
 		}catch (Exception e) {
 			System.err.println ("Error during the reading : " + e.getMessage());
 		}

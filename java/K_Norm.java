@@ -40,7 +40,8 @@ class K_Norm implements ObjVisitor<Exp> {
 
 	public Exp visit(Neg e) {
 		Var v1 = new Var(new Id(gen()));
-		Let l = new Let(v1.id, new TInt(), e.e.accept(this), new Neg(v1));
+		Sub s = new Sub(new Int(0),e.e);
+		Let l = new Let(v1.id, new TInt(), s.accept(this), v1);
 		return l;
 	}
 
