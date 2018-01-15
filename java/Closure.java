@@ -37,10 +37,10 @@ public class Closure implements ObjVisitor<Exp> {
 	}
 	
     public Exp visit(Unit e) {
-    	// if ((s.isEmpty())&&(!main_done)) {
-		// 	main_done = true;
-    	// 	closure_list.add(new Closure_Element(e));
-    	// }
+    	 if ((s.isEmpty())&&(!main_done)) {
+		 	main_done = true;
+    	 	closure_list.add(new Closure_Element(e));
+    	 }
         return e;
     }
 

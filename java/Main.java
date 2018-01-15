@@ -198,8 +198,11 @@ public class Main {
 					  if(vopt&&vallopt) {
 						System.out.println("------ AST Closure ------");
 						for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-						  c.closure_list.get(i).print();
-						  System.out.println();
+							if ((c.closure_list.get(i) == null)||(c.closure_list.get(i).code == null)) {
+								c.closure_list.remove(i);
+							}else {
+							  c.closure_list.get(i).print();
+							  System.out.println();}
 						} System.out.println();
 					  
 					  

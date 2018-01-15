@@ -3,7 +3,7 @@ import java.util.List;
 
 class PrintASML implements Visitor {
     public void visit(Unit e) {
-        System.out.print("");
+        System.out.print("()");
     }
 
     public void visit(Bool e) {

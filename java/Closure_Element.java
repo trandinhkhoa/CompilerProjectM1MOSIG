@@ -34,27 +34,29 @@ public class Closure_Element {
 	}
 	
 	public void print() {
-		System.out.println("Label: " + label);
-		System.out.print("Free variables: ");
-		if (free_variables.size()==0) {
-			System.out.println("none");
-		}else {
-			for(int i = 0; i<free_variables.size()-1;i++) {
-				System.out.print(""+free_variables.get(i).id+", ");
+		if (label != null) {
+			System.out.println("Label: " + label);
+			System.out.print("Free variables: ");
+			if (free_variables.size()==0) {
+				System.out.println("none");
+			}else {
+				for(int i = 0; i<free_variables.size()-1;i++) {
+					System.out.print(""+free_variables.get(i).id+", ");
+				}
+				System.out.println(free_variables.get(free_variables.size()-1).id);;
 			}
-			System.out.println(free_variables.get(free_variables.size()-1).id);;
-		}
-		System.out.print("Parameters: ");
-		if (parameters.size()==0) {
-			System.out.println("none");
-		}else {
-			for(int i = 0; i<parameters.size()-1;i++) {
-				System.out.print(""+parameters.get(i).id+", ");
+			System.out.print("Parameters: ");
+			if (parameters.size()==0) {
+				System.out.println("none");
+			}else {
+				for(int i = 0; i<parameters.size()-1;i++) {
+					System.out.print(""+parameters.get(i).id+", ");
+				}
+				System.out.println(parameters.get(parameters.size()-1).id);;
 			}
-			System.out.println(parameters.get(parameters.size()-1).id);;
+			System.out.println("Code: ");
+			code.accept(new PrintASML());
 		}
-		System.out.println("Code: ");
-		code.accept(new PrintASML());
 	}
 	
 	public void printIn(FileWriter fw){
