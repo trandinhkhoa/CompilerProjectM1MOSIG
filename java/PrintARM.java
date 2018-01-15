@@ -263,7 +263,7 @@ public class PrintARM implements Visitor {
         	// System.out.print("mov r9, #"+2*4+"\n");
         	// System.out.print("add sp, sp, r9\n");     	
 
-            if (((current_index) * 4) <=-255){
+            if (((current_index) * 4) <=255){
                 System.out.print("mov r9, #-"+(current_index)*4+"\n");
             }
             else{

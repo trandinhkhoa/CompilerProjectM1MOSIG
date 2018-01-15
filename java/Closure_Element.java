@@ -119,6 +119,7 @@ public class Closure_Element {
 				"ldmfd  sp!, {fp, lr}  \n" + 
 				"bx lr  ");*/
 		System.out.println("ldmfd sp!, {fp,lr}");
+		System.out.println("mov sp, fp");
 		System.out.println("bx lr");
 	}
 	
@@ -128,7 +129,8 @@ public class Closure_Element {
 		/*fw.write("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
 				"add fp, sp, #4         # position fp on the address of old fp\n" + 
 				"sub sp, #"+ n +" # allocate memory to store local variables\n");*/
-		
+
+        	fw.write("stmfd sp!, {fp, lr}\n");
 		fw.write("mov fp, sp\n");
 			
 		}catch(Exception e) {
@@ -142,6 +144,7 @@ public class Closure_Element {
 				"ldmfd  sp!, {fp, lr}  \n" + 
 				"bx lr  \n");*/
 		fw.write("ldmfd sp!, {fp,lr}\n");
+		fw.write("mov sp, fp\n");
 		fw.write("bx lr\n");
 			
 		}catch (Exception e) {
