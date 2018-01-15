@@ -44,13 +44,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 
 	@Override
 	public Type visit(Neg e) {
-		if(e.e.accept(this).getClass()==TUnresolvedType.class){
+		
+		if(TInt.class==e.e.accept(this).getClass()){
+			return new TInt();
+		}else if(e.e.accept(this).getClass()==TUnresolvedType.class){
 			String str = ((Var) e.e).id.id;
 			System.out.println("Str" + ((Var) e.e).id.id);
 			delVar.put(str, new TInt());
-		}
-		if(TInt.class==e.e.accept(this).getClass()){
-			return new TInt();
+			return new TUnresolvedType();
 		}
 		else{
 			System.err.println("Type check error in Integer Negation" +e);
@@ -193,7 +194,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		
 		Type type = e.e1.accept(this);
-		if(type.getClass()==e.e2.accept(this).getClass() && type.getClass()==TFloat.class){
+		if(type.getClass()==type2.getClass() && type.getClass()==TFloat.class){
 			return new TFloat();
 		}
 		else{
@@ -219,7 +220,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		
 		Type type = e.e1.accept(this);
-		if(type.getClass()==e.e2.accept(this).getClass() && type.getClass()==TFloat.class){
+		if(type.getClass()==type2.getClass() && type.getClass()==TFloat.class){
 			return new TFloat();
 		}
 		else{
@@ -252,7 +253,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
 		}
-		if(e.e1.accept(this).getClass()==e.e2.accept(this).getClass()){
+		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
 		}
 		else{
@@ -285,7 +286,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
 		}
-		if(e.e1.accept(this).getClass()==e.e2.accept(this).getClass()){
+		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
 		}
 		else{
@@ -299,38 +300,41 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	@Override
 	public Type visit(If e) {
 		Type type_e1 =e.e1.accept(this);
+		Type type2 = e.e2.accept(this);
+		Type type3 = e.e3.accept(this);
 		if(type_e1.getClass()==TBool.class){
-			if(e.e2.accept(this).getClass()==TUnit.class){
-				if(e.e3.accept(this).getClass()==TUnit.class){
-					if(e.e2.accept(this).getClass()==e.e3.accept(this).getClass()){
+			if(type2.getClass()==TUnit.class){
+				if(type3.getClass()==TUnit.class){
+					if(type2.getClass()==type3.getClass()){
 						return new TUnit();
 					}
 					else{
-						System.err.println("Type check error in If1" + e);
+						System.err.println("Type check error in If" + e);
 						errorSet=true;
 						System.exit(1);
 						return null;
 					}
 				}
 				else{
-					System.err.println("Type check error in If2" + e);
+					System.err.println("Type check error in If" + e);
 					errorSet=true;
 					System.exit(1);
 					return null;
 				}
-			}else if(e.e3.accept(this).getClass()==TInt.class){
-				if(e.e2.accept(this).getClass()==e.e3.accept(this).getClass()){
+			}else if(type2.getClass()==TInt.class){
+				if(type2.getClass()==type3.getClass()){
 					return new TInt();
+					
 				}
 				else{
-					System.err.println("Type check error in If1" + e);
+					System.err.println("Type check error in If" + e);
 					errorSet=true;
 					System.exit(1);
 					return null;
 				}
 			}
 			else{
-				System.err.println("Type check error in If3" + e);
+				System.err.println("Type check error in If" + e);
 				errorSet=true;
 				System.exit(1);
 				return null;
@@ -366,6 +370,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			return delVar.get(e.id.id);
 		}
 		System.err.println("Undefined variable " + e.id);
+		errorSet=true;
+		System.exit(1);
 		return null;
 	}
 
@@ -388,7 +394,20 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	@Override
 	public Type visit(App e) {
 		// TODO Auto-generated method stub
-		return null;
+		if (((Var)e.e).id.id.equals("print_int")) {
+			if ((e.es.size()==1)&&(e.es.get(0).accept(this).getClass()==TInt.class)) {
+				return new TUnit();
+			}else {
+				errorSet=true;
+				System.exit(1);
+				return null;
+			}
+		}else {
+			for (int i = 0; i< e.es.size(); i++) {
+				e.es.get(i).accept(this);
+			}
+			return new TUnit();
+		}
 	}
 
 	 void printInfix2(List<Exp> l) {

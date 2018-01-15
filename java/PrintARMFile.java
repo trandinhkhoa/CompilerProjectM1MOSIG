@@ -284,7 +284,7 @@ public class PrintARMFile implements Visitor {
         	// myWriter("mov r9, #"+2*4+"\n");
         	// myWriter("add sp, sp, r9\n");     	
 
-            if (((current_index) * 4) <=-255){
+           if (((current_index) * 4) <= 255){
                 myWriter("mov r9, #-"+(current_index)*4+"\n");
             }
             else{
@@ -315,6 +315,7 @@ public class PrintARMFile implements Visitor {
         	    	myWriter("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
         	    }
         	}
+
         	myWriter("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
 				  myWriter("mov r0, " + myStack.pop()+"\n");

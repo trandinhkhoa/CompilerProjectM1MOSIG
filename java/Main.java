@@ -52,6 +52,7 @@ public class Main {
 	  static boolean oopt=  false;
 	  static boolean asmlopt = false;
 	  static boolean vopt = false;
+	  static boolean ntopt = false;
 	  static boolean vallopt = false;
 	  
 	  static boolean checkOpt(String argv[]){
@@ -78,6 +79,7 @@ public class Main {
 				}else if (s.equals("-v")){	vopt = true; options.add(s); 
 				}else if (s.equals("-all")){	vallopt = true; options.add(s); 
 				}else if (s.equals("-t")){	topt = true; options.add(s); needIn = true;
+				}else if (s.equals("-nt")){	ntopt = true; options.add(s); needIn = true;
 				}else if (s.equals("-p")){	popt = true; options.add(s); needIn = true;
 				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); needIn = true;
 				}else{
@@ -137,26 +139,30 @@ public class Main {
 			  }
 			  
 			  if(!popt){
-				  if(vopt&&vallopt) {
-				  	System.out.println("------ Type Check ------");
-				  
-				  }
-					  
-				  VisitorTypeCheck t = new VisitorTypeCheck();
 				  Exp expression2 = expression.accept(new Copy());
-				  expression2.accept(t);
-				  
-				  if(vopt&&vallopt){
-					  if(t.errorSet){
-						  System.out.println("Error from type check");
-					  }else {
-						  System.out.println("No error from type check");
+				  if (!ntopt) {
+					  if(vopt&&vallopt) {
+					  	System.out.println("------ Type Check ------");
+					  
 					  }
-					  System.out.println();
-				  }else if (vopt){
-					  System.out.println("Type check done.");
-					   
+						  
+					  VisitorTypeCheck t = new VisitorTypeCheck();
+					
+					  expression2.accept(t);
+					
+					  
+					  if(vopt&&vallopt){
+						  if(t.errorSet){
+							  System.out.println("Error from type check");
+						  }else {
+							  System.out.println("No error from type check");
+						  }
+						  System.out.println();
+					  }else if (vopt){
+						  System.out.println("Type check done.");   
+					  }
 				  }
+				  
 				  if(!topt) {
 					  K_Norm k = new K_Norm();
 					  expression2 = expression2.accept(k);
