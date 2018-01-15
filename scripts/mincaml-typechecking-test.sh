@@ -27,36 +27,6 @@ MINCAMLC=java/mincamlc
 
 echo "------------- ${Bold}${Blue}W${Yellow}e${LRed}l${Cyan}c${LGreen}o${Orange}m${Purple}e ${Blue}t${Red}o ${Orange}U${LBlue}l${LPurple}t${Green}i${Cyan}m${Gray}a${Blue}t${Yellow}e${LCyan}T${LRed}e${Cyan}a${Orange}m ${Purple}C${Blue}o${Red}m${Green}p${Gray}i${LRed}l${Orange}e${Cyan}r ${Red}T${Green}e${LRed}s${LGreen}t${LRed}s ${Normal}-------------" 
 
-
-# echo "${Yellow}${Bold}${Uline}Given Syntax Test:${NC}${Normal}${NUline}"
-# echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
-#for test_case in tests/syntax/valid/*.ml
-#do
-    #name =$(basename "$test_case")
-    #fname = "${name%.*}"
-#    name=${test_case##*/}
-#    echo -n "${name%.*}"
-#    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
-#    then
-#        echo "${Green}|-> OK${NC}"
-#    else 
-#        echo "${Red}|-> KO${NC}"
-#    fi
-#done
-
-#echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
-#for test_case in tests/syntax/invalid/*.ml
-#do
-#    name=${test_case##*/}
-#    echo -n "${name%.*}"
-#    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
-#    then
-#        echo "${Red}|-> KO${NC}"
-#    else 
-#        echo "${Green}|-> OK${NC}"
-#    fi
-#done
-
 echo "${Yellow}${Bold}${Uline}Type Checking Test:${NC}${Normal}${NUline}"
 echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
 for test_case in tests/typechecking/valid/*.ml
@@ -70,9 +40,49 @@ do
 	echo "${Red}|-> KO${NC}"
     fi
 done
+for test_case in tests/typechecking/valid/Given-Mincaml-examples/*.ml
+do
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
+    then 
+	echo "${Green}|-> OK${NC}"
+    else 
+	echo "${Red}|-> KO${NC}"
+    fi
+done
 
+echo 
+echo "un-handled-cases****"
+echo 
+for test_case in tests/typechecking/valid/un-handled-cases/*.ml
+do
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
+    then 
+	echo "${Green}|-> OK${NC}"
+    else 
+	echo "${Red}|-> KO${NC}"
+    fi
+done
 echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
 for test_case in tests/typechecking/invalid/*.ml
+do
+    name=${test_case##*/}
+    echo -n "${name%.*}"
+    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
+    then
+        echo "${Red}|-> KO${NC}"
+    else 
+        echo "${Green}|-> OK${NC}"
+    fi
+done
+
+echo
+echo -n "un-handled-cases***"
+echo
+for test_case in tests/typechecking/invalid/un-handled-cases/*.ml
 do
     name=${test_case##*/}
     echo -n "${name%.*}"
