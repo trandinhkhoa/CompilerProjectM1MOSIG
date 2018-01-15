@@ -23,48 +23,39 @@ LCyan='\033[1;36m'
 
 NC='\033[0m' 
 
-# TODO change this to point to your mincamlc executable if it's different, or add
-# it to your PATH. Use the appropriate option to run the parser as soon
-# as it is implemented
 MINCAMLC=java/mincamlc
-
-# run all test cases in syntax/valid and make sure they are parsed without error
-# run all test cases in syntax/invalid and make sure the parser returns an error
-
-# TODO extends this script to run test in subdirectories
-# 
 
 echo "------------- ${Bold}${Blue}W${Yellow}e${LRed}l${Cyan}c${LGreen}o${Orange}m${Purple}e ${Blue}t${Red}o ${Orange}U${LBlue}l${LPurple}t${Green}i${Cyan}m${Gray}a${Blue}t${Yellow}e${LCyan}T${LRed}e${Cyan}a${Orange}m ${Purple}C${Blue}o${Red}m${Green}p${Gray}i${LRed}l${Orange}e${Cyan}r ${Red}T${Green}e${LRed}s${LGreen}t${LRed}s ${Normal}-------------" 
 
 
-echo "${Yellow}${Bold}${Uline}Given Syntax Test:${NC}${Normal}${NUline}"
-echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
-for test_case in tests/syntax/valid/*.ml
-do
+# echo "${Yellow}${Bold}${Uline}Given Syntax Test:${NC}${Normal}${NUline}"
+# echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"
+#for test_case in tests/syntax/valid/*.ml
+#do
     #name =$(basename "$test_case")
     #fname = "${name%.*}"
-    name=${test_case##*/}
-    echo -n "${name%.*}"
-    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
-    then
-        echo "${Green}|-> OK${NC}"
-    else 
-        echo "${Red}|-> KO${NC}"
-    fi
-done
+#    name=${test_case##*/}
+#    echo -n "${name%.*}"
+#    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
+#    then
+#        echo "${Green}|-> OK${NC}"
+#    else 
+#        echo "${Red}|-> KO${NC}"
+#    fi
+#done
 
-echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
-for test_case in tests/syntax/invalid/*.ml
-do
-    name=${test_case##*/}
-    echo -n "${name%.*}"
-    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
-    then
-        echo "${Red}|-> KO${NC}"
-    else 
-        echo "${Green}|-> OK${NC}"
-    fi
-done
+#echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
+#for test_case in tests/syntax/invalid/*.ml
+#do
+#    name=${test_case##*/}
+#    echo -n "${name%.*}"
+#    if $MINCAMLC -p "$test_case" 2> /dev/null 1> /dev/null
+#    then
+#        echo "${Red}|-> KO${NC}"
+#    else 
+#        echo "${Green}|-> OK${NC}"
+#    fi
+#done
 
 echo "${Yellow}${Bold}${Uline}Type Checking Test:${NC}${Normal}${NUline}"
 echo "${Cyan}${Bold}Valid Tests:${NC}${Normal}"

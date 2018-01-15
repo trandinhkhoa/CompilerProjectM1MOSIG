@@ -14,13 +14,13 @@ NC='\033[0m'
 
 echo "${Yellow}${Bold}${Uline}Code Gen Test:${NC}${Normal}${NUline}"
 cd "../CompilerProjectM1MOSIG"
-for test_case in tests/CodeGen/valid/*.ml
+for test_case in tests/gen-code/*.ml
 do
 fname=$(basename "$test_case")
 extension="${fname##*.}"
 name="${fname%.*}"
 echo -n $name": "
-ocaml $test_case > "./ARM/expected/"$name.txt""
+ocaml $test_case > "./ARM/expected/"$name.expected"" 2> /dev/null 1> /dev/null
 
 $MINCAMLC $test_case 2> /dev/null 1> /dev/null
 
@@ -35,10 +35,9 @@ arm-none-eabi-as -o actual/"$name.o" actual/"$name.s" libmincaml.S 2> /dev/null 
 #Generate .arm
 arm-none-eabi-ld -o actual/"$name.arm" actual/"$name.o" 2> /dev/null 1> /dev/null
 #Generate .txt
-qemu-arm actual/"$name.arm" > actual/"$name.txt"
+qemu-arm actual/"$name.arm" > actual/"$name.actual"
 
-
-if diff actual/"$name.txt" expected/"$name.txt" 2> /dev/null 1> /dev/null
+if diff actual/"$name.actual" expected/"$name.expected" 2> /dev/null 1> /dev/null
 then 
 	echo "${Green}|-> OK${NC}"
 else
