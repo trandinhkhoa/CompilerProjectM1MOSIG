@@ -78,17 +78,17 @@ public class Main {
 				}else if (s.equals("-h")){	hopt = true; options.add(s);
 				}else if (s.equals("-v")){	vopt = true; options.add(s); 
 				}else if (s.equals("-all")){	vallopt = true; options.add(s); 
-				}else if (s.equals("-t")){	topt = true; options.add(s); needIn = true;
-				}else if (s.equals("-nt")){	ntopt = true; options.add(s); needIn = true;
-				}else if (s.equals("-p")){	popt = true; options.add(s); needIn = true;
-				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); needIn = true;
+				}else if (s.equals("-t")){	topt = true; options.add(s); //needIn = true;
+				}else if (s.equals("-nt")){	ntopt = true; options.add(s);// needIn = true;
+				}else if (s.equals("-p")){	popt = true; options.add(s); //needIn = true;
+				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); //needIn = true;
 				}else{
 					if (needIn && needOut ){
 						return false;
+						}else if (needOut){
+							fileOut = argv[i]; needOut = false;
 					}else if (needIn){
 						fileIn = argv[i]; needIn = false;
-					}else if (needOut){
-						fileOut = argv[i]; needOut = false;
 					}else {
 						if (fileIn.equals("")){
 							fileIn = s;
