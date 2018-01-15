@@ -1,23 +1,35 @@
 import java.util.*;
 
 
-public class alpha_conversion implements ObjVisitor<Exp> {
+class alpha_conversion implements ObjVisitor<Exp> {
 
-    public Stack hashmapStack;
+    // HashMap<String, List> hashmap = new HashMap<String, List>();
+    Stack hashmapStack;
+    // HashMap<String,String> hm = new HashMap<String,String>();
 
-    public static int x = -1;
-    public static int level = 0;
-    public static String gen() {
+    static int x = -1;
+    static int level = 0;
+    static String gen() {
         x++;
         return "temp" + x;
     }
-
+	
+	/**
+	 * Constructor of the alpha_conversion class.
+	 * 
+	 * @param x	identifier
+	 */
     public alpha_conversion(int x) {
         this.x = x;
         hashmapStack = new Stack();
     }
 
-   void displayHashMap(HashMap<String, List> hashmap) {
+    /**
+     * Displays the hashmap.
+     * 
+     * @param hashmap	list of all 
+     */
+    public void displayHashMap(HashMap<String, List> hashmap) {
         Set set = hashmap.entrySet();
         Iterator i = set.iterator();
         System.out.println("Display Hashmap:");
@@ -28,47 +40,123 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         }
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Unit e) {
+        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Bool e) {
+        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
-    public Exp visit(Int e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+   public Exp visit(Int e) {
+        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
-    public Exp visit(Float e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+   public Exp visit(Float e) {
+        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
-    public Exp visit(Not e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+   public Exp visit(Not e) {
+        // System.out.println("Current exp is " + e.toString());
         return e.e.accept(this);
     }
 
-    public Exp visit(Neg e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+   public Exp visit(Neg e) {
+        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Add e) {
         Add a = new Add(e.e1.accept(this), e.e2.accept(this));
         return a;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Sub e) {
         Sub a = new Sub(e.e1.accept(this), e.e2.accept(this));
         return a;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(FNeg e) {
         Var v1 = new Var(new Id(gen()));
         Let l = new Let(v1.id, new TFloat(), e.e.accept(this), new FNeg(v1));
         return l;
     }
 
-    public Exp visit(FAdd e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+      public Exp visit(FAdd e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
         Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FAdd(v1, v2));
@@ -76,7 +164,14 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
-    public Exp visit(FSub e) {
+  	/**
+  	 * Visitor returning the expression after alpha-conversion.
+  	 * 
+  	 * @param e	input expression
+  	 * 
+  	 * @return The alpha-converted expression.
+  	 */
+  public Exp visit(FSub e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
         Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FSub(v1, v2));
@@ -84,6 +179,13 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(FMul e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
@@ -92,6 +194,13 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(FDiv e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
@@ -100,6 +209,13 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Eq e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
@@ -108,6 +224,13 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(LE e) {
         Var v1 = new Var(new Id(gen()));
         Var v2 = new Var(new Id(gen()));
@@ -116,7 +239,14 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return l1;
     }
 
-    public Exp visit(If e) {
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
+   public Exp visit(If e) {
         Let l1 = (Let) e.e1.accept(this);
         Let l2 = (Let) l1.e2;
         Exp eq = l2.e2;
@@ -124,10 +254,17 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         Let lt2 = new Let(l2.id, l2.t, l2.e1, si);
         Let lt1 = new Let(l1.id, l1.t, l1.e1, lt2);
         return lt1;
-
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Let e) {
+        // System.out.println("Current exp is " + e.toString());
         //this only to provide something to return after try catch
         Let returnL = new Let(e.id, e.t, e.e1, e.e2);
         try {
@@ -144,7 +281,9 @@ public class alpha_conversion implements ObjVisitor<Exp> {
             HashMap<String, List> newHashmap = new HashMap<String, List>();
             newHashmap = (HashMap)peekObject.clone();
             if (peekObject.containsKey(e.id.id)) {
+                // System.out.println("LET " + e.id.id + " DOES exist");
                 // creating a new name
+                //let x' = Id.genid x
                 Var v = new Var(new Id(gen()));
 
                 // add new name mapping to the new hashmap
@@ -160,6 +299,8 @@ public class alpha_conversion implements ObjVisitor<Exp> {
                 return l;
                 // if x in let x = e1 in e2 does not exist, add the mapping current name -> current name to hashmap -> push hashmap to stack
             } else {
+                // System.out.println("LET " + e.id.id + " DOES NOT exist");
+
                 // add new name mapping to the new hashmap
                 List<Id> newNameList = new ArrayList<Id>();
                 newNameList.add(e.id);
@@ -182,8 +323,18 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return returnL;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(LetRec e) {
-       //New function name
+        // System.out.println("--------------------------------------------");
+        // System.out.println("Current Exp is" + e);
+        // System.out.println("\tFunDef is " + e.fd.id + " \tArg List is " + e.fd.args + " and e is " + e.e);
+        //New function name
         String newFunctionName;
         // return the hashmap at the top of the stack
         HashMap<String, List> peekObject = new HashMap<String, List>();
@@ -200,7 +351,9 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         //let env = M.add x (Id.genid x) env in
         // if x in let x = e1 in e2 already existed, map to a new name
         if (peekObject.containsKey(e.fd.id.id)) {
+            // System.out.println("LETREC " + e.fd.id.id + " DOES exist");
             // creating a new name
+            //let x' = Id.genid x
             Var v = new Var(new Id(gen()));
 
             //Replace old function name with new name = find x env
@@ -212,6 +365,7 @@ public class alpha_conversion implements ObjVisitor<Exp> {
             hashmapStack.push(newHashmap);
             // if x in let x = e1 in e2 does not exist, add the mapping current name -> current name to hashmap -> push hashmap to stack
         } else {
+            // System.out.println("LETREC " + e.fd.id.id + " DOES NOT exist");
 
             // add new name mapping to the new hashmap
             List<Id> newNameList = new ArrayList<Id>();
@@ -234,7 +388,9 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         while (i.hasNext()) {
             String str = i.next().toString();
             if (newHashmap.containsKey(str)) {//e.fd.id is not string
+                // System.out.println("LETREC ARGS " + str + " DOES exist");
                 // creating a new name
+                //let x' = Id.genid x
                 Var v = new Var(new Id(gen()));
 
                 //Replace old function arg list with new list 
@@ -243,6 +399,7 @@ public class alpha_conversion implements ObjVisitor<Exp> {
                 // add new name mapping to the new hashmap
                 newHashmap.get(str).add(v.id);
             } else {
+                // System.out.println("LETREC ARGS " + str + " DOES NOT exist");
                 // add new name mapping to the new hashmap
                 List<Id> newNameList = new ArrayList<Id>();
                 newNameList.add(new Id(str));
@@ -259,9 +416,17 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         LetRec lr = new LetRec(fd2, e22);
         hashmapStack.pop();
 
+        // System.out.println("--------------------------------------------");
         return lr;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Var e) {
         // System.out.println("Current exp is " + e.toString());
         HashMap<String, List> newHashmap = new HashMap<String, List>();
@@ -269,9 +434,12 @@ public class alpha_conversion implements ObjVisitor<Exp> {
             newHashmap = (HashMap)hashmapStack.peek();
         }
         if (newHashmap.containsKey(e.id.id)) {
+            // System.out.println("VAR " + e.id.id + " DOES exist");
+            // System.out.println("Replaced by " + hm.get(e.id.id).get(hm.get(e.id.id).size() - 1));
             Var newE = new Var((Id)newHashmap.get(e.id.id).get(newHashmap.get(e.id.id).size() - 1));
             return newE;
         } else {
+            // System.out.println("VAR " + e.id.id + " DOES NOT exist");
             List<Id> newNameList = new ArrayList<Id>();
             newNameList.add(e.id);
             newHashmap.put(e.id.id, newNameList);
@@ -280,23 +448,14 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         }
     }
 
-
-    // print sequence of identifiers
-    static <E> Exp printInfix(List<E> l, String op) {
-        if (l.isEmpty()) {
-            return new Unit();
-        }
-        Iterator<E> it = l.iterator();
-        it.next();
-        while (it.hasNext()) {
-            it.next();
-        }
-        return new Unit();
-    }
-
-
-    // print sequence of Exp
-    List<Exp> printInfix2(List<Exp> l) {
+    /**
+ 	 * Returns a linked list of the expressions.
+ 	 * 
+ 	 * @param l	input list of expressions
+ 	 * 
+ 	 * @return A linked list of the expressions.
+ 	 */
+     List<Exp> printInfix2(List<Exp> l) {
         List<Exp> new_list = new LinkedList<Exp>();
         new_list.clear();
         if (l.isEmpty()) {
@@ -309,41 +468,108 @@ public class alpha_conversion implements ObjVisitor<Exp> {
         return new_list;
     }
 
-    public Exp rec_app(Exp e, Exp app) {
-        Let l = (Let)e;
-        if (l.id.id.equals("\0")) {
-            System.out.println(l.id.id);
-            return app;
-        } else {
-            return (Exp) new Let(l.id, l.t, l.e1, rec_app(l.e2, app));
-        }
-    }
+// USELESS ??
+     public Exp rec_app(Exp e, Exp app) {
+         Let l = (Let)e;
+         if (l.id.id.equals("\0")) {
+             System.out.println(l.id.id);
+             return app;
+         } else {
+             return (Exp) new Let(l.id, l.t, l.e1, rec_app(l.e2, app));
+         }
+     }
 
+ 	/**
+ 	 * Visitor returning the expression after alpha-conversion.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return The alpha-converted expression.
+ 	 */
     public Exp visit(App e) {
+        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
         App app = new App(e.e.accept(this), printInfix2(e.es));
         return app;
+        /*List<Exp> l = printInfix2(e.es);
+        Iterator it = l.iterator();
+        List<Exp> l2 = new LinkedList<Exp>();
+        Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
+        while (it.hasNext()) {
+            Exp exp = (Exp) it.next();
+            if(exp.getClass()==Let.class){
+
+                System.out.println("YO");
+                Let lt = (Let) exp;
+                l2.add(new Var(lt.id));
+                new_l = new Let(lt.id,lt.t,lt.e1,new_l);
+            }else {
+                l2.add(exp);
+            }
+        }
+        Exp app;
+        app = new App(e.e.accept(this),l2);
+        if (!new_l.id.id.equals("\0")) {
+            new_l = (Let) rec_app(new_l,app);
+            app = new_l;
+        }
+        return app;*/
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Tuple e) {
         Tuple t = new Tuple(printInfix2(e.es));
         return t;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(LetTuple e) {
         LetTuple lt = new LetTuple(e.ids, e.ts, e.e1.accept(this), e.e2.accept(this));
         return lt;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Array e) {
         Array a = new Array(e.e1.accept(this), e.e2.accept(this));
         return a;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Get e) {
         Get g = new Get(e.e1.accept(this), e.e2.accept(this));
         return g;
     }
 
+	/**
+	 * Visitor returning the expression after alpha-conversion.
+	 * 
+	 * @param e	input expression
+	 * 
+	 * @return The alpha-converted expression.
+	 */
     public Exp visit(Put e) {
         Put p = new Put(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
         return p;

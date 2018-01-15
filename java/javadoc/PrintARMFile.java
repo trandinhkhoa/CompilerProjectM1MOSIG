@@ -5,6 +5,8 @@ import java.util.Stack;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// JAVADOC TO DO
+
 public class PrintARMFile implements Visitor {
 	
 	static String[] register_tab = new String[16];
@@ -15,18 +17,12 @@ public class PrintARMFile implements Visitor {
     FileWriter fw_arm;	
     int current_index;
     List<Id> parameters;
-    int if_i;
-    int els_i;
-    int ex_i;
 	
-	public PrintARMFile(FileWriter fw,int ci,List<Id> param,int if_i,int els_i,int ex_i) {
+	public PrintARMFile(FileWriter fw,int ci,List<Id> param) {
 		 cpt_then=0;
 	     cpt_else=0;
 	     cpt_next=0;
 	     current_index = ci;
-	     this.if_i=if_i;
-	     this.els_i=els_i;
-	     this.ex_i=ex_i;
 	     parameters = new LinkedList<Id>();
 	     parameters.addAll(param);
 	     myStack = new Stack<String>();
@@ -62,8 +58,7 @@ public class PrintARMFile implements Visitor {
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
     		int sn = Integer.parseInt(s);
-    		// s = "[ fp, #"+(4*sn)+" ]";
-    		s = "[ fp, #-"+(4*sn)+" ]";
+    		s = "[ fp, #"+(4*sn)+" ]";
     	}
     	return s;
     }
@@ -72,22 +67,17 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Bool e) {
-    	if (e.b) {
-    		myWriter("mov r10 , #1\n");
+       if (e.b) {
+    	myWriter("1");
        }else {
-    	   myWriter("mov r10, #0\n");
+       	myWriter("0");
        }
-       myStack.push("r10");
     }
 
     public void visit(Int e) {
-    	if (((e.i) >=-255 )&&((e.i) <=255 )){
-    		myWriter("mov r5, #"+e.i+"\n");
-        }
-        else{
-        	myWriter("ldr r5, =#0x"+Integer.toHexString(e.i)+"\n");
-        }
-    	   myStack.push("r5");       
+    	//myWriter(e);
+    	myWriter("mov r5, #"+e.i+"\n");
+            myStack.push("r5");
     }
 
     public void visit(Float e) {
@@ -152,53 +142,30 @@ public class PrintARMFile implements Visitor {
     }
 
     
-    void ifEpilogue(If e, int if_i, int els_i, int ex_i) {
-    	myWriter("then"+if_i+" :\n");
+    void ifEpilogue(If e) {
+    	myWriter("then: \n");
 		e.e2.accept(this);
-		myWriter("bal exit"+ex_i+"\n");
-		myWriter("else"+els_i+": \n"); 
+		myWriter("bal exit\n");
+		myWriter("else: \n"); 
 		e.e3.accept(this);
-		myWriter("exit"+ex_i+":\n");
+		myWriter("exit:\n");
     }
     
     public void visit(If e){
     	//myWriter(e);
-    	
-    	int if_i2 = if_i;
-    	int els_i2 = els_i;
-    	int ex_i2=ex_i;
-
-		this.if_i++;
-		this.els_i++;
-		this.ex_i++;
-    	
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
-            myWriter("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((Eq)e.e1).e2).accept(this);
-             // myWriter("Im HERE\n" + myStack);
-             //khoaNote: cmp r7 r7
-    		 // myWriter("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
-    		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
-    		 myWriter("beq " + "then"+if_i2+"\n");
-    		 myWriter("bal " + "else"+els_i2+"\n");
-    	}else if (e.e1.getClass() == LE.class) {
-    		((Var)((LE)e.e1).e1).accept(this);
-            myWriter("mov r12, " + myStack.pop() + "\n");
-    		 ((Var)((LE)e.e1).e2).accept(this);
-    		// myWriter("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
-    		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
-    		myWriter("ble " + "then"+if_i2+"\n");
-    		myWriter("bal " + "else"+els_i2+"\n");   	    
-        }else if (e.e1.getClass() == Bool.class){//if (e.e1.getClass() == Eq.class) {
-        		((Bool)e.e1).accept(this);
-        		myWriter("mov r12, " + myStack.pop() + "\n");
-        		myWriter("cmp r12" + ", #1\n");
-        		myWriter("ble " + "then"+if_i2+"\n");
-        		myWriter("bal " + "else"+els_i2+"\n");
-        	}
+    		 myWriter("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
+    		 myWriter("beq " + "then\n");
+    		 myWriter("bal " + "else\n");
+    	}else {//if (e.e1.getClass() == Eq.class) {
+    		myWriter("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
+    		myWriter("ble " + "then\n");
+    		myWriter("bal " + "else\n");
+    	}
 
-		ifEpilogue(e,if_i2,els_i2,ex_i2);
+		ifEpilogue(e);
        
     }
 
@@ -224,10 +191,8 @@ public class PrintARMFile implements Visitor {
 
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
-        // myWriter("IM HERE. Parameter list size is " + parameters.size() +"\n");
     	if(index!=-1) {
-    		// myWriter("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
-    		myWriter("ldr  r8, [ fp, #"+ ((1+index)*4 + 8)+" ]\n");
+    		myWriter("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
 	    	myStack.push("r8");	
     	}else {
     		myWriter("ldr  r7, "+getFP(e.id)+"\n");
@@ -275,7 +240,6 @@ public class PrintARMFile implements Visitor {
     
     public void visit(App e){
     	//myWriter(e);
-        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
     	if (((Var)e.e).id.id.equals("sub")){
      	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
      	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
@@ -289,66 +253,28 @@ public class PrintARMFile implements Visitor {
     	  // myWriter("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
-        	// myWriter("mov r9, #"+(current_index)*4+"\n");
-        	// myWriter("add sp, fp, r9\n");
-        	// myWriter("mov r9, #"+e.es.size()*4+"\n");
-        	// myWriter("add sp, sp, r9\n");
-        	// myWriter("mov r9, #"+2*4+"\n");
-        	// myWriter("add sp, sp, r9\n");     	
-
-           // if (((current_index) * 4) <= 255){
-           //      myWriter("mov r9, #-"+(current_index)*4+"\n");
-           //  }
-           //  else{
-           //      // myWriter("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
-           //      myWriter("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
-           //  }
-        	// myWriter("add sp, fp, r9\n");
-        	// myWriter("mov r9, #-"+e.es.size()*4+"\n");
-        	// myWriter("add sp, sp, r9\n");
-        	// myWriter("mov r9, #-"+2*4+"\n");
-        	// myWriter("add sp, sp, r9\n");     	
+        	myWriter("mov r9, #"+(current_index)*4+"\n");
+        	myWriter("add sp, fp, r9\n");
+        	myWriter("mov r9, #"+e.es.size()*4+"\n");
+        	myWriter("add sp, sp, r9\n");
+        	myWriter("mov r9, #"+2*4+"\n");
+        	myWriter("add sp, sp, r9\n");     	
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
         	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
             myWriter("bl min_caml_print_int\n");
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_char"))){
-        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
-            myWriter("bl min_caml_print_char\n");
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_newline"))){ 
-        	myWriter("bl min_caml_print_newline\n");
+            
         }else {
-
-
-           if (((current_index) * 4) <= 255){
-                myWriter("mov r9, #-"+(current_index)*4+"\n");
-            }
-            else{
-                // myWriter("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
-                myWriter("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
-            }
-        	myWriter("add sp, fp, r9\n");
-        	myWriter("mov r9, #-"+e.es.size()*4+"\n");
-        	myWriter("add sp, sp, r9\n");
-        	myWriter("mov r9, #-"+2*4+"\n");
-        	myWriter("add sp, sp, r9\n");     	
-
-
-
-
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-                    // myWriter("IM HERE\n");
-        	    	// myWriter("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
-        	    	myWriter("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
+        	    	myWriter("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
         	    }
         	}
-
         	myWriter("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
-				  myWriter("mov r0, " + myStack.pop()+"\n");
+				  myWriter("str r0, " + myStack.pop()+"\n");
 			}
         	 
         	myStack.push("r0");
