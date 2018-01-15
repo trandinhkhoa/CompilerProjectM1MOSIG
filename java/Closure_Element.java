@@ -128,7 +128,7 @@ public class Closure_Element {
 		/*fw.write("stmfd  sp!, {fp, lr}   # save fp and lr on the stack\n" + 
 				"add fp, sp, #4         # position fp on the address of old fp\n" + 
 				"sub sp, #"+ n +" # allocate memory to store local variables\n");*/
-		fw.write("stmfd sp!, {fp, lr}\n");
+		
 		fw.write("mov fp, sp\n");
 			
 		}catch(Exception e) {
