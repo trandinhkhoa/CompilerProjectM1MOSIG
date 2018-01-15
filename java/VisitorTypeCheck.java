@@ -370,7 +370,8 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			return delVar.get(e.id.id);
 		}
 		System.err.println("Undefined variable " + e.id);
-	//	System.exit(1);
+		errorSet=true;
+		System.exit(1);
 		return null;
 	}
 
@@ -393,10 +394,20 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	@Override
 	public Type visit(App e) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i< e.es.size(); i++) {
-			e.es.get(i).accept(this);
+		if (((Var)e.e).id.id.equals("print_int")) {
+			if ((e.es.size()==1)&&(e.es.get(0).accept(this).getClass()==TInt.class)) {
+				return new TUnit();
+			}else {
+				errorSet=true;
+				System.exit(1);
+				return null;
+			}
+		}else {
+			for (int i = 0; i< e.es.size(); i++) {
+				e.es.get(i).accept(this);
+			}
+			return new TUnit();
 		}
-		return new TUnit();
 	}
 
 	 void printInfix2(List<Exp> l) {
