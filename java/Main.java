@@ -68,6 +68,7 @@ public class Main {
 	  static boolean parseCommand(String argv[]){
 	  
 		if (!checkOpt(argv)){
+			System.err.println("Too many arguments.");
 			return false;
 		}
 		boolean needIn = false;
@@ -79,15 +80,13 @@ public class Main {
 				}else if (s.equals("-h")){	hopt = true; options.add(s);
 				}else if (s.equals("-v")){	vopt = true; options.add(s); 
 				}else if (s.equals("-all")){	vallopt = true; options.add(s); 
-				}else if (s.equals("-eqt")){	eqtopt = true; options.add(s); //needIn = true;
-				}else if (s.equals("-t")){	topt = true; options.add(s); //needIn = true;
-				}else if (s.equals("-nt")){	ntopt = true; options.add(s);// needIn = true;
-				}else if (s.equals("-p")){	popt = true; options.add(s); //needIn = true;
-				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); //needIn = true;
+				}else if (s.equals("-eqt")){	eqtopt = true; options.add(s); 
+				}else if (s.equals("-t")){	topt = true; options.add(s); 
+				}else if (s.equals("-nt")){	ntopt = true; options.add(s);
+				}else if (s.equals("-p")){	popt = true; options.add(s); 
+				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); 
 				}else{
-					if (needIn && needOut ){
-						return false;
-						}else if (needOut){
+				    if (needOut){
 							fileOut = argv[i]; needOut = false;
 					}else if (needIn){
 						fileIn = argv[i]; needIn = false;
@@ -95,6 +94,7 @@ public class Main {
 						if (fileIn.equals("")){
 							fileIn = s;
 						}else {
+							System.err.println("Too many arguments.");
 							return false;
 						}
 					}
@@ -102,6 +102,11 @@ public class Main {
 		}
 		
 		if(hopt||(topt&&popt)||needIn||needOut||(asmlopt&&!oopt)){
+			if(topt&&popt) {
+				System.err.println("You have to choose between type only and parser only.");
+			}else if (needIn || needOut) {
+				System.err.println("You forgot an argument.");
+			}
 			return false;
 		}
 		
@@ -120,14 +125,12 @@ public class Main {
 		  
 		if(! parseCommand(argv) ) {
 			printHelp();
-		
 		}else {
 		  
 			try {  	
 			
 			  Parser p = new Parser(new Lexer(new FileReader(fileIn)));
 			  Exp expression = (Exp) p.parse().value;      
-			  //System.out.println("------ Print here ------");
 			  assert (expression != null);
 			  
 				    
@@ -241,9 +244,7 @@ public class Main {
 							  c.closure_list.get(i).printASML();
 							  System.out.println();System.out.println();
 						  }
-					  }  
-					 // expression2 = expression2.accept(new Reg_Alloc());
-					  
+					  }  					  
 					  
 					  if(vopt&&vallopt) {
 						  System.out.println("------ AST Register Allocation ------");
@@ -348,7 +349,7 @@ public class Main {
 			  }
 			  System.exit(0);
 			} catch (FileNotFoundException e) {
-				System.out.print("Sorry, but the file doesn't exist ...");
+				System.err.print("Sorry, but the file doesn't exist ...");
 				System.exit(1);   
 			}catch (NotYetImplementedException e) {
 				System.err.println(e.getMessage());

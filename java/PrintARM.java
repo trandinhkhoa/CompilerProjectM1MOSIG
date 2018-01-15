@@ -32,16 +32,12 @@ public class PrintARM implements Visitor {
 				register_tab[i]="";
 			}
 		}
-
-
-   
 	
     public String getFP(Id i) {
     	String s = i.id;
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
     		int sn = Integer.parseInt(s);
-    		// s = "[ fp, #"+(4*sn)+" ]";
     		s = "[ fp, #-"+(4*sn)+" ]";
     	}
     	return s;
@@ -72,64 +68,39 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Float e) {
-    	//System.out.print(e);
-    	//System.out.print(e.f);
-        //System.out.print(""+e.f);
     }
 
     public void visit(Not e) {
-    	//System.out.print(e);
     }
 
     public void visit(Neg e) {
-    	//System.out.print(e);
-    	//myStack.push("-");
-       //  e.e.accept(this);  	
     }
 
     public void visit(Add e) {
-    	//System.out.print(e);
-        //ERROR
     }
 
 	public void visit(Sub e) {
-    	//System.out.print(e);
-		 //ERROR
     }
 
     public void visit(FNeg e){
-    	//System.out.print(e);
-    	 //ERROR
     }
 
     public void visit(FAdd e) {
-    	//System.out.print(e);
-    	 //ERROR
     }
 
 	public void visit(FSub e) {
-    	//System.out.print(e);
-		 //ERROR
     }
 
     public void visit(FMul e) {
-    	//System.out.print(e);
-    	 //ERROR
     }
 
     public void visit(FDiv e){
-    	//System.out.print(e);
-    	 //ERROR
     }
 
     public void visit(Eq e){
-    	//System.out.print(e);
-    	//
     }
 
     public void visit(LE e){
-    	//System.out.print(e);
-    	//
     }
 
     
@@ -142,9 +113,7 @@ public class PrintARM implements Visitor {
 		System.out.print("exit"+ex_i+":\n");
     }
     
-    public void visit(If e){
-    	//System.out.print(e);
-    	
+    public void visit(If e){    	
     	int if_i2 = if_i;
     	int els_i2 = els_i;
     	int ex_i2=ex_i;
@@ -157,9 +126,6 @@ public class PrintARM implements Visitor {
     		((Var)((Eq)e.e1).e1).accept(this);
             System.out.print("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((Eq)e.e1).e2).accept(this);
-             // System.out.print("Im HERE\n" + myStack);
-             //khoaNote: cmp r7 r7
-    		 // System.out.print("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
     		 System.out.print("beq " + "then"+if_i2+"\n");
     		 System.out.print("bal " + "else"+els_i2+"\n");
@@ -167,13 +133,10 @@ public class PrintARM implements Visitor {
     		((Var)((LE)e.e1).e1).accept(this);
             System.out.print("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
-    		// System.out.print("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
     		System.out.print("ble " + "then"+if_i2+"\n");
-    		System.out.print("bal " + "else"+els_i2+"\n");
-    	    
-    	    
-        }else if (e.e1.getClass() == Bool.class){//if (e.e1.getClass() == Eq.class) {
+    		System.out.print("bal " + "else"+els_i2+"\n");	    
+        }else if (e.e1.getClass() == Bool.class){
         		((Bool)e.e1).accept(this);
         		System.out.print("mov r12, " + myStack.pop() + "\n");
         		System.out.print("cmp r12" + ", #1\n");
@@ -186,7 +149,6 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Let e) {
-    	//System.out.print(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
     		System.out.print("str "+myStack.pop()+", " + getFP(e.id)+"\n");
@@ -207,9 +169,7 @@ public class PrintARM implements Visitor {
 
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
-        // System.out.print("IM HERE. Parameter list size is " + parameters.size() +"\n");
     	if(index!=-1) {
-    		// System.out.print("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
     		System.out.print("ldr  r8, [ fp, #"+ ((1+index)*4 + 8)+" ]\n");
 	    	myStack.push("r8");	
     	}else {
@@ -249,53 +209,33 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(LetRec e){
-    	//System.out.print(e);
-    	
-        // System.out.print("Current expression is " + e.toString());
     }
 
   
     
     public void visit(App e){
-    	//System.out.print(e);
     	if (((Var)e.e).id.id.equals("sub")){
      	   System.out.print("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
      	   System.out.print("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
      	   System.out.print("sub r6, r4, r5\n");
-     	  // System.out.print("str "+"r6, " +myStack.pop());
      	   myStack.push("r6");
      }else if (((Var)e.e).id.id.equals("add")){
     	   System.out.print("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
     	   System.out.print("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
     	   System.out.print("add r6, r4, r5\n");
-    	  // System.out.print("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
-        	// System.out.print("mov r9, #"+(current_index)*4+"\n");
-        	// System.out.print("add sp, fp, r9\n");
-        	// System.out.print("mov r9, #"+e.es.size()*4+"\n");
-        	// System.out.print("add sp, sp, r9\n");
-        	// System.out.print("mov r9, #"+2*4+"\n");
-        	// System.out.print("add sp, sp, r9\n");     	
-
-            // if (((current_index) * 4) <=255){
-            //     System.out.print("mov r9, #-"+(current_index)*4+"\n");
-            // }
-            // else{
-            //     // System.out.print("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
-            //     System.out.print("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
-            // }
-        	// System.out.print("add sp, fp, r9\n");
-        	// System.out.print("mov r9, #-"+e.es.size()*4+"\n");
-        	// System.out.print("add sp, sp, r9\n");
-        	// System.out.print("mov r9, #-"+2*4+"\n");
-        	// System.out.print("add sp, sp, r9\n");     	
-        	//  printInfix2(e.es);
+        
+        	printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
         	System.out.print("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
             System.out.print("bl min_caml_print_int\n");
-            
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_char"))){
+        	System.out.print("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+        	System.out.print("bl min_caml_print_char\n");
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_newline"))){ 
+        	System.out.print("bl min_caml_print_newline\n");  
         }else {
 
 
@@ -303,7 +243,6 @@ public class PrintARM implements Visitor {
                 System.out.print("mov r9, #-"+(current_index)*4+"\n");
             }
             else{
-                // System.out.print("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
                 System.out.print("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
             }
         	System.out.print("add sp, fp, r9\n");
@@ -317,9 +256,7 @@ public class PrintARM implements Visitor {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-                    // System.out.print("IM HERE\n");
-        	    	// System.out.print("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
-        	    	System.out.print("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
+                    System.out.print("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
         	    }
         	}
         	System.out.print("bl " + ((Var)e.e).id.id +"\n");
@@ -332,22 +269,17 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Tuple e){
-        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(LetTuple e){
-        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Array e){
-        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Get e){
-        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Put e){
-        // System.out.print("Current expression is " + e.toString());
     }
 }

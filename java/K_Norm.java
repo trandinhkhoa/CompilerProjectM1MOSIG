@@ -277,6 +277,15 @@ class K_Norm implements ObjVisitor<Exp> {
 		/*Put p = new Put(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
 		return p;*/
 
+		/*Exp e1 = e.e2.accept(this);
+		Exp e2 = e.e3.accept(this);
+		Id i1 = new Id(gen());
+		Id i2 = new Id(gen());
+		Var v1 = new Var(i1);
+		Var v2 = new Var(i2);
+		Let l1 = new Let(i1, new TUnit(), e1, new Put(e.e1,v1,v2));
+		Let l2 = new Let(i2, new TUnit(), e2, l1);*/
+		
 		try {
 			throw new NotYetImplementedException("Put NotYetImplemented");
 		} catch (NotYetImplementedException e1) {

@@ -6,13 +6,10 @@ import java.util.Stack;
 
 public class ASML_Gen implements ObjVisitor<Exp> {
 	
-	List<Id> fun_List = new LinkedList<Id>();
+	public List<Id> fun_List = new LinkedList<Id>();
 	
 	public ASML_Gen(List<Id> fun_List) {
 		this.fun_List = fun_List;
-		/*for(int i = 0; i<this.fun_List.size();i++) {
-			System.out.println(this.fun_List.get(i));
-		}*/
 	}
 	
 	public boolean contains(Id i) {
@@ -24,7 +21,7 @@ public class ASML_Gen implements ObjVisitor<Exp> {
 		}return false;
 	}
 	
-	 List<Exp> printInfix2(List<Exp> l) {
+	 public List<Exp> rec_list(List<Exp> l) {
 	    	List<Exp> new_list = new LinkedList<Exp>();
 	    	new_list.clear();
 	        if (l.isEmpty()) {
@@ -95,7 +92,7 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     public Exp visit(LE e){return new LE(e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(If e){return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));}
     public Exp visit(Array e){return new Array(e.e1.accept(this),e.e2.accept(this));}
-    public Exp visit(Tuple e){return new Tuple(printInfix2(e.es));}
+    public Exp visit(Tuple e){return new Tuple(rec_list(e.es));}
    
     public Exp visit(Let e){return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(LetTuple e){return new LetTuple(e.ids,e.ts,e.e1.accept(this),e.e2.accept(this));}
@@ -107,25 +104,16 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     	if (v.id.id.equals("apply_direct")) {	
     		v = new Var(new Id("call"));
     		Tuple t = (Tuple)e.es.get(0);
-            // System.out.println("APP Tuple is " + t);
             //a : name of function
     		Var a = (Var) t.es.remove(0);
-            // System.out.println("APP Var is " + a.id);
     		App app = new App(a,t.es);
             //le :  list of all arguments
     		List<Exp> le = new LinkedList<Exp>();
-            //khoaNOTE: Why accept in le.add(app.accept(this))?
     		le.add(app.accept(this));
     		le.addAll(e.es.subList(1, e.es.size()));
     		return new App(v,le);
     		
-            //khoaNOTE: What is !contains(v.id)
     	}else if(!contains(v.id)) {
-            // System.out.println("APP Name is " + v.id.id);
-    		// v = new Var(new Id("_min_caml"+v.id.id));
-
-            //v.id.id print_int
-            //e.es temp8
             
     		Var vCall = new Var(new Id("call"));
     		Var vNew = new Var(new Id("_min_caml_"+v.id.id));
@@ -133,10 +121,9 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     		List<Exp> le = new LinkedList<Exp>();
             // Add newle created app as an argument for vCall 
     		le.add(app);
-    		// le.addAll(e.es.subList(0, e.es.size()));
     		return new App(vCall, le);
     	}
-    	return new App(v,printInfix2(e.es));
+    	return new App(v,rec_list(e.es));
     }
     public Exp visit(Get e){return e;}
     public Exp visit(Put e){return e;}
