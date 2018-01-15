@@ -1,5 +1,8 @@
 #! /bin/sh
 cd "$(dirname "$0")"/.. || exit 1
+sfile=$1
+wc $sfile
+
 MINCAMLC=java/mincamlc
 
 Red='\033[1;31m'
@@ -13,16 +16,14 @@ NUline=$(tput rmul)
 NC='\033[0m'
 
 echo "${Yellow}${Bold}${Uline}Code Gen Test:${NC}${Normal}${NUline}"
-cd "../CompilerProjectM1MOSIG"
+
 for test_case in tests/gen-code/*.ml
 do
 fname=$(basename "$test_case")
 extension="${fname##*.}"
 name="${fname%.*}"
 echo -n $name": "
-ocaml $test_case > "./ARM/expected/"$name.expected"" 2> /dev/null 1> /dev/null
-
-$MINCAMLC $test_case 2> /dev/null 1> /dev/null
+ocaml $test_case > "./ARM/expected/"$name.expected"" 2> /dev/null
 
 cd "../CompilerProjectM1MOSIG"
 #Generate .s file
@@ -43,6 +44,6 @@ then
 else
 	echo "${Red}|-> KO${NC}"
 fi
-
 cd "../"
+
 done
