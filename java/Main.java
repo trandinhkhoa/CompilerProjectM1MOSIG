@@ -198,8 +198,11 @@ public class Main {
 					  if(vopt&&vallopt) {
 						System.out.println("------ AST Closure ------");
 						for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
+							if ((c.closure_list.get(i) == null)||(c.closure_list.get(i).code == null)) {
+								c.closure_list.remove(i);
+							}else {
 						  c.closure_list.get(i).print();
-						  System.out.println();
+						  System.out.println();}
 						} System.out.println();
 					  
 					  
@@ -264,9 +267,17 @@ public class Main {
 						  }
 						  fw_arm.write(".text\n.global _start\n\n");
 						  
+						  int if_i0 = 0;
+						  int els_i0 = 0;
+						  int ex_i0 = 0;
+						  
+						  int if_i = 0;
+						  int els_i = 0;
+						  int ex_i = 0;
+						  
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 							  if (vopt&&vallopt) {
-								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters);
+								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters,if_i0,els_i0,ex_i0);
 								  c.closure_list.get(i).prologue();
 								  c.closure_list.get(i).code.accept(arm_g);
 								  if (!arm_g.myStack.isEmpty()) {
@@ -279,7 +290,7 @@ public class Main {
 								  System.out.println();System.out.println();
 							  }
 							  c.closure_list.get(i).headerFile(fw_arm);
-							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters);
+							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters,if_i,els_i,ex_i);
                 			  c.closure_list.get(i).prologueFile(fw_arm);;
 							  c.closure_list.get(i).code.accept(arm_gf);
 							  if (!arm_gf.myStack.isEmpty()) {
@@ -289,6 +300,11 @@ public class Main {
 							  if(i!=0) {
 								  c.closure_list.get(i).epilogueFile(fw_arm);;
 							  }
+							  
+							  if_i = arm_gf.if_i;
+							  els_i = arm_gf.els_i;
+							  ex_i = arm_gf.ex_i;
+							  
 							  fw_arm.write("\n\n");
 							  
 							  

@@ -1,0 +1,36 @@
+
+In Testing phase we test our compiler by provide the tester Mincaml files as an input “.ml files” 
+and it prints “OK” if the file passed the compiler and generated the correct arm code or “KO” if it is not. 
+
+We focused on a System Test type, wrote two bash files one to test syntax and type checking and the second to test the ARM code.
+
+We implemented command line options for testing and display purposes as the following: 
+Parser “-p” which tests if the mincaml file is syntactically correct or not,
+type checking “-t”: tells us if the mincaml file well-type or not,
+asml “-asml”: gives us the intermediate code “.s file”. 
+Output “-o”:  gives us the Assembly code.
+
+Testing files infrastructure as the following:
+scripts/ 
+mincaml-parser-ter.sh, mincaml-typechecking-test.sh , genarmexe.sh , and mincamlc
+tests/
+  syntax/
+     valid/
+       tests that should parse correctly
+     invalid/
+       tests that shouldn't parse correctly
+  typechecking/
+     valid/
+       tests that should be well-typed
+     invalid/
+       tests that shouldn't be well-typed
+  gen-code/
+     contains examples that compile and execute correctly
+
+We tried to write many comprehensive list of tests so different scenarios could be evaluated
+
+1. Type-checking test: for each case we check the error code if it is “0” then the input file is well-typed, otherwise it is not. 
+2. Code-gen test: for each case we first compile using ocaml interpreter and save the output in Arm/expected folder, then compile it with our compiler and compare the ARM code generated from both. 
+
+We tried to cover many test cases that include different scenarios to see how our compiler responds.
+They are summarized in “Test_cases.pdf” attached file.

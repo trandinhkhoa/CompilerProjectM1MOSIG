@@ -15,12 +15,18 @@ public class PrintARMFile implements Visitor {
     FileWriter fw_arm;	
     int current_index;
     List<Id> parameters;
+    int if_i;
+    int els_i;
+    int ex_i;
 	
-	public PrintARMFile(FileWriter fw,int ci,List<Id> param) {
+	public PrintARMFile(FileWriter fw,int ci,List<Id> param,int if_i,int els_i,int ex_i) {
 		 cpt_then=0;
 	     cpt_else=0;
 	     cpt_next=0;
 	     current_index = ci;
+	     this.if_i=if_i;
+	     this.els_i=els_i;
+	     this.ex_i=ex_i;
 	     parameters = new LinkedList<Id>();
 	     parameters.addAll(param);
 	     myStack = new Stack<String>();
@@ -141,17 +147,26 @@ public class PrintARMFile implements Visitor {
     }
 
     
-    void ifEpilogue(If e) {
-    	myWriter("then: \n");
+    void ifEpilogue(If e, int if_i, int els_i, int ex_i) {
+    	myWriter("then"+if_i+" :\n");
 		e.e2.accept(this);
-		myWriter("bal exit\n");
-		myWriter("else: \n"); 
+		myWriter("bal exit"+ex_i+"\n");
+		myWriter("else"+els_i+": \n"); 
 		e.e3.accept(this);
-		myWriter("exit:\n");
+		myWriter("exit"+ex_i+":\n");
     }
     
     public void visit(If e){
     	//myWriter(e);
+    	
+    	int if_i2 = if_i;
+    	int els_i2 = els_i;
+    	int ex_i2=ex_i;
+
+		this.if_i++;
+		this.els_i++;
+		this.ex_i++;
+    	
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
             myWriter("mov r12, " + myStack.pop() + "\n");
@@ -160,19 +175,19 @@ public class PrintARMFile implements Visitor {
              //khoaNote: cmp r7 r7
     		 // myWriter("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
-    		 myWriter("beq " + "then\n");
-    		 myWriter("bal " + "else\n");
+    		 myWriter("beq " + "then"+if_i2+"\n");
+    		 myWriter("bal " + "else"+els_i2+"\n");
     	}else {//if (e.e1.getClass() == Eq.class) {
     		((Var)((LE)e.e1).e1).accept(this);
             myWriter("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
     		// myWriter("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
-    		myWriter("ble " + "then\n");
-    		myWriter("bal " + "else\n");
+    		myWriter("ble " + "then"+if_i2+"\n");
+    		myWriter("bal " + "else"+els_i2+"\n");
     	}
 
-		ifEpilogue(e);
+		ifEpilogue(e,if_i2,els_i2,ex_i2);
        
     }
 
@@ -302,7 +317,7 @@ public class PrintARMFile implements Visitor {
         	}
         	myWriter("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
-				  myWriter("str r0, " + myStack.pop()+"\n");
+				  myWriter("mov r0, " + myStack.pop()+"\n");
 			}
         	 
         	myStack.push("r0");

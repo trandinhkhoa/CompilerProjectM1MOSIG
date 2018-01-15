@@ -14,11 +14,16 @@ public class PrintARM implements Visitor {
     Stack<String> myStack;
     int current_index;
     List<Id> parameters;
+    int if_i;
+    int els_i;
+    int ex_i;
 	
-	public PrintARM(int ci,List<Id> param) {
-		 cpt_then=0;
+	public PrintARM(int ci,List<Id> param,int if_i,int els_i,int ex_i) {
 	     cpt_else=0;
 	     cpt_next=0;
+	     this.if_i=if_i;
+	     this.els_i=els_i;
+	     this.ex_i=ex_i;
 	     current_index = ci;
 	     parameters = new LinkedList<Id>();
 	     parameters.addAll(param);
@@ -121,17 +126,26 @@ public class PrintARM implements Visitor {
     }
 
     
-    void ifEpilogue(If e) {
-    	System.out.print("then: \n");
+    void ifEpilogue(If e, int if_i, int els_i, int ex_i) {
+    	System.out.print("then"+if_i+" :\n");
 		e.e2.accept(this);
-		System.out.print("bal exit\n");
-		System.out.print("else: \n"); 
+		System.out.print("bal exit"+ex_i+"\n");
+		System.out.print("else"+els_i+": \n"); 
 		e.e3.accept(this);
-		System.out.print("exit:\n");
+		System.out.print("exit"+ex_i+":\n");
     }
     
     public void visit(If e){
     	//System.out.print(e);
+    	
+    	int if_i2 = if_i;
+    	int els_i2 = els_i;
+    	int ex_i2=ex_i;
+
+		this.if_i++;
+		this.els_i++;
+		this.ex_i++;
+    	
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
             System.out.print("mov r12, " + myStack.pop() + "\n");
@@ -140,19 +154,19 @@ public class PrintARM implements Visitor {
              //khoaNote: cmp r7 r7
     		 // System.out.print("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
-    		 System.out.print("beq " + "then\n");
-    		 System.out.print("bal " + "else\n");
+    		 System.out.print("beq " + "then"+if_i2+"\n");
+    		 System.out.print("bal " + "else"+els_i2+"\n");
     	}else {//if (e.e1.getClass() == Eq.class) {
     		((Var)((LE)e.e1).e1).accept(this);
             System.out.print("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
     		// System.out.print("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
-    		System.out.print("ble " + "then\n");
-    		System.out.print("bal " + "else\n");
+    		System.out.print("ble " + "then"+if_i2+"\n");
+    		System.out.print("bal " + "else"+els_i2+"\n");
     	}
 
-		ifEpilogue(e);
+		ifEpilogue(e,if_i2,els_i2,ex_i2);
        
     }
 
@@ -278,7 +292,7 @@ public class PrintARM implements Visitor {
         	}
         	System.out.print("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
-				  System.out.print("str r0, " + myStack.pop()+"\n");
+				  System.out.print("mov r0, " + myStack.pop()+"\n");
 			}
         	 
         	myStack.push("r0");

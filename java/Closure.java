@@ -37,14 +37,14 @@ public class Closure implements ObjVisitor<Exp> {
         libraryFuncList.add("print_char");
         libraryFuncList.add("print_newline");
 	}
-
-	public Exp visit(Unit e) {
-		// if ((s.isEmpty())&&(!main_done)) {
-		// main_done = true;
-		// closure_list.add(new Closure_Element(e));
-		// }
-		return e;
-	}
+	
+    public Exp visit(Unit e) {
+    	 if ((s.isEmpty())&&(!main_done)) {
+		 	main_done = true;
+    	 	closure_list.add(new Closure_Element(e));
+    	 }
+        return e;
+    }
 
 	public Exp visit(Bool e) {
 		// if ((s.isEmpty())&&(!main_done)) {
