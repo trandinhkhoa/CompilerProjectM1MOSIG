@@ -146,13 +146,13 @@ public class Main {
 					  
 					  }
 						  
-					  VisitorTypeCheck t = new VisitorTypeCheck();
-					
-					  expression2.accept(t);
+					  //VisitorTypeCheck t = new VisitorTypeCheck();
+					  CallChecker t = new CallChecker(expression);
+					  //expression2.accept(t);
 					
 					  
 					  if(vopt&&vallopt){
-						  if(t.errorSet){
+						  if(!t.errorSet){
 							  System.out.println("Error from type check");
 						  }else {
 							  System.out.println("No error from type check");
