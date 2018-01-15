@@ -9,4 +9,4 @@ clean:
 test:
 	./scripts/mincaml-parser-test.sh	 	
 	./scripts/mincaml-typechecking-test.sh	 
-	./scripts/genarmexe.sh
+	./scripts/genarmexeTest.sh
