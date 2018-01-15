@@ -32,6 +32,8 @@ public class Closure implements ObjVisitor<Exp> {
         closure_list.add(new Closure_Element()); 
         //initialize pre-defined function list
         libraryFuncList.add("print_int");
+        libraryFuncList.add("print_char");
+        libraryFuncList.add("print_newline");
 	}
 	
     public Exp visit(Unit e) {

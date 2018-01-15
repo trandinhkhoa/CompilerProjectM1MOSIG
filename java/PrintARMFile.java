@@ -286,7 +286,11 @@ public class PrintARMFile implements Visitor {
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
         	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
             myWriter("bl min_caml_print_int\n");
-            
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_char"))){
+        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+            myWriter("bl min_caml_print_char\n");
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_newline"))){ 
+        	myWriter("bl min_caml_print_newline\n");
         }else {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
