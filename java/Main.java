@@ -52,6 +52,7 @@ public class Main {
 	  static boolean oopt=  false;
 	  static boolean asmlopt = false;
 	  static boolean vopt = false;
+	  static boolean vallopt = false;
 	  
 	  static boolean checkOpt(String argv[]){
 		  int nb_file = 0 ;
@@ -75,6 +76,7 @@ public class Main {
 				if (s.equals("-o")){		oopt = true; options.add(s); needOut = true;
 				}else if (s.equals("-h")){	hopt = true; options.add(s);
 				}else if (s.equals("-v")){	vopt = true; options.add(s); 
+				}else if (s.equals("-all")){	vallopt = true; options.add(s); 
 				}else if (s.equals("-t")){	topt = true; options.add(s); needIn = true;
 				}else if (s.equals("-p")){	popt = true; options.add(s); needIn = true;
 				}else if (s.equals("-asml")){	asmlopt = true; options.add(s); needIn = true;
@@ -125,14 +127,17 @@ public class Main {
 			  assert (expression != null);
 			  
 				    
-			  if(vopt){
+			  if(vopt&&vallopt){
 				  System.out.println("------ AST ------");
 				  expression.accept(new PrintVisitor());
 				  System.out.println();System.out.println();
+			  }else if (vopt){
+				  System.out.println("Parser done.");
+				   
 			  }
 			  
 			  if(!popt){
-				  if(vopt) {
+				  if(vopt&&vallopt) {
 				  	System.out.println("------ Type Check ------");
 				  
 				  }
@@ -141,19 +146,22 @@ public class Main {
 				  Exp expression2 = expression.accept(new Copy());
 				  expression2.accept(t);
 				  
-				  if(vopt){
+				  if(vopt&&vallopt){
 					  if(t.errorSet){
 						  System.out.println("Error from type check");
 					  }else {
 						  System.out.println("No error from type check");
 					  }
 					  System.out.println();
+				  }else if (vopt){
+					  System.out.println("Type check done.");
+					   
 				  }
 				  if(!topt) {
 					  K_Norm k = new K_Norm();
 					  expression2 = expression2.accept(k);
 					  
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						  System.out.println("------ AST K-Normalization ------");
 						  expression2.accept(new PrintVisitor());
 						  System.out.println();System.out.println();
@@ -161,14 +169,14 @@ public class Main {
 					  
 					  int x = k.x;
 					 
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						  System.out.println("------ AST Alpha-Conversion ------");
 					  }
 					  
 					  alpha_conversion alpha = new alpha_conversion(x);
 					  expression2 = expression2.accept(alpha);
 					 
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						  expression2.accept(new PrintVisitor());
 						  System.out.println();System.out.println();
 					   
@@ -178,7 +186,7 @@ public class Main {
 					  
 					  expression2 = expression2.accept(new Nested_Let());
 					  
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						  expression2.accept(new PrintVisitor());
 						  System.out.println();System.out.println();
 					  }
@@ -187,7 +195,7 @@ public class Main {
 					  expression2.accept(c);
 					  
 					  
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						System.out.println("------ AST Closure ------");
 						for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 						  c.closure_list.get(i).print();
@@ -196,13 +204,16 @@ public class Main {
 					  
 					  
 						System.out.println("------ AST ASML Gen ------");
+					  }else if (vopt){
+						  System.out.println("AST modified.");
+						   
 					  }
 					  
 					  
 					  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(new ASML_Gen(c.fun_List)));
 						  
-						  if(vopt) {
+						  if(vopt&&vallopt) {
 							  c.closure_list.get(i).printASML();
 							  System.out.println();System.out.println();
 						  }
@@ -210,7 +221,7 @@ public class Main {
 					 // expression2 = expression2.accept(new Reg_Alloc());
 					  
 					  
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 						  System.out.println("------ AST Register Allocation ------");
 					  }
 					  List<Integer> index_list = new ArrayList<Integer>();
@@ -218,7 +229,7 @@ public class Main {
 						  SpillAlloc sa = new SpillAlloc();
 						  c.closure_list.get(i).set_Exp(c.closure_list.get(i).code.accept(sa));
 						  index_list.add(sa.index);
-						  if(vopt) { 
+						  if(vopt&&vallopt) { 
 							  	c.closure_list.get(i).printASML();
 						  		System.out.println();
 						  	}
@@ -236,22 +247,25 @@ public class Main {
 					  }
 					 
 					  
-					  if(vopt) {
+					  if(vopt&&vallopt) {
 					 	 System.out.println();
 					 	 
+					  }else if (vopt) {
+						  System.out.println("Asml generated.");
+						   
 					  }
 						
 					  if (!asmlopt){
 						  String s_arm = fileOut;
 						  File f_arm = new File(s_arm);
 						  FileWriter fw_arm = new FileWriter(f_arm) ;
-						  if (vopt) {
+						  if (vopt&&vallopt) {
 							  System.out.println("------ ARM Generation ------");
-
-							  fw_arm.write(".text\n.global _start\n\n");
 						  }
+						  fw_arm.write(".text\n.global _start\n\n");
+						  
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
-							  if (vopt) {
+							  if (vopt&&vallopt) {
 								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters);
 								  c.closure_list.get(i).prologue();
 								  c.closure_list.get(i).code.accept(arm_g);
@@ -282,7 +296,7 @@ public class Main {
 						  fw_arm.close();  
 					 } 
 					
-					  if(vopt){
+					  if(vopt&&vallopt){
 						  System.out.println("------ Height of the initial AST ----");
 						  int height = Height.computeHeight(expression);
 						  System.out.println("using Height.computeHeight: " + height); 
@@ -290,6 +304,8 @@ public class Main {
 						  ObjVisitor<Integer> v = new HeightVisitor();
 						  height = expression.accept(v);
 						  System.out.println("using HeightVisitor: " + height);
+					  }else if(vopt){
+						  System.out.println("Finished.");
 					  }
 				  }
 			  }

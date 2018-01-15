@@ -214,7 +214,6 @@ class K_Norm implements ObjVisitor<Exp> {
 	}
 
 	public Exp visit(App e) {
-
 		List<Exp> la = new LinkedList<Exp>();
 		Exp a = app_rec(printInfix2(e.es), la, e.e);
 		return a;

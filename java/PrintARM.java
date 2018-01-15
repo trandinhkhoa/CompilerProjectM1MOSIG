@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
 public class PrintARM implements Visitor {
 	
 	static String[] register_tab = new String[16];
@@ -14,8 +13,8 @@ public class PrintARM implements Visitor {
     int cpt_next;
     Stack<String> myStack;
     int current_index;
-	List<Id> parameters;
-    
+    List<Id> parameters;
+	
 	public PrintARM(int ci,List<Id> param) {
 		 cpt_then=0;
 	     cpt_else=0;
@@ -23,12 +22,12 @@ public class PrintARM implements Visitor {
 	     current_index = ci;
 	     parameters = new LinkedList<Id>();
 	     parameters.addAll(param);
-        myStack = new Stack<String>();
-        //System.out.println("mov fp, sp");
-		for (int i = 0 ; i <=15;i++) {
-			register_tab[i]="";
+	     myStack = new Stack<String>();
+			for (int i = 0 ; i <=15;i++) {
+				register_tab[i]="";
+			}
 		}
-	}
+
 
    
 	
@@ -37,7 +36,8 @@ public class PrintARM implements Visitor {
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
     		int sn = Integer.parseInt(s);
-    		s = "[ fp, #"+(4*sn)+" ]";
+    		// s = "[ fp, #"+(4*sn)+" ]";
+    		s = "[ fp, #-"+(4*sn)+" ]";
     	}
     	return s;
     }
@@ -54,94 +54,102 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Int e) {
-    	//System.out.println(e);
-    	System.out.println("mov r5, #"+e.i);
+    	//System.out.print(e);
+    	System.out.print("mov r5, #"+e.i+"\n");
             myStack.push("r5");
     }
 
     public void visit(Float e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     	//System.out.print(e.f);
-        //myWriter(""+e.f);
+        //System.out.print(""+e.f);
     }
 
     public void visit(Not e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     }
 
     public void visit(Neg e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     	//myStack.push("-");
-        // e.e.accept(this);  	
+       //  e.e.accept(this);  	
     }
 
     public void visit(Add e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
         //ERROR
     }
 
 	public void visit(Sub e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
 		 //ERROR
     }
 
     public void visit(FNeg e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	 //ERROR
     }
 
     public void visit(FAdd e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     	 //ERROR
     }
 
 	public void visit(FSub e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
 		 //ERROR
     }
 
     public void visit(FMul e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     	 //ERROR
     }
 
     public void visit(FDiv e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	 //ERROR
     }
 
     public void visit(Eq e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	//
     }
 
     public void visit(LE e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	//
     }
 
     
     void ifEpilogue(If e) {
-		System.out.println("then: ");
+    	System.out.print("then: \n");
 		e.e2.accept(this);
-		System.out.println("bal exit");
-		System.out.println("else: "); 
+		System.out.print("bal exit\n");
+		System.out.print("else: \n"); 
 		e.e3.accept(this);
-		System.out.println("exit:");
+		System.out.print("exit:\n");
     }
     
     public void visit(If e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
+            System.out.print("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((Eq)e.e1).e2).accept(this);
-    		System.out.println("cmp " + myStack.pop() + ", " + myStack.pop());
-    		System.out.println("beq " + "then");
-    		System.out.println("bal " + "else");
+             // System.out.print("Im HERE\n" + myStack);
+             //khoaNote: cmp r7 r7
+    		 // System.out.print("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
+    		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
+    		 System.out.print("beq " + "then\n");
+    		 System.out.print("bal " + "else\n");
     	}else {//if (e.e1.getClass() == Eq.class) {
-    		System.out.println("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id);
-    		System.out.println("ble " + "then");
-    		System.out.println("bal " + "else");
+    		((Var)((LE)e.e1).e1).accept(this);
+            System.out.print("mov r12, " + myStack.pop() + "\n");
+    		 ((Var)((LE)e.e1).e2).accept(this);
+    		// System.out.print("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
+    		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
+    		System.out.print("ble " + "then\n");
+    		System.out.print("bal " + "else\n");
     	}
 
 		ifEpilogue(e);
@@ -149,10 +157,10 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Let e) {
-    	//System.out.println(e);
+    	//System.out.print(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
-    		System.out.println("str "+myStack.pop()+", " + getFP(e.id));
+    		System.out.print("str "+myStack.pop()+", " + getFP(e.id)+"\n");
     	}
     	e.e2.accept(this);
     }
@@ -170,11 +178,13 @@ public class PrintARM implements Visitor {
 
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
+        // System.out.print("IM HERE. Parameter list size is " + parameters.size() +"\n");
     	if(index!=-1) {
-    		System.out.println("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]");
+    		// System.out.print("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
+    		System.out.print("ldr  r8, [ fp, #"+ ((1+index)*4 + 8)+" ]\n");
 	    	myStack.push("r8");	
     	}else {
-	    	System.out.println("ldr  r7, "+getFP(e.id));
+    		System.out.print("ldr  r7, "+getFP(e.id)+"\n");
 	    	myStack.push("r7");
     	}
     	
@@ -210,50 +220,65 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(LetRec e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 
   
     
     public void visit(App e){
-    	//System.out.println(e);
+    	//System.out.print(e);
     	if (((Var)e.e).id.id.equals("sub")){
-     	   System.out.println("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id));
-     	   System.out.println("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id));
-     	   System.out.println("sub r6, r4, r5");
-     	  // System.out.println("str "+"r6, " +myStack.pop());
+     	   System.out.print("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+     	   System.out.print("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+     	   System.out.print("sub r6, r4, r5\n");
+     	  // System.out.print("str "+"r6, " +myStack.pop());
      	   myStack.push("r6");
      }else if (((Var)e.e).id.id.equals("add")){
-    	   System.out.println("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id));
-    	   System.out.println("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id));
-    	   System.out.println("add r6, r4, r5");
-    	  // System.out.println("str "+"r6, " +myStack.pop());
+    	   System.out.print("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
+    	   System.out.print("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
+    	   System.out.print("add r6, r4, r5\n");
+    	  // System.out.print("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
         }else if (((Var)e.e).id.id.equals("call")){
-        	System.out.println("mov r9, #"+(current_index+1)*4);
-        	System.out.println("add sp, fp, r9");
-        	System.out.println("mov r9, #"+e.es.size()*4);
-        	System.out.println("add sp, sp, r9");
-        	System.out.println("mov r9, #"+2*4);
-        	System.out.println("add sp, sp, r9");     	
+        	// System.out.print("mov r9, #"+(current_index)*4+"\n");
+        	// System.out.print("add sp, fp, r9\n");
+        	// System.out.print("mov r9, #"+e.es.size()*4+"\n");
+        	// System.out.print("add sp, sp, r9\n");
+        	// System.out.print("mov r9, #"+2*4+"\n");
+        	// System.out.print("add sp, sp, r9\n");     	
+
+            if (((current_index) * 4) <=-255){
+                System.out.print("mov r9, #-"+(current_index)*4+"\n");
+            }
+            else{
+                // System.out.print("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
+                System.out.print("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
+            }
+        	System.out.print("add sp, fp, r9\n");
+        	System.out.print("mov r9, #-"+e.es.size()*4+"\n");
+        	System.out.print("add sp, sp, r9\n");
+        	System.out.print("mov r9, #-"+2*4+"\n");
+        	System.out.print("add sp, sp, r9\n");     	
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
-        	System.out.println("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id));
-            System.out.println("bl min_caml_print_int");
+        	System.out.print("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+            System.out.print("bl min_caml_print_int\n");
             
         }else {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-        	    	System.out.println("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]");
+                    // System.out.print("IM HERE\n");
+        	    	// System.out.print("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
+        	    	System.out.print("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
         	    }
         	}
-        	System.out.println("bl " + ((Var)e.e).id.id );
+        	System.out.print("bl " + ((Var)e.e).id.id +"\n");
         	 if (!myStack.isEmpty()) {
-				  System.out.println("str r0, " + myStack.pop());
+				  System.out.print("str r0, " + myStack.pop()+"\n");
 			}
         	 
         	myStack.push("r0");
@@ -261,22 +286,22 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Tuple e){
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(LetTuple e){
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Array e){
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Get e){
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 
     public void visit(Put e){
-        // System.out.println("Current expression is " + e.toString());
+        // System.out.print("Current expression is " + e.toString());
     }
 }
