@@ -32,12 +32,15 @@ public class Main {
 			System.out.println(""+
 					getLogo()
 					+ "\n\nWelcome to the UltimateTeam Mincaml Compiler Help !\n"
-					+ "\t -t : type check only\n" + 
-					"\t -p : parse only\n" + 
+					+ "\t -t : type checking only\n" + 
+					"\t -p : parsing only\n" + 
 					"\t -h : display help\n" + 
 					"\t -v : display version\n"+
+					"\t -all : in addition to v, display all the steps\n"+
 					"\t -o : output file\n" + 
 					"\t -asml : output ASML\n"+
+					"\t -nt : no type checking \n"+
+					"\t -eqt : alternative equation type checking \n"+
 					"\n\t creators :\n"+getNames()
 					);
 		}
