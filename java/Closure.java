@@ -8,9 +8,6 @@ import java.util.Stack;
 /**
  * Closure Conversion class eliminates the nested functions and letRec. It
  * generates a flatten code using blocks of Closure Elements.
- * 
- * 
- * 
  */
 
 
@@ -183,9 +180,11 @@ public class Closure implements ObjVisitor<Exp> {
     	List<Exp> l = new LinkedList<Exp>();
     	l.add(t);
         if (libraryFuncList.contains(((Var)e.e).id.id)){
-            return e;
+        	return e;
         } else {
+        	
             App a = new App(new Var(new Id("apply_direct")), l);
+            
             if (here) {
                 closure_list.add(new Closure_Element(a));
             }
@@ -204,7 +203,18 @@ public class Closure implements ObjVisitor<Exp> {
 	public Exp visit(Array e) {
 		
 		/** This code works for basic let array.create code **/
-		return new Array(e.e1.accept(this), e.e2.accept(this));
+		Var r1 = (Var) e.e1.accept(this);
+		Var r2 = (Var) e.e2.accept(this);
+		Var v1 = new Var(new Id(r1.id.id));
+		Var v2 = new Var(new Id(r2.id.id));
+		
+		List<Exp> lis = new LinkedList<>();
+		lis.add(v1);
+		lis.add(v2);
+		App app = new App(new Var(new Id("Array.create")),lis);
+		return app.accept(this);
+		
+		// return new Array(e.e1.accept(this), e.e2.accept(this));
 	}
 
 	public Exp visit(Get e) {
