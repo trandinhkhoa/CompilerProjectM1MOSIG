@@ -32,13 +32,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
             return newLet2;
         }
 	}
-	/**
- 	 * Visitor returning the new expression after reduction of nested let.
- 	 * 
- 	 * @param e	input Unit expression
- 	 * 
- 	 * @return the new expression.
- 	 */
+	
 	/**
  	 * Visitor returning the new expression after reduction of nested let.
  	 * 

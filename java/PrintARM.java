@@ -48,7 +48,7 @@ public class PrintARM implements Visitor {
     }
     
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Unit expression
  	* 
@@ -93,7 +93,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Float expression
  	* 
@@ -103,7 +103,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Not expression
  	* 
@@ -113,7 +113,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Neg expression
  	* 
@@ -123,7 +123,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.on.
  	 * 
  	 * @param e	input Add expression
  	* 
@@ -133,7 +133,7 @@ public class PrintARM implements Visitor {
     }
 
 	 /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Sub expression
  	* 
@@ -143,7 +143,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input FNeg expression
  	* 
@@ -163,7 +163,7 @@ public class PrintARM implements Visitor {
     }
 
 	 /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input FSub expression
  	* 
@@ -173,7 +173,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input FMul expression
  	* 
@@ -183,7 +183,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input FDiv expression
  	* 
@@ -193,7 +193,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Eq expression
  	* 
@@ -203,7 +203,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input LE expression
  	* 
@@ -394,7 +394,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input Tuple expression
  	* 
@@ -404,7 +404,7 @@ public class PrintARM implements Visitor {
     }
 
      /** 
-	 * Visitor printing the ARM code of the given expression.
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
  	 * 
  	 * @param e	input LetTuple expression
  	* 
