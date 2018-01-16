@@ -23,7 +23,8 @@
 					
 #### Additional Option
 
-		-asml : this option is used in addition to the -o option, the output file will be an ASML file instead of an ARM file.
+		-asml : this option is used in addition to the -o option, 
+		        the output file will be an ASML file instead of an ARM file.
 		
 ### Other Options
 
