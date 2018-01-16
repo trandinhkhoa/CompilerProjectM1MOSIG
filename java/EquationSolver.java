@@ -55,9 +55,9 @@ public class EquationSolver {
 		}
 		//display(mp);
 		if(typeCrt<0)
-			return false;
-		else
 			return true;
+		else
+			return false;
 	}
 
 	public void display(Map<String, Type> equations) {
