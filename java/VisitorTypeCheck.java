@@ -1,36 +1,70 @@
 import java.util.*;
 
+/**
+	 * Visitor checking the Type of an expression.
+	 * 
+	 */
 public class VisitorTypeCheck implements ObjVisitor<Type>{
 	
 	HashMap<String,Type> delVar= new HashMap<>(); // to store inferred variables' type
 	boolean errorSet = false;
 	
-	public VisitorTypeCheck(){
-		/*delVar.put("print_int", new TFun());
-		delVar.put("print_newline", new TFun());
-		delVar.put("print_char", new TFun());*/
-	}
-	
+		
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Unit e) {
 		return new TUnit();	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Bool e) {
 		return new TBool();	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Int e) {	
 		return new TInt(); 
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Float e) {
 		return new TFloat(); 
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Not e) {
 		if(e.e.accept(this).getClass()==TUnresolvedType.class){  //if the type of variable is not unknown
@@ -48,6 +82,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Neg e) {
 		
@@ -67,6 +108,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}			
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Add e) {
 		Type type1 = e.e1.accept(this);
@@ -75,10 +123,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operand1 is unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){	//if operand2 is unknown type 
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){	//if both operands are of type Int
@@ -92,6 +142,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Sub e) {
 		Type type1 = e.e1.accept(this);
@@ -100,10 +157,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){
@@ -117,12 +176,20 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FNeg e) {
 		if(e.e.accept(this).getClass()==TUnresolvedType.class){
 			String str = ((Var) e.e).id.id;
 			System.out.println("Str" + ((Var) e.e).id.id);
 			delVar.put(str, new TFloat());
+			return new TFloat();
 		}
 		if(TInt.class==e.e.accept(this).getClass()){
 			return new TFloat();
@@ -135,6 +202,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FAdd e) {
 		Type type1 = e.e1.accept(this);
@@ -143,10 +217,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operands are unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -160,6 +236,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FSub e) {
 		Type type1 = e.e1.accept(this);
@@ -168,10 +251,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -185,6 +270,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FMul e) {
 		Type type1 = e.e1.accept(this);
@@ -193,10 +285,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -211,6 +305,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FDiv e) {
 		Type type1 = e.e1.accept(this);
@@ -219,10 +320,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -237,6 +340,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Eq e) {
 		Type type1 = e.e1.accept(this);
@@ -246,18 +356,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -270,6 +384,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LE e) {
 		Type type1 = e.e1.accept(this);
@@ -279,18 +400,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -303,6 +428,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(If e) {
 		Type type_e1 =e.e1.accept(this);
@@ -354,6 +486,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Let e) {
 		if(delVar.containsKey(e.id.id)){
@@ -370,40 +509,42 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Var e) {
 		if((delVar.containsKey(e.id.id))){
 			return delVar.get(e.id.id);
 		}
-		////System.err.println("Undefined variable " + e.id);
 		errorSet=true;
 		System.out.println("Error from type check");System.exit(1);
 		return null;
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LetRec e) {
-		/*if(delVar.containsKey(e.fd.id.id)){
-			//System.err.println("Definition already present "+e.fd.id);
-		}
-		Type t = e.fd.e.accept(this);
-		if(e.fd.type.getClass() == t.getClass()){
-			if(TVar.class != e.fd.type.getClass()){
-				//System.err.println("Type do not match " + e.fd.id);
-			}
-		}
-		delVar.put(e.fd.id.id, t);
-		return t;*/
-		
-		/*e.fd.e.accept(this);
-		for (int i = 0; i < e.fd.args.size(); i++) {
-			Var v = new Var(e.fd.args.get(i));
-			v.accept(this);
-		}
-		return e.e.accept(this);*/
 		
 		return null;
 	}
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(App e) {
 		if ((((Var)e.e).id.id.equals("print_int"))||(((Var)e.e).id.id.equals("print_char")))  {
@@ -438,17 +579,38 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	        }
 	    }
 	
+	/**
+ 	 * Visitor not yet implemented.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Tuple e) {
 		printInfix2(e.es);
 		return null;
 	}
 
+	/**
+ 	 * Visitor not yet implemented.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LetTuple e) {
 		return null;
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Array e) {
 		Type type1 = e.e1.accept(this);
@@ -466,6 +628,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Get e) {
 		Type type1 = e.e1.accept(this);
@@ -488,6 +657,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Put e) {
 		Type type1 = e.e1.accept(this);

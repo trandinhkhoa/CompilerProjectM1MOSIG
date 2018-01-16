@@ -1,34 +1,45 @@
 # CompilerProjectM1MOSIG
 
-## Commands to use for testing the project for the mid-Submission 
-(Because they are a bit different to the ones on the website)
+## Option for compilation
 
-          git clone git@github.com:trandinhkhoa/CompilerProjectM1MOSIG.git
-          cd CompilerProjectM1MOSIG
-          make
-          echo "let x = 42 in print_int x" > test1.ml
-          scripts/mincamlc -t test1.ml
-          echo $?
-          scripts/mincamlc -asml test1.ml
-          tools/asml asml/test1.asml
-          scripts/mincamlc -o test1.ml
-          make test
- ## The asml generated files are in the asml directory
- ## The ARM generated files are in the ARM directory
+### Help Option
 
+		-h : display the help page of the program.
 
+### Basic Option
 
+		-v : run the programm by displaying the name of the steps .
 
-(Commands of the Website:
+##### Additional Option (in addition to v)
+		
+		-all : display the details of all the steps.
 
-          git clone [repo_url]
-          cd [repo]
-          make # compile your program
-          echo "let x = 42 in print_int x" > test1.ml
-          scripts/mincamlc -t test1.ml 
-          echo $? # should be 0
-          scripts/mincamlc -asml test1.ml -o test1.asml
-          tools/asml test1.asml  # displays 42
-          scripts/mincamlc -o test1.s test1.ml
-          make test # should run your tests
-)
+### Selection Options
+					
+		-t : run the program with the type checking only.
+		-p : run the program with the parsing only.
+		-nt : run the program without type checking 
+					
+### Output Options	
+
+		-o : after this option you have to give the output file you want to generate (ARM file by default) .
+				
+##### Additional Option (in addition to -o)
+		
+		-asml : the output file will be an ASML file instead of an ARM file.
+		
+### Other Options
+
+		-eqt :  alternative equation type checking 
+
+## How to use it
+
+### Generate ARM code
+
+		scripts/mincamlc -o [output file] input file
+		
+		
+### Generate ASML Code
+
+		scripts/mincamlc -asml input file -o [output file] 
+

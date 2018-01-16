@@ -32,12 +32,15 @@ public class Main {
 			System.out.println(""+
 					getLogo()
 					+ "\n\nWelcome to the UltimateTeam Mincaml Compiler Help !\n"
-					+ "\t -t : type check only\n" + 
-					"\t -p : parse only\n" + 
+					+ "\t -t : type checking only\n" + 
+					"\t -p : parsing only\n" + 
 					"\t -h : display help\n" + 
 					"\t -v : display version\n"+
+					"\t -all : in addition to v, display all the steps\n"+
 					"\t -o : output file\n" + 
 					"\t -asml : output ASML\n"+
+					"\t -nt : no type checking \n"+
+					"\t -eqt : alternative equation type checking \n"+
 					"\n\t creators :\n"+getNames()
 					);
 		}
@@ -290,16 +293,12 @@ public class Main {
 						  fw_arm.write(".text\n.global _start\n\n");
 						  
 						  int if_i0 = 0;
-						  int els_i0 = 0;
-						  int ex_i0 = 0;
 						  
 						  int if_i = 0;
-						  int els_i = 0;
-						  int ex_i = 0;
 						  
 						  for (int i = c.closure_list.size()-1 ; i >=0 ; i--){
 							  if (vopt&&vallopt) {
-								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters,if_i0,els_i0,ex_i0);
+								  PrintARM arm_g = new PrintARM(index_list.get(i),c.closure_list.get(i).parameters,if_i0);
 								  c.closure_list.get(i).prologue();
 								  c.closure_list.get(i).code.accept(arm_g);
 								  if (!arm_g.myStack.isEmpty()) {
@@ -312,7 +311,7 @@ public class Main {
 								  System.out.println();System.out.println();
 							  }
 							  c.closure_list.get(i).headerFile(fw_arm);
-							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters,if_i,els_i,ex_i);
+							  PrintARMFile arm_gf = new PrintARMFile(fw_arm,index_list.get(i),c.closure_list.get(i).parameters,if_i);
                 			  c.closure_list.get(i).prologueFile(fw_arm);;
 							  c.closure_list.get(i).code.accept(arm_gf);
 							  if (!arm_gf.myStack.isEmpty()) {
@@ -324,8 +323,6 @@ public class Main {
 							  }
 							  
 							  if_i = arm_gf.if_i;
-							  els_i = arm_gf.els_i;
-							  ex_i = arm_gf.ex_i;
 							  
 							  fw_arm.write("\n\n");
 							  

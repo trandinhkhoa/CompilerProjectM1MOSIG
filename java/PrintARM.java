@@ -5,25 +5,29 @@ import java.util.Stack;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class PrintARM implements Visitor {
+
+/**
+ * Visitor printing the ARM code of the associated expression on the standard output.
+ * 
+ */
+public class PrintARM implements Visitor { 
 	
 	static String[] register_tab = new String[16];
-    int cpt_then;
-    int cpt_else;
-    int cpt_next;
     Stack<String> myStack;
     int current_index;
-    List<Id> parameters;
+    List<Id> parameters; 
     int if_i;
-    int els_i;
-    int ex_i;
-	
-	public PrintARM(int ci,List<Id> param,int if_i,int els_i,int ex_i) {
-	     cpt_else=0;
-	     cpt_next=0;
+	 
+    /** 
+   	 * Constructor for the PrintARM.
+	 * 
+	 * @param ci the current index of the stack
+	 * @param param the list of parameters
+	 * @param if_i the current number of if
+	 * 
+	 */
+	public PrintARM(int ci,List<Id> param,int if_i) {
 	     this.if_i=if_i;
-	     this.els_i=els_i;
-	     this.ex_i=ex_i;
 	     current_index = ci;
 	     parameters = new LinkedList<Id>();
 	     parameters.addAll(param);
@@ -33,7 +37,7 @@ public class PrintARM implements Visitor {
 			}
 		}
 	
-    public String getFP(Id i) {
+    String getFP(Id i) {
     	String s = i.id;
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
@@ -43,10 +47,24 @@ public class PrintARM implements Visitor {
     	return s;
     }
     
-    public void visit(Unit e) {
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Unit e) {
     }
 
-    public void visit(Bool e) {
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Bool expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Bool e) {
     	if (e.b) {
     		System.out.print("mov r10 , #1\n");
        }else {
@@ -55,7 +73,14 @@ public class PrintARM implements Visitor {
        myStack.push("r10");
     }
 
-    public void visit(Int e) {
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Int expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Int e) {
             
             if (((e.i) >=-255 )&&((e.i) <=255 )){
             	System.out.print("mov r5, #"+e.i+"\n");
@@ -67,60 +92,147 @@ public class PrintARM implements Visitor {
             myStack.push("r5");            
     }
 
-    public void visit(Float e) {
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Float expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Float e) {
     }
 
-    public void visit(Not e) {
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Not expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Not e) {
     }
 
-    public void visit(Neg e) {
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Neg expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Neg e) {
     }
 
-    public void visit(Add e) {
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.on.
+ 	 * 
+ 	 * @param e	input Add expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Add e) {
     }
 
+	 /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Sub expression
+ 	* 
+ 	 */
+	@Override
 	public void visit(Sub e) {
     }
 
-    public void visit(FNeg e){
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input FNeg expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(FNeg e){
     }
 
-    public void visit(FAdd e) {
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input FAdd expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(FAdd e) {
     }
 
+	 /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input FSub expression
+ 	* 
+ 	 */
+	@Override
 	public void visit(FSub e) {
     }
 
-    public void visit(FMul e) {
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input FMul expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(FMul e) {
     }
 
-    public void visit(FDiv e){
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input FDiv expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(FDiv e){
     }
 
-    public void visit(Eq e){
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Eq expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Eq e){
     }
 
-    public void visit(LE e){
+     /** 
+	 * This function shouldn't be used, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input LE expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(LE e){
     }
 
     
-    void ifEpilogue(If e, int if_i, int els_i, int ex_i) {
+    void ifEpilogue(If e, int if_i) {
     	System.out.print("then"+if_i+" :\n");
 		e.e2.accept(this);
-		System.out.print("bal exit"+ex_i+"\n");
-		System.out.print("else"+els_i+": \n"); 
+		System.out.print("bal exit"+if_i+"\n");
+		System.out.print("else"+if_i+": \n"); 
 		e.e3.accept(this);
-		System.out.print("exit"+ex_i+":\n");
+		System.out.print("exit"+if_i+":\n");
     }
     
-    public void visit(If e){    	
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input If expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(If e){    	
     	int if_i2 = if_i;
-    	int els_i2 = els_i;
-    	int ex_i2=ex_i;
 
 		this.if_i++;
-		this.els_i++;
-		this.ex_i++;
     	
     	if (e.e1.getClass() == Eq.class) {
     		((Var)((Eq)e.e1).e1).accept(this);
@@ -128,27 +240,34 @@ public class PrintARM implements Visitor {
     		 ((Var)((Eq)e.e1).e2).accept(this);
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
     		 System.out.print("beq " + "then"+if_i2+"\n");
-    		 System.out.print("bal " + "else"+els_i2+"\n");
+    		 System.out.print("bal " + "else"+if_i2+"\n");
     	}else if (e.e1.getClass() == LE.class) {
     		((Var)((LE)e.e1).e1).accept(this);
             System.out.print("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
     		 System.out.print("cmp r12" + ", " + myStack.pop()+"\n");
     		System.out.print("ble " + "then"+if_i2+"\n");
-    		System.out.print("bal " + "else"+els_i2+"\n");	    
+    		System.out.print("bal " + "else"+if_i2+"\n");	    
         }else if (e.e1.getClass() == Bool.class){
         		((Bool)e.e1).accept(this);
         		System.out.print("mov r12, " + myStack.pop() + "\n");
         		System.out.print("cmp r12" + ", #1\n");
         		System.out.print("ble " + "then"+if_i2+"\n");
-        		System.out.print("bal " + "else"+els_i2+"\n");
+        		System.out.print("bal " + "else"+if_i2+"\n");
         	}
 
-		ifEpilogue(e,if_i2,els_i2,ex_i2);
+		ifEpilogue(e,if_i2);
        
     }
 
-    public void visit(Let e) {
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Let expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Let e) {
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
     		System.out.print("str "+myStack.pop()+", " + getFP(e.id)+"\n");
@@ -167,7 +286,14 @@ public class PrintARM implements Visitor {
     	
     }
 
-    public void visit(Var e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Var expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Var e){
     	int index = get_index(parameters, e.id);
     	if(index!=-1) {
     		System.out.print("ldr  r8, [ fp, #"+ ((1+index)*4 + 8)+" ]\n");
@@ -178,22 +304,7 @@ public class PrintARM implements Visitor {
     	}
     	
     }
-    
 
-    // print sequence of identifiers 
-    static <E> Exp printInfix(List<E> l, String op) {
-        if (l.isEmpty()) {
-            return new Unit();
-        }
-        Iterator<E> it = l.iterator();
-        it.next();
-        while (it.hasNext()) {
-            it.next();
-        }
-        return new Unit();
-    }
-
-   
 	// print sequence of Exp
     List<Exp> printInfix2(List<Exp> l) {
     	List<Exp> new_list = new LinkedList<Exp>();
@@ -208,12 +319,26 @@ public class PrintARM implements Visitor {
         return new_list;
     }
 
-    public void visit(LetRec e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input LetRec expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(LetRec e){
     }
 
   
     
-    public void visit(App e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input App expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(App e){
     	if (((Var)e.e).id.id.equals("sub")){
      	   System.out.print("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
      	   System.out.print("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
@@ -268,18 +393,53 @@ public class PrintARM implements Visitor {
         }
     }
 
-    public void visit(Tuple e){
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input Tuple expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Tuple e){
     }
 
-    public void visit(LetTuple e){
+     /** 
+	 * Function not implemented yet, we cannot tell you what will happened if you use it now.
+ 	 * 
+ 	 * @param e	input LetTuple expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(LetTuple e){
     }
 
-    public void visit(Array e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Array expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Array e){
     }
 
-    public void visit(Get e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Get expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Get e){
     }
 
-    public void visit(Put e){
+     /** 
+	 * Visitor printing the ARM code of the given expression.
+ 	 * 
+ 	 * @param e	input Put expression
+ 	* 
+ 	 */
+	@Override
+	public void visit(Put e){
     }
 }
