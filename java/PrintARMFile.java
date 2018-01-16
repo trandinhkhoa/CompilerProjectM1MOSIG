@@ -72,11 +72,12 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Bool e) {
-       if (e.b) {
-    	myWriter("1");
+    	if (e.b) {
+    		myWriter("mov r10 , #1\n");
        }else {
-       	myWriter("0");
+    	   myWriter("mov r10, #0\n");
        }
+       myStack.push("r10");
     }
 
     public void visit(Int e) {
@@ -177,15 +178,21 @@ public class PrintARMFile implements Visitor {
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
     		 myWriter("beq " + "then"+if_i2+"\n");
     		 myWriter("bal " + "else"+els_i2+"\n");
-    	}else {//if (e.e1.getClass() == Eq.class) {
+    	}else if (e.e1.getClass() == LE.class) {
     		((Var)((LE)e.e1).e1).accept(this);
             myWriter("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
     		// myWriter("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
     		myWriter("ble " + "then"+if_i2+"\n");
-    		myWriter("bal " + "else"+els_i2+"\n");
-    	}
+    		myWriter("bal " + "else"+els_i2+"\n");   	    
+        }else if (e.e1.getClass() == Bool.class){//if (e.e1.getClass() == Eq.class) {
+        		((Bool)e.e1).accept(this);
+        		myWriter("mov r12, " + myStack.pop() + "\n");
+        		myWriter("cmp r12" + ", #1\n");
+        		myWriter("ble " + "then"+if_i2+"\n");
+        		myWriter("bal " + "else"+els_i2+"\n");
+        	}
 
 		ifEpilogue(e,if_i2,els_i2,ex_i2);
        
