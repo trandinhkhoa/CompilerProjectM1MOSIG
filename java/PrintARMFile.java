@@ -264,6 +264,7 @@ public class PrintARMFile implements Visitor {
     
     public void visit(App e){
     	//myWriter(e);
+        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
     	if (((Var)e.e).id.id.equals("sub")){
      	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
      	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
@@ -284,6 +285,31 @@ public class PrintARMFile implements Visitor {
         	// myWriter("mov r9, #"+2*4+"\n");
         	// myWriter("add sp, sp, r9\n");     	
 
+           // if (((current_index) * 4) <= 255){
+           //      myWriter("mov r9, #-"+(current_index)*4+"\n");
+           //  }
+           //  else{
+           //      // myWriter("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
+           //      myWriter("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
+           //  }
+        	// myWriter("add sp, fp, r9\n");
+        	// myWriter("mov r9, #-"+e.es.size()*4+"\n");
+        	// myWriter("add sp, sp, r9\n");
+        	// myWriter("mov r9, #-"+2*4+"\n");
+        	// myWriter("add sp, sp, r9\n");     	
+        	 printInfix2(e.es);
+        	 
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
+        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+            myWriter("bl min_caml_print_int\n");
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_char"))){
+        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+            myWriter("bl min_caml_print_char\n");
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_newline"))){ 
+        	myWriter("bl min_caml_print_newline\n");
+        }else {
+
+
            if (((current_index) * 4) <= 255){
                 myWriter("mov r9, #-"+(current_index)*4+"\n");
             }
@@ -296,17 +322,10 @@ public class PrintARMFile implements Visitor {
         	myWriter("add sp, sp, r9\n");
         	myWriter("mov r9, #-"+2*4+"\n");
         	myWriter("add sp, sp, r9\n");     	
-        	 printInfix2(e.es);
-        	 
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
-        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
-            myWriter("bl min_caml_print_int\n");
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_char"))){
-        	myWriter("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
-            myWriter("bl min_caml_print_char\n");
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_newline"))){ 
-        	myWriter("bl min_caml_print_newline\n");
-        }else {
+
+
+
+
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {

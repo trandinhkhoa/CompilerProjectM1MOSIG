@@ -263,6 +263,27 @@ public class PrintARM implements Visitor {
         	// System.out.print("mov r9, #"+2*4+"\n");
         	// System.out.print("add sp, sp, r9\n");     	
 
+            // if (((current_index) * 4) <=255){
+            //     System.out.print("mov r9, #-"+(current_index)*4+"\n");
+            // }
+            // else{
+            //     // System.out.print("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
+            //     System.out.print("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
+            // }
+        	// System.out.print("add sp, fp, r9\n");
+        	// System.out.print("mov r9, #-"+e.es.size()*4+"\n");
+        	// System.out.print("add sp, sp, r9\n");
+        	// System.out.print("mov r9, #-"+2*4+"\n");
+        	// System.out.print("add sp, sp, r9\n");     	
+        	//  printInfix2(e.es);
+        	 
+        }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
+        	System.out.print("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
+            System.out.print("bl min_caml_print_int\n");
+            
+        }else {
+
+
             if (((current_index) * 4) <=255){
                 System.out.print("mov r9, #-"+(current_index)*4+"\n");
             }
@@ -276,12 +297,8 @@ public class PrintARM implements Visitor {
         	System.out.print("mov r9, #-"+2*4+"\n");
         	System.out.print("add sp, sp, r9\n");     	
         	 printInfix2(e.es);
-        	 
-        }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
-        	System.out.print("ldr  "+"r0, " +getFP(((Var)e.es.get(0)).id)+"\n");
-            System.out.print("bl min_caml_print_int\n");
-            
-        }else {
+
+
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
