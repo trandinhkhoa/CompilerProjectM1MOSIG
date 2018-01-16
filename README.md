@@ -10,8 +10,8 @@
 
 		-v : run the programm by displaying the name of the steps .
 
-##### Additional Option
-in addition to v:
+##### Additional Option (in addition to v)
+		
 		-all : display the details of all the steps.
 
 ### Selection Options
@@ -24,8 +24,8 @@ in addition to v:
 
 		-o : after this option you have to give the output file you want to generate (ARM file by default) .
 				
-##### Additional Option
-in addition to -o:
+##### Additional Option (in addition to -o)
+		
 		-asml : the output file will be an ASML file instead of an ARM file.
 		
 ### Other Options
