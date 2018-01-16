@@ -15,7 +15,6 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 	
 	public int get_free_register() {
 		for (int i = 4 ; i <=12;i++) {
-			//System.out.println(register_tab[i]);
 			if (register_tab[i].equals("")) {
 				return i;
 			}
@@ -25,7 +24,6 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
 	
 	public int get_var_register(String s) {
 		for (int i = 4 ; i <=12;i++) {
-			//System.out.println( register_tab[i] +" = " + s +" ?");
 			if (register_tab[i].equals(s)) {
 				return i;
 			}
@@ -189,46 +187,6 @@ public class Reg_Alloc implements ObjVisitor<Exp> {
     }
     
     public Exp visit(App e){
-      // App app = new App(e.e.accept(this),printInfix2(e.es));
-      // return app;
-    	/*List<Exp> l = printInfix2(e.es);
-    	Iterator it = l.iterator();
-    	List<Exp> l2 = new LinkedList<Exp>();
-    	Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
-    	while (it.hasNext()) {
-    		Exp exp = (Exp) it.next();
-    		if(exp.getClass()==Let.class){
-
-        		System.out.println("YO");
-    			Let lt = (Let) exp;
-    			l2.add(new Var(lt.id));
-    			new_l = new Let(lt.id,lt.t,lt.e1,new_l);
-    		}else {
-    			l2.add(exp);
-    		}
-    	}
-    	Exp app;
-    	app = new App(e.e.accept(this),l2);
-    	if (!new_l.id.id.equals("\0")) {
-    		new_l = (Let) rec_app(new_l,app);
-    		app = new_l;
-    	}
-       return app;*/
-       
-      /* List<Exp> la = new LinkedList<Exp>();
-       la.addAll(printInfix2(e.es));
-       List<Exp> llet = new LinkedList<Exp>();
-       List<Exp> lvar = new LinkedList<Exp>();
-       Exp a =  app_rec(la,llet,lvar,e.e.accept(this));
-       int i = get_free_register();
-       Id id;
-       if(i!=-1) {
-    	   id = new Id("r"+i);
-       }else {
-    	   System.err.println("No remaining register");
-    	   id = new Id("temp");
-       }
-       return new Let (id,new TVar(id.id),a,new Var(id));*/
     	return new App(e.e,printInfix2(e.es));
        
     }

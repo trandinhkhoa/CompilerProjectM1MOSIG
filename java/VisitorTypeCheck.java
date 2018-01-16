@@ -406,8 +406,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	}
 	@Override
 	public Type visit(App e) {
-		// TODO Auto-generated method stub
-		if (((Var)e.e).id.id.equals("print_int")) {
+		if ((((Var)e.e).id.id.equals("print_int"))||(((Var)e.e).id.id.equals("print_char")))  {
 			if ((e.es.size()==1)&&(e.es.get(0).accept(this).getClass()==TInt.class)) {
 				return new TUnit();
 			}else {
@@ -415,7 +414,16 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 				System.out.println("Error from type check");System.exit(1);
 				return null;
 			}
-		}else {
+		}else if ((((Var)e.e).id.id.equals("print_newline")))  {
+			if ((e.es.size()==1)&&(e.es.get(0).accept(this).getClass()==TUnit.class)) {
+				return new TUnit();
+			}else {
+				errorSet=true;
+				System.out.println("Error from type check");System.exit(1);
+				return null;
+			}
+			
+	}else {
 			for (int i = 0; i< e.es.size(); i++) {
 				e.es.get(i).accept(this);
 			}
@@ -432,14 +440,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	
 	@Override
 	public Type visit(Tuple e) {
-		// TODO Auto-generated method stub
 		printInfix2(e.es);
 		return null;
 	}
 
 	@Override
 	public Type visit(LetTuple e) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -447,7 +453,6 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	public Type visit(Array e) {
 		Type type1 = e.e1.accept(this);
 		if((type1!=null)&&(TInt.class != type1.getClass())){
-			//System.err.println("Array expression must be of type Int");
 			return null;
 		}
 		else{
@@ -466,14 +471,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		Type type1 = e.e1.accept(this);
 		
 		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
-			//System.err.println("Expression is not array" + e);
 			errorSet=true;
 			System.out.println("Error from type check");System.exit(1);
 		}
 		Type type2 = e.e2.accept(this);
 		
 		if((type2!=null)&&(TInt.class != type2.getClass())){	//if the index is not int
-			//System.err.println("Second expression of get must be of type Int");
 			errorSet=true;
 			System.out.println("Error from type check");System.exit(1);
 		}
@@ -492,12 +495,10 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		Type type3 = e.e3.accept(this);
 		
 		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
-			//System.err.println("Expression is not array" + e);
 			errorSet=true;
 			System.out.println("Error from type check");System.exit(1);
 		}
 		if((type2!=null)&&(TInt.class != type2.getClass())){	//if the index is not int
-			//System.err.println("Second expression of get must be of type Int");
 			errorSet=true;
 			System.out.println("Error from type check");System.exit(1);
 		}
@@ -510,21 +511,18 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 					return new TUnit();
 				}
 				else{
-					//System.err.println("Type check error in Put" + e);
 					errorSet=true;
 					System.out.println("Error from type check");System.exit(1);
 					return null;
 				}
 			}
 			else{
-				//System.err.println("Type check error in Put" + e);
 				errorSet=true;
 				System.out.println("Error from type check");System.exit(1);
 				return null;
 			}
 		}
 		else{
-			//System.err.println("Type check error in Put" + e);
 			errorSet=true;
 			System.out.println("Error from type check");System.exit(1);
 			return null;

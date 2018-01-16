@@ -25,7 +25,6 @@ public class RegAllocImp implements ObjVisitor<Exp> {
 	
 	public static int get_var_register(String s) {
 		for (int i = 4 ; i <=12;i++) {
-			//System.out.println( register_tab[i] +" = " + s +" ?");
 			if (register_tab[i].equals(s)) {
 				return i;
 			}
@@ -46,7 +45,6 @@ public class RegAllocImp implements ObjVisitor<Exp> {
 
 	public static StackAdd getRegister(String id){
 			if(register_Map.containsKey(id)){
-				//System.out.println("register map" + register_Map.get(id).toString());
 				StackAdd new_addr = register_Map.get(id);
 				return new_addr;
 			}
@@ -55,97 +53,93 @@ public class RegAllocImp implements ObjVisitor<Exp> {
 	
 	@Override
 	public Exp visit(Unit e) {
-		// TODO Auto-generated method stub
 		return e;
 	}
 
 	@Override
 	public Exp visit(Bool e) {
-		// TODO Auto-generated method stub
 		return e;
 	}
 
 	@Override
 	public Exp visit(Int e) {
-		// TODO Auto-generated method stub
 		return e;
 	}
 
 	@Override
 	public Exp visit(Float e) {
-		// TODO Auto-generated method stub
 		return e;
 	}
 
 	@Override
 	public Exp visit(Not e) {
-		// TODO Auto-generated method stub
+		
 		return new Not(e.e.accept(this));
 	}
 
 	@Override
 	public Exp visit(Neg e) {
-		// TODO Auto-generated method stub
+		
 		return new Neg(e.e.accept(this));
 	}
 
 	@Override
 	public Exp visit(Add e) {
-		// TODO Auto-generated method stub
+		
 		return new Add(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(Sub e) {
-		// TODO Auto-generated method stub
+		
 		return new Sub(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(FNeg e) {
-		// TODO Auto-generated method stub
+		
 		return new FNeg(e.e.accept(this));
 	}
 
 	@Override
 	public Exp visit(FAdd e) {
-		// TODO Auto-generated method stub
+		
 		return new FAdd(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(FSub e) {
-		// TODO Auto-generated method stub
+		
 		return new FSub(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(FMul e) {
-		// TODO Auto-generated method stub
+		
 		return new FMul(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(FDiv e) {
-		// TODO Auto-generated method stub
+		
 		return new FDiv(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(Eq e) {
-		// TODO Auto-generated method stub
+		
 		return new Eq(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(LE e) {
-		// TODO Auto-generated method stub
+		
 		return new LE(e.e1.accept(this),e.e2.accept(this));
 	}
 
 	@Override
 	public Exp visit(If e) {
-		// TODO Auto-generated method stub
+		
 		return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
 	}
 
@@ -247,46 +241,6 @@ public class RegAllocImp implements ObjVisitor<Exp> {
     }
     
     public Exp visit(App e){
-      // App app = new App(e.e.accept(this),printInfix2(e.es));
-      // return app;
-    	/*List<Exp> l = printInfix2(e.es);
-    	Iterator it = l.iterator();
-    	List<Exp> l2 = new LinkedList<Exp>();
-    	Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
-    	while (it.hasNext()) {
-    		Exp exp = (Exp) it.next();
-    		if(exp.getClass()==Let.class){
-
-        		System.out.println("YO");
-    			Let lt = (Let) exp;
-    			l2.add(new Var(lt.id));
-    			new_l = new Let(lt.id,lt.t,lt.e1,new_l);
-    		}else {
-    			l2.add(exp);
-    		}
-    	}
-    	Exp app;
-    	app = new App(e.e.accept(this),l2);
-    	if (!new_l.id.id.equals("\0")) {
-    		new_l = (Let) rec_app(new_l,app);
-    		app = new_l;
-    	}
-       return app;*/
-       
-      /* List<Exp> la = new LinkedList<Exp>();
-       la.addAll(printInfix2(e.es));
-       List<Exp> llet = new LinkedList<Exp>();
-       List<Exp> lvar = new LinkedList<Exp>();
-       Exp a =  app_rec(la,llet,lvar,e.e.accept(this));
-       int i = get_free_register();
-       Id id;
-       if(i!=-1) {
-    	   id = new Id("r"+i);
-       }else {
-    	   System.err.println("No remaining register");
-    	   id = new Id("temp");
-       }
-       return new Let (id,new TVar(id.id),a,new Var(id));*/
     	return new App(e.e,printInfix2(e.es));
        
     }

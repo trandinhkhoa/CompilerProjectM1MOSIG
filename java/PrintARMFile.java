@@ -31,14 +31,6 @@ public class PrintARMFile implements Visitor {
 	     parameters.addAll(param);
 	     myStack = new Stack<String>();
 	        fw_arm = fw;
-	        // myWriter("HELOO");
-	    	/*try {
-	            this.fw_arm.write("mov fp, sp\n");
-	    	}
-			catch (IOException exception)
-			{
-				System.err.println ("Error during the reading : " + exception.getMessage());
-			}*/
 			for (int i = 0 ; i <=15;i++) {
 				register_tab[i]="";
 			}
@@ -62,7 +54,6 @@ public class PrintARMFile implements Visitor {
     	if (s.charAt(0)=='s') {
     		s = s.substring(1);
     		int sn = Integer.parseInt(s);
-    		// s = "[ fp, #"+(4*sn)+" ]";
     		s = "[ fp, #-"+(4*sn)+" ]";
     	}
     	return s;
@@ -91,64 +82,39 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Float e) {
-    	//myWriter(e);
-    	//myWriter(e.f);
-        //myWriter(""+e.f);
     }
 
     public void visit(Not e) {
-    	//myWriter(e);
     }
 
-    public void visit(Neg e) {
-    	//myWriter(e);
-    	//myStack.push("-");
-       //  e.e.accept(this);  	
+    public void visit(Neg e) {	
     }
 
     public void visit(Add e) {
-    	//myWriter(e);
-        //ERROR
     }
 
 	public void visit(Sub e) {
-    	//myWriter(e);
-		 //ERROR
     }
 
     public void visit(FNeg e){
-    	//myWriter(e);
-    	 //ERROR
     }
 
     public void visit(FAdd e) {
-    	//myWriter(e);
-    	 //ERROR
     }
 
 	public void visit(FSub e) {
-    	//myWriter(e);
-		 //ERROR
     }
 
     public void visit(FMul e) {
-    	//myWriter(e);
-    	 //ERROR
     }
 
     public void visit(FDiv e){
-    	//myWriter(e);
-    	 //ERROR
     }
 
     public void visit(Eq e){
-    	//myWriter(e);
-    	//
     }
 
     public void visit(LE e){
-    	//myWriter(e);
-    	//
     }
 
     
@@ -162,8 +128,6 @@ public class PrintARMFile implements Visitor {
     }
     
     public void visit(If e){
-    	//myWriter(e);
-    	
     	int if_i2 = if_i;
     	int els_i2 = els_i;
     	int ex_i2=ex_i;
@@ -176,9 +140,6 @@ public class PrintARMFile implements Visitor {
     		((Var)((Eq)e.e1).e1).accept(this);
             myWriter("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((Eq)e.e1).e2).accept(this);
-             // myWriter("Im HERE\n" + myStack);
-             //khoaNote: cmp r7 r7
-    		 // myWriter("cmp " + myStack.pop() + ", " + myStack.pop()+"\n");
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
     		 myWriter("beq " + "then"+if_i2+"\n");
     		 myWriter("bal " + "else"+els_i2+"\n");
@@ -186,11 +147,10 @@ public class PrintARMFile implements Visitor {
     		((Var)((LE)e.e1).e1).accept(this);
             myWriter("mov r12, " + myStack.pop() + "\n");
     		 ((Var)((LE)e.e1).e2).accept(this);
-    		// myWriter("cmp " + ((Var)((Eq)e.e1).e1).id.id + ", " + ((Var)((Eq)e.e1).e2).id.id+"\n");
     		 myWriter("cmp r12" + ", " + myStack.pop()+"\n");
     		myWriter("ble " + "then"+if_i2+"\n");
     		myWriter("bal " + "else"+els_i2+"\n");   	    
-        }else if (e.e1.getClass() == Bool.class){//if (e.e1.getClass() == Eq.class) {
+        }else if (e.e1.getClass() == Bool.class){
         		((Bool)e.e1).accept(this);
         		myWriter("mov r12, " + myStack.pop() + "\n");
         		myWriter("cmp r12" + ", #1\n");
@@ -203,7 +163,6 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Let e) {
-    	//myWriter(e);
     	e.e1.accept(this);
     	if (!myStack.isEmpty()) {
     		myWriter("str "+myStack.pop()+", " + getFP(e.id)+"\n");
@@ -224,9 +183,7 @@ public class PrintARMFile implements Visitor {
 
     public void visit(Var e){
     	int index = get_index(parameters, e.id);
-        // myWriter("IM HERE. Parameter list size is " + parameters.size() +"\n");
     	if(index!=-1) {
-    		// myWriter("ldr  r8, [ fp, #-"+ ((1+index)*4)+" ]\n");
     		myWriter("ldr  r8, [ fp, #"+ ((1+index)*4 + 8)+" ]\n");
 	    	myStack.push("r8");	
     	}else {
@@ -266,48 +223,22 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(LetRec e){
-    	//myWriter(e);
-    	
-        // myWriter("Current expression is " + e.toString());
     }
 
   
     
     public void visit(App e){
-    	//myWriter(e);
-        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
     	if (((Var)e.e).id.id.equals("sub")){
      	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
      	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
      	   myWriter("sub r6, r4, r5\n");
-     	  // myWriter("str "+"r6, " +myStack.pop());
      	   myStack.push("r6");
      }else if (((Var)e.e).id.id.equals("add")){
     	   myWriter("ldr  "+"r4, " +getFP(((Var)e.es.get(0)).id)+"\n");
     	   myWriter("ldr  "+"r5, " +getFP(((Var)e.es.get(1)).id)+"\n");
     	   myWriter("add r6, r4, r5\n");
-    	  // myWriter("str "+"r6, " +myStack.pop());
     	   myStack.push("r6");
-        }else if (((Var)e.e).id.id.equals("call")){
-        	// myWriter("mov r9, #"+(current_index)*4+"\n");
-        	// myWriter("add sp, fp, r9\n");
-        	// myWriter("mov r9, #"+e.es.size()*4+"\n");
-        	// myWriter("add sp, sp, r9\n");
-        	// myWriter("mov r9, #"+2*4+"\n");
-        	// myWriter("add sp, sp, r9\n");     	
-
-           // if (((current_index) * 4) <= 255){
-           //      myWriter("mov r9, #-"+(current_index)*4+"\n");
-           //  }
-           //  else{
-           //      // myWriter("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
-           //      myWriter("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
-           //  }
-        	// myWriter("add sp, fp, r9\n");
-        	// myWriter("mov r9, #-"+e.es.size()*4+"\n");
-        	// myWriter("add sp, sp, r9\n");
-        	// myWriter("mov r9, #-"+2*4+"\n");
-        	// myWriter("add sp, sp, r9\n");     	
+        }else if (((Var)e.e).id.id.equals("call")){   	
         	 printInfix2(e.es);
         	 
         }else if ((((Var)e.e).id.id.equals("_min_caml_print_int"))||(((Var)e.e).id.id.equals("_min_caml_min_caml_print_int"))){
@@ -325,7 +256,6 @@ public class PrintARMFile implements Visitor {
                 myWriter("mov r9, #-"+(current_index)*4+"\n");
             }
             else{
-                // myWriter("ldr r9, =#0x-"+Integer.toHexString((current_index)*4)+"\n"); //should be this spill3 reverse the sign to correct, mov also work?
                 myWriter("ldr r9, =#0x"+Integer.toHexString((current_index)*4)+"\n");
             }
         	myWriter("add sp, fp, r9\n");
@@ -340,8 +270,6 @@ public class PrintARMFile implements Visitor {
         	for (int i = 0; i < e.es.size() ; i++) {
         		e.es.get(i).accept(this);
         		if (!myStack.isEmpty()) {
-                    // myWriter("IM HERE\n");
-        	    	// myWriter("str "+myStack.pop()+", " + "[ sp , #-" + ((i+1)*4) +" ]\n");
         	    	myWriter("str "+myStack.pop()+", " + "[ sp , #" + ((i+1)*4) +" ]\n");
         	    }
         	}
@@ -356,22 +284,17 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Tuple e){
-        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(LetTuple e){
-        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Array e){
-        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Get e){
-        // myWriter("Current expression is " + e.toString());
     }
 
     public void visit(Put e){
-        // myWriter("Current expression is " + e.toString());
     }
 }
