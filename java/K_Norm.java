@@ -391,12 +391,6 @@ public class K_Norm implements ObjVisitor<Exp> {
  	 */
 	@Override
 	public Exp visit(Array e){		
-	/*	Var size = new Var(new Id(gen()));
-		Var init = new Var(new Id(gen()));
-
-		Let l1 = new Let(size.id, new TArray(), e.e1.accept(this), new Array(size,init));
-		Let l2 = new Let(init.id, new TArray(), e.e2.accept(this), l1);
-		return l2;*/
 		try {
 			throw new NotYetImplementedException("Array NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
@@ -415,16 +409,6 @@ public class K_Norm implements ObjVisitor<Exp> {
  	 */
 	@Override
 	public Exp visit(Get e) {
-		/*e.e1.accept(this)
-		string s1 = myStack.pop();
-		e.e2.accept(this)
-		string s2 = myStack.pop();
-		load r1, [s1, s2]
-		myStack.push("r1");	*/
-		
-		
-		/*Get g = new Get(e.e1.accept(this), e.e2.accept(this));
-		return g;*/
 		try {
 			throw new NotYetImplementedException("Get NotYetImplemented");
 		} catch (NotYetImplementedException e1) { 
@@ -444,15 +428,6 @@ public class K_Norm implements ObjVisitor<Exp> {
  	 */
 	@Override
 	public Exp visit(Put e) {
-		/*Exp e1 = e.e2.accept(this);
-		Exp e2 = e.e3.accept(this);
-		Id i1 = new Id(gen());
-		Id i2 = new Id(gen());
-		Var v1 = new Var(i1);
-		Var v2 = new Var(i2);
-		Let l1 = new Let(i1, new TUnit(), e1, new Put(e.e1,v1,v2));
-		Let l2 = new Let(i2, new TUnit(), e2, l1);*/
-		
 		try {
 			throw new NotYetImplementedException("Put NotYetImplemented");
 		} catch (NotYetImplementedException e1) {

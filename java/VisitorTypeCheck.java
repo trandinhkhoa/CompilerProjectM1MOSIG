@@ -123,10 +123,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operand1 is unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){	//if operand2 is unknown type 
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){	//if both operands are of type Int
@@ -155,10 +157,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){
@@ -185,6 +189,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			String str = ((Var) e.e).id.id;
 			System.out.println("Str" + ((Var) e.e).id.id);
 			delVar.put(str, new TFloat());
+			return new TFloat();
 		}
 		if(TInt.class==e.e.accept(this).getClass()){
 			return new TFloat();
@@ -212,10 +217,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operands are unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -244,10 +251,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -276,10 +285,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -309,10 +320,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -343,18 +356,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -383,18 +400,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -514,24 +535,6 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(LetRec e) {
-		/*if(delVar.containsKey(e.fd.id.id)){
-			//System.err.println("Definition already present "+e.fd.id);
-		}
-		Type t = e.fd.e.accept(this);
-		if(e.fd.type.getClass() == t.getClass()){
-			if(TVar.class != e.fd.type.getClass()){
-				//System.err.println("Type do not match " + e.fd.id);
-			}
-		}
-		delVar.put(e.fd.id.id, t);
-		return t;*/
-		
-		/*e.fd.e.accept(this);
-		for (int i = 0; i < e.fd.args.size(); i++) {
-			Var v = new Var(e.fd.args.get(i));
-			v.accept(this);
-		}
-		return e.e.accept(this);*/
 		
 		return null;
 	}
