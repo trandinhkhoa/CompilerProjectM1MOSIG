@@ -10,14 +10,14 @@ import java.io.IOException;
  * Visitor printing the ARM code of the associated expression on the standard output.
  * 
  */
-public class PrintARM implements Visitor {
+public class PrintARM implements Visitor { 
 	
 	static String[] register_tab = new String[16];
     Stack<String> myStack;
     int current_index;
-    List<Id> parameters;
+    List<Id> parameters; 
     int if_i;
-	
+	 
     /** 
    	 * Constructor for the PrintARM.
 	 * 
