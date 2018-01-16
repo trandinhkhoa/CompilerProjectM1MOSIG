@@ -91,7 +91,16 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     public Exp visit(Eq e){return new Eq(e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(LE e){return new LE(e.e1.accept(this),e.e2.accept(this));}
     public Exp visit(If e){return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));}
-    public Exp visit(Array e){return new Array(e.e1.accept(this),e.e2.accept(this));}
+   
+    public Exp visit(Array e){
+    	Var v = new Var(new Id("array"));
+		List<Exp> l = new LinkedList<Exp>();
+		l.add(e.e1.accept(this));
+		l.add(e.e2.accept(this));
+		return new App(v,l);
+    	//return new Array(e.e1.accept(this), e.e2.accept(this));
+    	
+}
     public Exp visit(Tuple e){return new Tuple(rec_list(e.es));}
    
     public Exp visit(Let e){return new Let(e.id,e.t,e.e1.accept(this),e.e2.accept(this));}
@@ -102,6 +111,7 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     public Exp visit(App e){
     	Var v = (Var) e.e;
     	if (v.id.id.equals("apply_direct")) {	
+    		
     		v = new Var(new Id("call"));
     		Tuple t = (Tuple)e.es.get(0);
             //a : name of function
@@ -113,8 +123,9 @@ public class ASML_Gen implements ObjVisitor<Exp> {
     		le.addAll(e.es.subList(1, e.es.size()));
     		return new App(v,le);
     		
-    	}else if(!contains(v.id)) {
-            
+    	}else if(!contains(v.id) && !(v.id.id.equals("_Array.create"))) {
+    		
+    		
     		Var vCall = new Var(new Id("call"));
     		Var vNew = new Var(new Id("_min_caml_"+v.id.id));
     		App app = new App(vNew, e.es);
