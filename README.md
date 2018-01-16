@@ -32,3 +32,14 @@
 
 		-eqt :  alternative equation type checking 
 
+## How to use it
+
+### Generate ARM code
+
+		scripts/mincamlc -o [output file] input file
+		
+		
+### Generate ASML Code
+
+		scripts/mincamlc -asml input file -o [output file] 
+
