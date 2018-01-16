@@ -46,6 +46,9 @@ fi
 
 rm actual/*.actual
 rm expected/*.expected
+rm actual/*.o
+rm actual/*.arm
+rm actual/*.s
 
 cd "../"
 
