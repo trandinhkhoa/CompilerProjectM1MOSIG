@@ -5,32 +5,62 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	HashMap<String,Type> delVar= new HashMap<>(); // to store inferred variables' type
 	boolean errorSet = false;
 	
-	public VisitorTypeCheck(){
-		/*delVar.put("print_int", new TFun());
-		delVar.put("print_newline", new TFun());
-		delVar.put("print_char", new TFun());*/
-	}
-	
+		
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Unit e) {
 		return new TUnit();	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Bool e) {
 		return new TBool();	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Int e) {	
 		return new TInt(); 
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Float e) {
 		return new TFloat(); 
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Not e) {
 		if(e.e.accept(this).getClass()==TUnresolvedType.class){  //if the type of variable is not unknown
@@ -48,6 +78,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}	
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Neg e) {
 		
@@ -67,6 +104,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}			
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Add e) {
 		Type type1 = e.e1.accept(this);
@@ -92,6 +136,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Sub e) {
 		Type type1 = e.e1.accept(this);
@@ -117,6 +168,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FNeg e) {
 		if(e.e.accept(this).getClass()==TUnresolvedType.class){
@@ -135,6 +193,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FAdd e) {
 		Type type1 = e.e1.accept(this);
@@ -160,6 +225,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FSub e) {
 		Type type1 = e.e1.accept(this);
@@ -185,6 +257,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FMul e) {
 		Type type1 = e.e1.accept(this);
@@ -211,6 +290,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(FDiv e) {
 		Type type1 = e.e1.accept(this);
@@ -237,6 +323,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Eq e) {
 		Type type1 = e.e1.accept(this);
@@ -270,6 +363,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LE e) {
 		Type type1 = e.e1.accept(this);
@@ -303,6 +403,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(If e) {
 		Type type_e1 =e.e1.accept(this);
@@ -354,6 +461,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Let e) {
 		if(delVar.containsKey(e.id.id)){
@@ -370,17 +484,30 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Var e) {
 		if((delVar.containsKey(e.id.id))){
 			return delVar.get(e.id.id);
 		}
-		////System.err.println("Undefined variable " + e.id);
 		errorSet=true;
 		System.out.println("Error from type check");System.exit(1);
 		return null;
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LetRec e) {
 		/*if(delVar.containsKey(e.fd.id.id)){
@@ -404,6 +531,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		
 		return null;
 	}
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(App e) {
 		if ((((Var)e.e).id.id.equals("print_int"))||(((Var)e.e).id.id.equals("print_char")))  {
@@ -438,17 +572,38 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 	        }
 	    }
 	
+	/**
+ 	 * Visitor not yet implemented.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Tuple e) {
 		printInfix2(e.es);
 		return null;
 	}
 
+	/**
+ 	 * Visitor not yet implemented.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(LetTuple e) {
 		return null;
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Array e) {
 		Type type1 = e.e1.accept(this);
@@ -466,6 +621,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Get e) {
 		Type type1 = e.e1.accept(this);
@@ -488,6 +650,13 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 	}
 
+	/**
+ 	 * Visitor returning the type of the evaluated expression e.
+ 	 * 
+ 	 * @param e	input expression
+ 	 * 
+ 	 * @return the type of expression e.
+ 	 */
 	@Override
 	public Type visit(Put e) {
 		Type type1 = e.e1.accept(this);
