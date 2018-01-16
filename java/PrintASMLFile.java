@@ -3,6 +3,11 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Visitor writing the ASML code of the associated expression into the given file.
+ * 
+ */
 public class PrintASMLFile implements Visitor {
 	
 	FileWriter fw ;

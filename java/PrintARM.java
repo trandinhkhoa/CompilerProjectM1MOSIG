@@ -5,6 +5,11 @@ import java.util.Stack;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
+/**
+ * Visitor printing the ARM code of the associated expression on the standard output.
+ * 
+ */
 public class PrintARM implements Visitor {
 	
 	static String[] register_tab = new String[16];

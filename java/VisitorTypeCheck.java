@@ -1,5 +1,9 @@
 import java.util.*;
 
+/**
+	 * Visitor checking the Type of an expression.
+	 * 
+	 */
 public class VisitorTypeCheck implements ObjVisitor<Type>{
 	
 	HashMap<String,Type> delVar= new HashMap<>(); // to store inferred variables' type

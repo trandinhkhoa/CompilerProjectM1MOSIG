@@ -3,6 +3,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Visitor modifying the associated expression based on the register allocation improvement.
+ * 
+ */
 public class RegAllocImp implements ObjVisitor<Exp> {
 
 	static String[] register_tab = new String[16];

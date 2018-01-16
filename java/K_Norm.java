@@ -262,6 +262,14 @@ class K_Norm implements ObjVisitor<Exp> {
 	}
 
 	public Exp visit(Get e) {
+		/*e.e1.accept(this)
+		string s1 = myStack.pop();
+		e.e2.accept(this)
+		string s2 = myStack.pop();
+		load r1, [s1, s2]
+		myStack.push("r1");	*/
+		
+		
 		/*Get g = new Get(e.e1.accept(this), e.e2.accept(this));
 		return g;*/
 		try {

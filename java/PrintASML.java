@@ -1,6 +1,10 @@
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Visitor printing the ASML code of the associated expression on the standard output.
+ * 
+ */
 class PrintASML implements Visitor {
     /** 
 	 * Visitor printing the ASML code of the given expression.

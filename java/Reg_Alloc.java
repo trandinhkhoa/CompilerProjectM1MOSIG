@@ -2,6 +2,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Visitor modifying the associated expression based on the really basic register allocation.
+ * 
+ */
 public class Reg_Alloc implements ObjVisitor<Exp> {
 	
 	static String[] register_tab = new String[16];

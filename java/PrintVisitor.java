@@ -1,6 +1,10 @@
 import java.util.*;
 
-class PrintVisitor implements Visitor {
+/**
+ * Visitor printing the associated expression on the standard output.
+ * 
+ */
+public class PrintVisitor implements Visitor {
 	
 	
     /** 
