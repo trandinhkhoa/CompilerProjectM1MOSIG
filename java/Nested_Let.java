@@ -2,9 +2,21 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+
+/**
+ * Visitor modifying the associated expression based on the definition of the reduction of nested let.
+ * 
+ */
 public class Nested_Let implements ObjVisitor<Exp> {
 
 	
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Let e) {
         if (e.e1.getClass() == e.getClass()){
@@ -20,13 +32,33 @@ public class Nested_Let implements ObjVisitor<Exp> {
             return newLet2;
         }
 	}
-	
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(LetTuple e) {
         return e;
 		
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(LetRec e) {
 		/* No modification for Let recursive */
@@ -37,6 +69,13 @@ public class Nested_Let implements ObjVisitor<Exp> {
 		return lr;
 	}
 	
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(App e) {
         App app;
@@ -59,106 +98,253 @@ public class Nested_Let implements ObjVisitor<Exp> {
         return new_list;
     }
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Unit e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Bool expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Bool e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Int expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Int e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Float expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Float e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Not expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Not e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Neg expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Neg e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Add expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Add e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Sub expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Sub e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input FNeg expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(FNeg e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input FAdd expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(FAdd e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input FSub expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(FSub e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input FMul expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(FMul e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input FDiv expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(FDiv e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Eq expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Eq e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input LE expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(LE e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input If expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(If e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Var expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Var e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Tuple expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Tuple e) {
 		return e;
 	}
 	
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Array expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Array e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Get expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Get e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression after reduction of nested let.
+ 	 * 
+ 	 * @param e	input Put expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
 	@Override
 	public Exp visit(Put e) {
 		return e;
