@@ -334,7 +334,9 @@ public class Main {
 			  System.exit(0);
 			} catch (FileNotFoundException e) {
 				System.out.print("Sorry, but the file doesn't exist ...");
-				System.exit(1);    	
+				System.exit(1);   
+			}catch (NotYetImplementedException e) {
+				System.err.println(e.getMessage());
 			} catch (Exception e) {
 				System.exit(1);    	
 			}
