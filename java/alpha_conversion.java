@@ -1,15 +1,13 @@
 import java.util.*;
 
 
-class alpha_conversion implements ObjVisitor<Exp> {
+public class alpha_conversion implements ObjVisitor<Exp> {
 
-    // HashMap<String, List> hashmap = new HashMap<String, List>();
-    Stack hashmapStack;
-    // HashMap<String,String> hm = new HashMap<String,String>();
+    public Stack hashmapStack;
 
-    static int x = -1;
-    static int level = 0;
-    static String gen() {
+    public static int x = -1;
+    public static int level = 0;
+    public static String gen() {
         x++;
         return "temp" + x;
     }
@@ -19,7 +17,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
         hashmapStack = new Stack();
     }
 
-    public void displayHashMap(HashMap<String, List> hashmap) {
+   void displayHashMap(HashMap<String, List> hashmap) {
         Set set = hashmap.entrySet();
         Iterator i = set.iterator();
         System.out.println("Display Hashmap:");
@@ -31,32 +29,26 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Unit e) {
-        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
     public Exp visit(Bool e) {
-        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
     public Exp visit(Int e) {
-        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
     public Exp visit(Float e) {
-        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
     public Exp visit(Not e) {
-        // System.out.println("Current exp is " + e.toString());
         return e.e.accept(this);
     }
 
     public Exp visit(Neg e) {
-        // System.out.println("Current exp is " + e.toString());
         return e;
     }
 
@@ -136,7 +128,6 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
     public Exp visit(Let e) {
-        // System.out.println("Current exp is " + e.toString());
         //this only to provide something to return after try catch
         Let returnL = new Let(e.id, e.t, e.e1, e.e2);
         try {
@@ -153,9 +144,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
             HashMap<String, List> newHashmap = new HashMap<String, List>();
             newHashmap = (HashMap)peekObject.clone();
             if (peekObject.containsKey(e.id.id)) {
-                // System.out.println("LET " + e.id.id + " DOES exist");
                 // creating a new name
-                //let x' = Id.genid x
                 Var v = new Var(new Id(gen()));
 
                 // add new name mapping to the new hashmap
@@ -171,8 +160,6 @@ class alpha_conversion implements ObjVisitor<Exp> {
                 return l;
                 // if x in let x = e1 in e2 does not exist, add the mapping current name -> current name to hashmap -> push hashmap to stack
             } else {
-                // System.out.println("LET " + e.id.id + " DOES NOT exist");
-
                 // add new name mapping to the new hashmap
                 List<Id> newNameList = new ArrayList<Id>();
                 newNameList.add(e.id);
@@ -196,10 +183,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
     public Exp visit(LetRec e) {
-        // System.out.println("--------------------------------------------");
-        // System.out.println("Current Exp is" + e);
-        // System.out.println("\tFunDef is " + e.fd.id + " \tArg List is " + e.fd.args + " and e is " + e.e);
-        //New function name
+       //New function name
         String newFunctionName;
         // return the hashmap at the top of the stack
         HashMap<String, List> peekObject = new HashMap<String, List>();
@@ -216,9 +200,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
         //let env = M.add x (Id.genid x) env in
         // if x in let x = e1 in e2 already existed, map to a new name
         if (peekObject.containsKey(e.fd.id.id)) {
-            // System.out.println("LETREC " + e.fd.id.id + " DOES exist");
             // creating a new name
-            //let x' = Id.genid x
             Var v = new Var(new Id(gen()));
 
             //Replace old function name with new name = find x env
@@ -230,7 +212,6 @@ class alpha_conversion implements ObjVisitor<Exp> {
             hashmapStack.push(newHashmap);
             // if x in let x = e1 in e2 does not exist, add the mapping current name -> current name to hashmap -> push hashmap to stack
         } else {
-            // System.out.println("LETREC " + e.fd.id.id + " DOES NOT exist");
 
             // add new name mapping to the new hashmap
             List<Id> newNameList = new ArrayList<Id>();
@@ -253,9 +234,7 @@ class alpha_conversion implements ObjVisitor<Exp> {
         while (i.hasNext()) {
             String str = i.next().toString();
             if (newHashmap.containsKey(str)) {//e.fd.id is not string
-                // System.out.println("LETREC ARGS " + str + " DOES exist");
                 // creating a new name
-                //let x' = Id.genid x
                 Var v = new Var(new Id(gen()));
 
                 //Replace old function arg list with new list 
@@ -264,7 +243,6 @@ class alpha_conversion implements ObjVisitor<Exp> {
                 // add new name mapping to the new hashmap
                 newHashmap.get(str).add(v.id);
             } else {
-                // System.out.println("LETREC ARGS " + str + " DOES NOT exist");
                 // add new name mapping to the new hashmap
                 List<Id> newNameList = new ArrayList<Id>();
                 newNameList.add(new Id(str));
@@ -281,7 +259,6 @@ class alpha_conversion implements ObjVisitor<Exp> {
         LetRec lr = new LetRec(fd2, e22);
         hashmapStack.pop();
 
-        // System.out.println("--------------------------------------------");
         return lr;
     }
 
@@ -292,12 +269,9 @@ class alpha_conversion implements ObjVisitor<Exp> {
             newHashmap = (HashMap)hashmapStack.peek();
         }
         if (newHashmap.containsKey(e.id.id)) {
-            // System.out.println("VAR " + e.id.id + " DOES exist");
-            // System.out.println("Replaced by " + hm.get(e.id.id).get(hm.get(e.id.id).size() - 1));
             Var newE = new Var((Id)newHashmap.get(e.id.id).get(newHashmap.get(e.id.id).size() - 1));
             return newE;
         } else {
-            // System.out.println("VAR " + e.id.id + " DOES NOT exist");
             List<Id> newNameList = new ArrayList<Id>();
             newNameList.add(e.id);
             newHashmap.put(e.id.id, newNameList);
@@ -346,32 +320,8 @@ class alpha_conversion implements ObjVisitor<Exp> {
     }
 
     public Exp visit(App e) {
-        // System.out.println("Current expression is " + e.toString() + "\t App is " + ((Var)e.e).id + "\tArgument list is " + e.es.get(0));
         App app = new App(e.e.accept(this), printInfix2(e.es));
         return app;
-        /*List<Exp> l = printInfix2(e.es);
-        Iterator it = l.iterator();
-        List<Exp> l2 = new LinkedList<Exp>();
-        Let new_l = new Let(new Id("\0"),new TInt(),new Unit(),new Unit());
-        while (it.hasNext()) {
-            Exp exp = (Exp) it.next();
-            if(exp.getClass()==Let.class){
-
-                System.out.println("YO");
-                Let lt = (Let) exp;
-                l2.add(new Var(lt.id));
-                new_l = new Let(lt.id,lt.t,lt.e1,new_l);
-            }else {
-                l2.add(exp);
-            }
-        }
-        Exp app;
-        app = new App(e.e.accept(this),l2);
-        if (!new_l.id.id.equals("\0")) {
-            new_l = (Let) rec_app(new_l,app);
-            app = new_l;
-        }
-        return app;*/
     }
 
     public Exp visit(Tuple e) {

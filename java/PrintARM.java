@@ -60,9 +60,15 @@ public class PrintARM implements Visitor {
     }
 
     public void visit(Int e) {
-    	//System.out.print(e);
-    	System.out.print("mov r5, #"+e.i+"\n");
-            myStack.push("r5");
+            
+            if (((e.i) >=-255 )&&((e.i) <=255 )){
+            	System.out.print("mov r5, #"+e.i+"\n");
+            }
+            else{
+                System.out.print("ldr r5, =#0x"+Integer.toHexString(e.i)+"\n");
+            }
+
+            myStack.push("r5");            
     }
 
     public void visit(Float e) {

@@ -14,7 +14,24 @@ class TInt extends Type { }
 
 class TFloat extends Type { }
 
-class TFun extends Type { }
+class TFun extends Type { 
+	public final Type arg;
+
+    public final Type ret;
+
+    public TFun(Type arg, Type ret) {
+        this.arg = arg;
+        this.ret = ret;
+    }
+
+    public TFun() {
+        this(Type.gen(), Type.gen());
+    }
+
+    public String toString() {
+        return "(" + arg + " -> " + ret + ")";
+    }
+}
 
 class TTuple extends Type { }
 

@@ -54,6 +54,7 @@ public class Main {
 	  static boolean vopt = false;
 	  static boolean ntopt = false;
 	  static boolean vallopt = false;
+	  static boolean eqtopt = false;
 	  
 	  static boolean checkOpt(String argv[]){
 		  int nb_file = 0 ;
@@ -78,6 +79,7 @@ public class Main {
 				}else if (s.equals("-h")){	hopt = true; options.add(s);
 				}else if (s.equals("-v")){	vopt = true; options.add(s); 
 				}else if (s.equals("-all")){	vallopt = true; options.add(s); 
+				}else if (s.equals("-eqt")){	eqtopt = true; options.add(s); //needIn = true;
 				}else if (s.equals("-t")){	topt = true; options.add(s); //needIn = true;
 				}else if (s.equals("-nt")){	ntopt = true; options.add(s);// needIn = true;
 				}else if (s.equals("-p")){	popt = true; options.add(s); //needIn = true;
@@ -145,22 +147,37 @@ public class Main {
 					  	System.out.println("------ Type Check ------");
 					  
 					  }
-						  
-					  VisitorTypeCheck t = new VisitorTypeCheck();
 					
-					  expression2.accept(t);
+					  if (eqtopt) {
+						  CallChecker t = new CallChecker(expression);
+						  if(vopt&&vallopt){
+							  if(t.errorSet){
+								  System.out.println("Error from type check");
+								  
+							  }else {
+								  System.out.println("No error from type check");
+							  }
+							  System.out.println();
+						  }else if (vopt){
+							  System.out.println("Type check done.");   
+						  }
+					  }else {
+						  VisitorTypeCheck t = new VisitorTypeCheck();
+						  expression2.accept(t);
+						  if(vopt&&vallopt){
+							  if(t.errorSet){
+								  System.out.println("Error from type check");
+							  }else {
+								  System.out.println("No error from type check");
+							  }
+							  System.out.println();
+						  }else if (vopt){
+							  System.out.println("Type check done.");   
+						  }
+				      }
 					
 					  
-					  if(vopt&&vallopt){
-						  if(t.errorSet){
-							  System.out.println("Error from type check");
-						  }else {
-							  System.out.println("No error from type check");
-						  }
-						  System.out.println();
-					  }else if (vopt){
-						  System.out.println("Type check done.");   
-					  }
+					 
 				  }
 				  
 				  if(!topt) {

@@ -81,9 +81,13 @@ public class PrintARMFile implements Visitor {
     }
 
     public void visit(Int e) {
-    	//myWriter(e);
-    	myWriter("mov r5, #"+e.i+"\n");
-            myStack.push("r5");
+    	if (((e.i) >=-255 )&&((e.i) <=255 )){
+    		myWriter("mov r5, #"+e.i+"\n");
+        }
+        else{
+        	myWriter("ldr r5, =#0x"+Integer.toHexString(e.i)+"\n");
+        }
+    	   myStack.push("r5");       
     }
 
     public void visit(Float e) {
