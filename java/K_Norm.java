@@ -7,7 +7,7 @@ import java.util.*;
  * mentioned in the project paper.
  */
 public class K_Norm implements ObjVisitor<Exp> {
-
+ 
 	/* Prepare variables generator function */
 	static int x = -1;
 
