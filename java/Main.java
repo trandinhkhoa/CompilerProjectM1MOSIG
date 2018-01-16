@@ -354,6 +354,7 @@ public class Main {
 			}catch (NotYetImplementedException e) {
 				System.err.println(e.getMessage());
 			} catch (Exception e) {
+				System.out.println("NotImplemented");
 				System.exit(1);    	
 			}
 	  }
