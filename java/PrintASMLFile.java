@@ -19,7 +19,7 @@ public class PrintASMLFile implements Visitor {
 	
 	
 	/** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Unit expression
  	* 
@@ -36,7 +36,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Bool expression
  	* 
@@ -53,7 +53,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Int expression
  	* 
@@ -70,7 +70,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Float expression
  	* 
@@ -88,7 +88,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Not expression
  	* 
@@ -107,7 +107,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Neg expression
  	* 
@@ -126,7 +126,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Add expression
  	* 
@@ -147,7 +147,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Sub expression
  	* 
@@ -168,7 +168,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input FNeg expression
  	* 
@@ -187,7 +187,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input FAdd expression
  	* 
@@ -208,7 +208,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input FSub expression
  	* 
@@ -229,7 +229,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input FMul expression
  	* 
@@ -249,7 +249,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input FDiv expression
  	* 
@@ -268,7 +268,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Eq expression
  	* 
@@ -287,7 +287,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input LE expression
  	* 
@@ -306,7 +306,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input If expression
  	* 
@@ -328,7 +328,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Let expression
  	* 
@@ -351,7 +351,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Var expression
  	* 
@@ -401,7 +401,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input LetRec expression
  	* 
@@ -425,7 +425,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input App expression
  	* 
@@ -445,7 +445,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Tuple expression
  	* 
@@ -463,7 +463,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input LetTuple expression
  	* 
@@ -485,7 +485,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Array expression
  	* 
@@ -504,7 +504,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Get expression
  	* 
@@ -522,7 +522,7 @@ public class PrintASMLFile implements Visitor {
     }
 
     /** 
-	 * Visitor writing the given expression with fw.
+	 * Visitor writing the ASML code of the given expression with fw.
  	 * 
  	 * @param e	input Put expression
  	* 

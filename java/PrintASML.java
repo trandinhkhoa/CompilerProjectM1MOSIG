@@ -3,7 +3,7 @@ import java.util.List;
 
 class PrintASML implements Visitor {
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Unit expression
  	* 
@@ -14,7 +14,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Bool expression
  	* 
@@ -25,7 +25,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Int expression
  	* 
@@ -36,7 +36,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Float expression
  	* 
@@ -48,7 +48,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Not expression
  	* 
@@ -61,7 +61,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Neg expression
  	* 
@@ -74,7 +74,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Add expression
  	* 
@@ -89,7 +89,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Sub expression
  	* 
@@ -104,7 +104,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input FNeg expression
  	* 
@@ -117,7 +117,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input FAdd expression
  	* 
@@ -132,7 +132,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input FSub expression
  	* 
@@ -147,7 +147,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input FMul expression
  	* 
@@ -162,7 +162,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input FDiv expression
  	* 
@@ -177,7 +177,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Eq expression
  	* 
@@ -192,7 +192,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input LE expression
  	* 
@@ -207,7 +207,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input If expression
  	* 
@@ -226,7 +226,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Let expression
  	* 
@@ -244,7 +244,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Var expression
  	* 
@@ -281,7 +281,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input LetRec expression
  	* 
@@ -299,7 +299,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input App expression
  	* 
@@ -314,7 +314,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Tuple expression
  	* 
@@ -327,7 +327,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input LetTuple expression
  	* 
@@ -345,7 +345,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Array expression
  	* 
@@ -360,7 +360,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Get expression
  	* 
@@ -374,7 +374,7 @@ class PrintASML implements Visitor {
     }
 
     /** 
-	 * Visitor printing the given expression.
+	 * Visitor printing the ASML code of the given expression.
  	 * 
  	 * @param e	input Put expression
  	* 
