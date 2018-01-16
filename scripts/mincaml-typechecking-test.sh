@@ -53,13 +53,12 @@ do
 done
 
 echo 
-echo "With Gen Equations"
-echo 
+echo "${Bold}With Gen Equation:${Normal}"
 for test_case in tests/typechecking/valid/with-equation/*.ml
 do
     name=${test_case##*/}
     echo -n "${name%.*}"
-    if $MINCAMLC -eqt "$test_case" 2> /dev/null 1> /dev/null
+    if $MINCAMLC -t -eqt "$test_case" 2> /dev/null 1> /dev/null
     then 
 	echo "${Green}|-> OK${NC}"
     else 
@@ -80,13 +79,12 @@ do
 done
 
 echo 
-echo "With Gen Equations"
-echo
+echo "${Bold}With Gen Equation:${Normal}"
 for test_case in tests/typechecking/invalid/with-equation/*.ml
 do
     name=${test_case##*/}
     echo -n "${name%.*}"
-    if $MINCAMLC -equ "$test_case" 2> /dev/null 1> /dev/null
+    if $MINCAMLC -t -eqt "$test_case" 2> /dev/null 1> /dev/null
     then
         echo "${Red}|-> KO${NC}"
     else 
