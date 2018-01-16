@@ -149,7 +149,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Not e) {
-        return e;
+        return new Not(e.e.accept(this));
     }
 
     /**
@@ -161,7 +161,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Neg e) {
-        return e;
+        return new Neg(e.e.accept(this));
     }
 
     /**
@@ -173,7 +173,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Add e) {
-        return e;
+        return new Add(e.e1.accept(this),e.e2.accept(this));
     }
 
     /**
@@ -185,7 +185,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Sub e) {
-        return e;
+        return new Sub(e.e1.accept(this),e.e2.accept(this));
     }
 
     /**
@@ -257,7 +257,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Eq e) {
-        return e;
+        return new Eq(e.e1.accept(this),e.e2.accept(this));
     }
 
     /**
@@ -269,7 +269,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(LE e) {
-        return e;
+        return new LE(e.e1.accept(this),e.e2.accept(this));
     }
 
     /**
@@ -281,7 +281,7 @@ public class Nested_Let implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(If e) {
-        return e;
+        return new If(e.e1.accept(this),e.e2.accept(this),e.e3.accept(this));
     }
 
     /**

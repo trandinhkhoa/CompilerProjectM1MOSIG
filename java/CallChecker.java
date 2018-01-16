@@ -3,7 +3,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * CallChecker class is a helper class used to
+ * add predefined equations and to display the
+ * generated equations
+ */
 public class CallChecker {
 
 	private static Exp e;
@@ -34,6 +38,9 @@ public class CallChecker {
         PREDEFS = Collections.unmodifiableMap(predefs);
     }
     
+    /**
+     * displayEqs - displays the generated equations
+     */
     public void displayEqs(){
     	System.out.println("Equations generated out of GenEquations function of format : (Type,Type)\n");
     	String value1 = null;

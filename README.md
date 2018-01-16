@@ -16,7 +16,7 @@
 
 ### Selection Options
 					
-		-t : run the program with the type checking only.
+		-t : run the program with the type checking only. (LetRec is not tested)
 		-p : run the program with the parsing only.
 		-nt : run the program without type checking 
 					
@@ -30,7 +30,7 @@
 		
 ### Other Options
 
-		-eqt :  alternative equation type checking 
+		-eqt :  alternative equation type checking (LetRec is not working)
 
 ## How to use it
 
