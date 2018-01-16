@@ -2,6 +2,7 @@ import java.util.*;
 
 /**
 	 * Visitor checking the Type of an expression.
+	 * Exit if it encounter an error, else continue the execution.
 	 * 
 	 */
 public class VisitorTypeCheck implements ObjVisitor<Type>{
@@ -588,7 +589,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Tuple e) {
-		printInfix2(e.es);
+		/*printInfix2(e.es);
+		return null;*/
+		try {
+
+			throw new NotYetImplementedException("Tuple NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
 		return null;
 	}
 
@@ -601,6 +610,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(LetTuple e) {
+		//return null;
+		try {
+
+			throw new NotYetImplementedException("LetTuple NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
 		return null;
 	}
 
@@ -613,7 +630,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Array e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		if((type1!=null)&&(TInt.class != type1.getClass())){
 			return null;
 		}
@@ -625,7 +642,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			else{
 				return new TFloat();
 			}
+		}*/
+		try {
+
+			throw new NotYetImplementedException("Array NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
 		}
+		return null;
 	}
 
 	/**
@@ -637,7 +662,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Get e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		
 		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
 			errorSet=true;
@@ -654,7 +679,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			return new TFloat();
+		}*/
+		try {
+
+			throw new NotYetImplementedException("Get NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
 		}
+		return null;
 	}
 
 	/**
@@ -666,7 +699,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Put e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		Type type2 = e.e2.accept(this);
 		Type type3 = e.e3.accept(this);
 		
@@ -703,5 +736,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			System.out.println("Error from type check");System.exit(1);
 			return null;
 		}
+	}*/
+	try {
+
+			throw new NotYetImplementedException("Put NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
+		return null;
 	}
 }
