@@ -212,7 +212,7 @@ public class Main {
 						  System.out.println("------ AST Alpha-Conversion ------");
 					  }
 					  
-					  alpha_conversion alpha = new alpha_conversion(x);
+					  Alpha_conversion alpha = new Alpha_conversion(x);
 					  expression2 = expression2.accept(alpha);
 					 
 					  if(vopt&&vallopt) {
