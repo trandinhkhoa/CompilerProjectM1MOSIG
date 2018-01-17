@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Visitor modifying the associated expression based on the register allocation spilling everything.
+ * what we are doing here is that we are push every value and variable into the stack and we are
+ * loading these values into some register when we want to use them.
  *
  */
 public class SpillAlloc implements ObjVisitor<Exp> {
