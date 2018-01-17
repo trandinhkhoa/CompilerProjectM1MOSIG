@@ -6,9 +6,8 @@ import java.util.*;
  * eventually for the register allocation phase Followed the pseudo-code
  * mentioned in the project paper.
  */
-
-class K_Norm implements ObjVisitor<Exp> {
-
+public class K_Norm implements ObjVisitor<Exp> {
+ 
 	/* Prepare variables generator function */
 	static int x = -1;
 
@@ -18,26 +17,74 @@ class K_Norm implements ObjVisitor<Exp> {
 	}
 	/* **************************************/
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Unit expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Unit e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Bool expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Bool e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Int expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Int e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Float expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Float e) {
 		return e;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Not expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Not e) {
 		return new Not(e.e.accept(this));
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Neg expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Neg e) {
 		Var v1 = new Var(new Id(gen()));
 		Sub s = new Sub(new Int(0),e.e);
@@ -45,93 +92,149 @@ class K_Norm implements ObjVisitor<Exp> {
 		return l;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Add expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Add e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TInt(), e.e1.accept(this), new Add(v1, v2));
 		Let l3 = new Let(v2.id, new TInt(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TInt(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Sub expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Sub e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TInt(), e.e1.accept(this), new Sub(v1, v2));
 		Let l3 = new Let(v2.id, new TInt(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TInt(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input FNeg expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(FNeg e) {
 		Var v1 = new Var(new Id(gen()));
 		Let l = new Let(v1.id, new TFloat(), e.e.accept(this), new FNeg(v1));
 		return l;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input FAdd expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(FAdd e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FAdd(v1, v2));
 		Let l3 = new Let(v2.id, new TFloat(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TFloat(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input FSub expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(FSub e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FSub(v1, v2));
 		Let l3 = new Let(v2.id, new TFloat(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TFloat(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input FMul expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(FMul e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FMul(v1, v2));
 		Let l3 = new Let(v2.id, new TFloat(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TFloat(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input FDiv expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(FDiv e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TFloat(), e.e1.accept(this), new FDiv(v1, v2));
 		Let l3 = new Let(v2.id, new TFloat(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TFloat(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Eq expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Eq e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TInt(), e.e1.accept(this), new Eq(v1, v2));
 		Let l3 = new Let(v2.id, new TInt(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TBool(),l3,v3);
 		return l3;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input LE expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(LE e) {
 		Var v1 = new Var(new Id(gen()));
 		Var v2 = new Var(new Id(gen()));
-		// Var v3 = new Var(new Id(gen()));
 		Let l2 = new Let(v1.id, new TInt(), e.e1.accept(this), new LE(v1, v2));
 		Let l3 = new Let(v2.id, new TInt(), e.e2.accept(this), l2);
-		// Let l1 = new Let(v3.id,new TBool(),l3,v3);
 		return l3;
 	}
 
-	public Exp rec_If(Exp e, If i) {
+	Exp rec_If(Exp e, If i) {
 		if (e.getClass() == Let.class) {
 			return new Let(((Let) e).id, ((Let) e).t, ((Let) e).e1, rec_If(((Let) e).e2, i));
 		} else {
@@ -139,6 +242,14 @@ class K_Norm implements ObjVisitor<Exp> {
 		}
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input If expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(If e) {
 		if (e.e1.getClass() == Not.class) {
 			If new_e = new If(((Not) e.e1).e, e.e3, e.e2);
@@ -148,40 +259,39 @@ class K_Norm implements ObjVisitor<Exp> {
 			return new_e.accept(this);
 		} else {
 			Exp l1 = e.e1.accept(this);
-			/*
-			 * Var v1 = new Var(new Id(gen())); If si = new
-			 * If(v1,e.e2.accept(this),e.e3.accept(this)); Let lt2 = new Let(v1.id,new
-			 * TBool(),l1,si);
-			 */
 			return rec_If(l1, e);
 		}
 
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Let expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Let e) {
 		Let l = new Let(e.id, e.t, e.e1.accept(this), e.e2.accept(this));
 		return l;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Var expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Var e) {
 		return e;
 	}
 
-	// print sequence of identifiers
-	static <E> Exp printInfix(List<E> l, String op) {
-		if (l.isEmpty()) {
-			return new Unit();
-		}
-		Iterator<E> it = l.iterator();
-		it.next();
-		while (it.hasNext()) {
-			it.next();
-		}
-		return new Unit();
-	}
-
+	
 	// print sequence of Exp
-	List<Exp> printInfix2(List<Exp> l) {
+	List<Exp> rec_list(List<Exp> l) {
 		List<Exp> new_list = new LinkedList<Exp>();
 		new_list.clear();
 		if (l.isEmpty()) {
@@ -194,6 +304,14 @@ class K_Norm implements ObjVisitor<Exp> {
 		return new_list;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input LetRec expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(LetRec e) {
 
 		FunDef fd2 = new FunDef(e.fd.id, e.fd.type, e.fd.args, e.fd.e.accept(this));
@@ -213,91 +331,123 @@ class K_Norm implements ObjVisitor<Exp> {
 		}
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input App expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(App e) {
 		List<Exp> la = new LinkedList<Exp>();
-		Exp a = app_rec(printInfix2(e.es), la, e.e);
+		Exp a = app_rec(rec_list(e.es), la, e.e);
 		return a;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Tuple expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Tuple e){
-		/*Tuple t = new Tuple(printInfix2(e.es));
-		return t;*/
-
 		try {
 			throw new NotYetImplementedException("Tuple NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
-			// TODO Auto-generated catch block
+			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
 		return null;
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input LetTuple expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(LetTuple e){
-		/*LetTuple lt = new LetTuple(e.ids, e.ts, e.e1.accept(this), e.e2.accept(this));
-		return lt;*/
 
 		try {
 			throw new NotYetImplementedException("Let Tuple NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
-			// TODO Auto-generated catch block
+			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
 		return null;
 	}
 
-	public Exp visit(Array e){		
-	/*	Var size = new Var(new Id(gen()));
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Array expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
+	public Exp visit(Array e){
+		/**Generate variables for array parameters (size & init val)**/
+		Var size = new Var(new Id(gen()));
 		Var init = new Var(new Id(gen()));
 
 		Let l1 = new Let(size.id, new TArray(), e.e1.accept(this), new Array(size,init));
 		Let l2 = new Let(init.id, new TArray(), e.e2.accept(this), l1);
-		return l2;*/
-		try {
+		return l2;
+
+	
+/*		try {
+
 			throw new NotYetImplementedException("Array NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
-			// TODO Auto-generated catch block
+			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
-		return null;
+		return null;*/
 	}
 
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Get expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Get e) {
-		/*e.e1.accept(this)
-		string s1 = myStack.pop();
-		e.e2.accept(this)
-		string s2 = myStack.pop();
-		load r1, [s1, s2]
-		myStack.push("r1");	*/
-		
-		
-		/*Get g = new Get(e.e1.accept(this), e.e2.accept(this));
-		return g;*/
-		try {
+
+		Get g = new Get(e.e1.accept(this), e.e2.accept(this));
+		return g;
+
+
+		/*try {
+
 			throw new NotYetImplementedException("Get NotYetImplemented");
 		} catch (NotYetImplementedException e1) { 
-			// TODO Auto-generated catch block
+			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
-		return null;
+		return null;*/
 	}
 
+	
+	/**
+ 	 * Visitor returning the new expression K-Normalization process.
+ 	 * 
+ 	 * @param e	input Put expression
+ 	 * 
+ 	 * @return the new expression.
+ 	 */
+	@Override
 	public Exp visit(Put e) {
-		/*Put p = new Put(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
-		return p;*/
-
-		/*Exp e1 = e.e2.accept(this);
-		Exp e2 = e.e3.accept(this);
-		Id i1 = new Id(gen());
-		Id i2 = new Id(gen());
-		Var v1 = new Var(i1);
-		Var v2 = new Var(i2);
-		Let l1 = new Let(i1, new TUnit(), e1, new Put(e.e1,v1,v2));
-		Let l2 = new Let(i2, new TUnit(), e2, l1);*/
-		
 		try {
 			throw new NotYetImplementedException("Put NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
-			// TODO Auto-generated catch block
+			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
 		return null;

@@ -2,6 +2,7 @@ import java.util.*;
 
 /**
 	 * Visitor checking the Type of an expression.
+	 * Exit if it encounter an error, else continue the execution.
 	 * 
 	 */
 public class VisitorTypeCheck implements ObjVisitor<Type>{
@@ -123,10 +124,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operand1 is unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){	//if operand2 is unknown type 
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){	//if both operands are of type Int
@@ -155,10 +158,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TInt();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TInt();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TInt.class){
@@ -185,6 +190,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			String str = ((Var) e.e).id.id;
 			System.out.println("Str" + ((Var) e.e).id.id);
 			delVar.put(str, new TFloat());
+			return new TFloat();
 		}
 		if(TInt.class==e.e.accept(this).getClass()){
 			return new TFloat();
@@ -212,10 +218,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { //if operands are unknown type
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -244,10 +252,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		if(type1.getClass()==type2.getClass() && type1.getClass()==TFloat.class){
@@ -276,10 +286,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -309,10 +321,12 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TFloat();
 		}
 		if(type2.getClass() == TUnresolvedType.class){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TFloat();
 		}
 		
 		Type type = e.e1.accept(this);
@@ -343,18 +357,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -383,18 +401,22 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TInt.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TInt());
+			return new TBool();
 		}
 		if(type1.getClass() == TUnresolvedType.class && (type2.getClass() == TFloat.class)) { 
 			String str1 = ((Var) e.e1).id.id;
 			delVar.put(str1, new TFloat());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TInt.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TInt());
+			return new TBool();
 		}
 		if(type2.getClass() == TUnresolvedType.class && (type1.getClass() == TFloat.class)){
 			String str2 = ((Var) e.e1).id.id;
 			delVar.put(str2, new TFloat());
+			return new TBool();
 		}
 		if(e.e1.accept(this).getClass()==type2.getClass()){
 			return new TBool();
@@ -514,24 +536,6 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(LetRec e) {
-		/*if(delVar.containsKey(e.fd.id.id)){
-			//System.err.println("Definition already present "+e.fd.id);
-		}
-		Type t = e.fd.e.accept(this);
-		if(e.fd.type.getClass() == t.getClass()){
-			if(TVar.class != e.fd.type.getClass()){
-				//System.err.println("Type do not match " + e.fd.id);
-			}
-		}
-		delVar.put(e.fd.id.id, t);
-		return t;*/
-		
-		/*e.fd.e.accept(this);
-		for (int i = 0; i < e.fd.args.size(); i++) {
-			Var v = new Var(e.fd.args.get(i));
-			v.accept(this);
-		}
-		return e.e.accept(this);*/
 		
 		return null;
 	}
@@ -585,7 +589,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Tuple e) {
-		printInfix2(e.es);
+		/*printInfix2(e.es);
+		return null;*/
+		try {
+
+			throw new NotYetImplementedException("Tuple NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
 		return null;
 	}
 
@@ -598,6 +610,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(LetTuple e) {
+		//return null;
+		try {
+
+			throw new NotYetImplementedException("LetTuple NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
 		return null;
 	}
 
@@ -610,7 +630,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Array e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		if((type1!=null)&&(TInt.class != type1.getClass())){
 			return null;
 		}
@@ -622,7 +642,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			else{
 				return new TFloat();
 			}
+		}*/
+		try {
+
+			throw new NotYetImplementedException("Array NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
 		}
+		return null;
 	}
 
 	/**
@@ -634,7 +662,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Get e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		
 		if((type1!=null)&&(type1.getClass() != TArray.class)){	//if its not array
 			errorSet=true;
@@ -651,7 +679,15 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 		}
 		else{
 			return new TFloat();
+		}*/
+		try {
+
+			throw new NotYetImplementedException("Get NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
 		}
+		return null;
 	}
 
 	/**
@@ -663,7 +699,7 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
  	 */
 	@Override
 	public Type visit(Put e) {
-		Type type1 = e.e1.accept(this);
+		/*Type type1 = e.e1.accept(this);
 		Type type2 = e.e2.accept(this);
 		Type type3 = e.e3.accept(this);
 		
@@ -700,5 +736,14 @@ public class VisitorTypeCheck implements ObjVisitor<Type>{
 			System.out.println("Error from type check");System.exit(1);
 			return null;
 		}
+	}*/
+	try {
+
+			throw new NotYetImplementedException("Put NotYetImplemented");
+		} catch (NotYetImplementedException e1) {
+			
+			System.err.println(e1.getMessage()); System.exit(1);
+		}
+		return null;
 	}
 }
