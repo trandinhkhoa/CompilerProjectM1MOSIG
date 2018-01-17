@@ -27,7 +27,7 @@ public class Closure implements ObjVisitor<Exp> {
     /**
      * Constructor of the alpha_conversion class.
      *
-     * Initilize the closure_list, containing functions in the program, and define what functions are library functions in libraryFuncList
+     * Initialize the closure_list, containing functions in the program, and define what functions are library functions in libraryFuncList
      */
     public Closure() {
         closure_list = new LinkedList<Closure_Element>();
