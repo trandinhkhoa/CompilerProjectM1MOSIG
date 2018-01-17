@@ -43,6 +43,10 @@ then
 else
 	echo "${Red}|-> KO${NC}"
 fi
+
+rm actual/*.actual
+rm expected/*.expected
+
 cd "../"
 
 done
