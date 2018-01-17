@@ -4,21 +4,25 @@ import sun.awt.FwDispatcher;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Main class of the Compiler. 
+ * Here we generate the output ASML or ARM file,
+ * depending on the given options and arguments,
+ * corresponding to the .ml input file.
+ */
 public class Main {
 	
 		static String getNames() {
-			String s = "\n\t\tBuchra Aboubakr\n"+
-						"\t\tKhoa Tran\n"+ 
-					   "\t\tPierric Mazodier \n"+       
-					   "\t\tSébastien Riou \n"+ 
-					   "\t\tSwathi Sree \n";
+			String s = "\n\t\tSwathi Sree, " + "Buchra Aboubakr, "+ 	     
+					   "Sébastien Riou, "+ "Khoa Tran, "+ 
+					   "Pierric Mazodier. \n"; 
 			return s;
 			 
 		}
 
 		static String getLogo() {
 			String s = ""+ 
-		" _    _ _ _                     _    _______                   \n"+
+		" _    _ _ _   _                 _    _______                   \n"+
 		"| |  | | | | (_)               | |  |__   __|               \n"   +
 		"| |  | | | |_ _ _ __ ___   __ _| |_ ___| | ___  __ _ _ __ ___  \n"+
 		"| |  | | | __| | '_ ` _ \\ / _` | __/ _ \\ |/ _ \\/ _` | '_ ` _ \\ \n"+
@@ -40,8 +44,8 @@ public class Main {
 					"\t -o : output file\n" + 
 					"\t -asml : output ASML\n"+
 					"\t -nt : no type checking \n"+
-					"\t -eqt : alternative equation type checking \n"+
-					"\n\t creators :\n"+getNames()
+					"\t -eqt : alternative type checking \n"+
+					"\n\t Developped by :\n"+getNames()
 					);
 		}
 		
@@ -122,7 +126,11 @@ public class Main {
 	  
 	  
 	
-  
+  /**
+   * We are compiling the input .ml file step by step,
+   * updating it expression based on the definition of the different
+   * modification that we have to use.
+   */
   static public void main(String argv[]) {    
 		options = new LinkedList<String>();
 		  
