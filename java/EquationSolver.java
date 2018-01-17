@@ -2,11 +2,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * EquationSolver class checks the type equations
+ * for each expressions. This indicates whether the
+ * program is correctly typed or not
+ */
 
 public class EquationSolver {
 
 	Map<String, Type> mp = new HashMap<String, Type>();
 	
+	/**
+	 * getSolution generates the final type equation when the program is
+	 * correctly typed else it indicates the presence of error
+	 * 
+	 * @param List of type equations
+	 * 
+	 * @return true - if the program has error
+	 * 		   false - if the program has no error
+	 */
 	public boolean getSolution(List<Tpair<Type, Type>> equations) {
 		int typeCrt = 0;
 		
@@ -66,6 +80,11 @@ public class EquationSolver {
 			return false;
 	}
 
+	/**
+	 * display is used to display the correct solutions of the solved
+	 * 
+	 * @param type equations
+	 */
 	public void display(Map<String, Type> equations) {
 		int len = equations.size();
 		//for(int i =1 ; i<=len ; i++ )

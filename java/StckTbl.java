@@ -3,7 +3,10 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
-
+/**
+ * Class StckTbl used to store and retrieve types
+ *
+ */
 public class StckTbl<Type> {
 
     private Stack<Map<String, Type>> stck;
@@ -11,11 +14,19 @@ public class StckTbl<Type> {
     public StckTbl() {
         this.stck = new Stack<>();
     }
-
+    
+    /**
+     * pop() pops the top element
+     *
+     */
     public void pop() {
     	stck.pop();
     }
-
+    
+    /**
+     * put() puts the type and name to the Map
+     *
+     */
     public void put(String name, Type value) {
         Map<String, Type> tmp = stck.peek();
         tmp.put(name, value);
@@ -24,6 +35,13 @@ public class StckTbl<Type> {
     	stck.push(new TreeMap<String, Type>());
     }
 
+    /**
+     * getElm gets the type and name present at the index
+     *
+     *@param index
+     *
+     *@return the type and name of the element at index
+     */
     private Map<String, Type> getElm(int index) {
 
         if (index == 0) {
@@ -37,6 +55,13 @@ public class StckTbl<Type> {
         }
     }
 
+    /**
+     * get gets the type of the variable of name
+     *
+     *@param name of variable
+     *
+     *@return the type of name
+     */
     public Type get(String name) {
         Map<String, Type> res;
         int i = 0;
@@ -52,6 +77,12 @@ public class StckTbl<Type> {
         }
         return null;
     }
+    
+    /**
+     * putAll adds whole map into the stack
+     *
+     *@param map
+     */
     public void putAll(Map<String, ? extends Type> map) {
         stck.peek().putAll(map);
     }
