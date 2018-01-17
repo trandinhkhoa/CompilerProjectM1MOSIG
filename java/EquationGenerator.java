@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public final class EquationGenerator {
 
-	private void genEquations(final List<Tpair<Type, Type>> out, final stck<Type> env, final Exp exp, final Type type)
+	private void genEquations(final List<Tpair<Type, Type>> out, final StckTbl<Type> env, final Exp exp, final Type type)
 	{
 		Visitor v = new Visitor(){
 			@Override
@@ -214,7 +214,7 @@ public final class EquationGenerator {
 	public List<Tpair<Type, Type>> genEquations(Exp pgm,
 			Map<String, Type> predefs) {
 		List<Tpair<Type, Type>> out = new ArrayList<>();
-        stck<Type> env = new stck<>();
+		StckTbl<Type> env = new StckTbl<>();
         env.push();
         env.putAll(predefs);
         genEquations(out, env, pgm,new TUnit());
