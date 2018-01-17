@@ -163,7 +163,9 @@ public class Main {
 							  System.out.println();
 						  }else if (vopt){
 							  System.out.println("Type check done.");   
-						  }
+						  } if(t.errorSet){
+							  System.exit(1);
+							 }
 					  }else {
 						  VisitorTypeCheck t = new VisitorTypeCheck();
 						  expression2.accept(t);
@@ -176,7 +178,9 @@ public class Main {
 							  System.out.println();
 						  }else if (vopt){
 							  System.out.println("Type check done.");   
-						  }
+						  } if(t.errorSet){
+							  System.exit(1);
+							 }
 				      }
 					
 					  

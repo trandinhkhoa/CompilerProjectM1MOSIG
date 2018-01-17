@@ -44,6 +44,11 @@ public class EquationSolver {
 					if(lcheck.getClass()!=TVar.class && lcheck.equals(tpair2.lnode)&& !(rcheck.toString().substring(0, rcheck.toString().indexOf('@')).replaceAll("@", "").equals(tpair2.rnode.toString().substring(0, tpair2.rnode.toString().indexOf('@')).replaceAll("@", "")))){
 						typeCrt=-1;
 					}
+					if(lcheck.equals(tpair2.lnode) && tpair2.rnode.getClass() != TVar.class && tpair2.rnode.getClass() != TFun.class && rcheck.getClass()!=TVar.class){
+						if(!rcheck.toString().substring(0, rcheck.toString().indexOf('@')).replaceAll("@", "").equals(tpair2.rnode.toString().substring(0, tpair2.rnode.toString().indexOf('@')).replaceAll("@", ""))){
+							typeCrt=-1;
+						}
+					}
 				}
 				
 			}
@@ -53,7 +58,8 @@ public class EquationSolver {
 				}
 			}
 		}
-		//display(mp);
+		if(typeCrt!=-1)
+			display(mp);
 		if(typeCrt<0)
 			return true;
 		else

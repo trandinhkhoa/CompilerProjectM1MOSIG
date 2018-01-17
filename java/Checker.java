@@ -20,7 +20,7 @@ public class Checker {
         equations = new ArrayList<>(input);
         solver = new EquationSolver();
         solution = solver.getSolution(equations);
-        solver.display(solver.mp);
+        //solver.display(solver.mp);
     }
     public Exp getProgram() {
         return program;
