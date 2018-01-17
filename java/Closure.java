@@ -8,7 +8,7 @@ import java.util.Stack;
 /**
  * Closure Conversion separate the function definition from the rest of the code.
  *
- * It: flatten the nest let rec; for each function, assign a label that will be used later on in the generated assembly; identify the parameters of the function; replace the call "f x1 ... xn" with a new instruction "apply_direct(l, (x1 ... xn))" where l is the label for f. After closure, the field closure_list contain all defined function in the program 
+ * It: flatten the nest let rec; for each function, assign a label that will be used later on in the generated assembly; identify the parameters of the function; replace the call "f x1 ... xn" with a new instruction "apply_direct(l, (x1 ... xn))" where l is the label for f. After closure, the field closure_list contain all defined function in the program
  *
  *
  */

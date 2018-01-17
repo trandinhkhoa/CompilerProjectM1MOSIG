@@ -22,7 +22,7 @@ class Bool extends Exp {
     Bool(boolean b) {
         this.b = b;
     }
-    
+
     <E> E accept(ObjVisitor<E> v) {
         return v.visit(this);
     }
@@ -210,7 +210,7 @@ class FDiv extends Exp {
     }
 }
 
-class Eq extends Exp { 
+class Eq extends Exp {
     final Exp e1;
     final Exp e2;
 
@@ -227,7 +227,7 @@ class Eq extends Exp {
     }
 }
 
-class LE extends Exp { 
+class LE extends Exp {
     final Exp e1;
     final Exp e2;
 
@@ -395,7 +395,7 @@ class Get extends Exp {
         this.e1 = e1;
         this.e2 = e2;
     }
- 
+
     <E> E accept(ObjVisitor<E> v) {
         return v.visit(this);
     }
@@ -437,6 +437,5 @@ class FunDef {
         this.args = args;
         this.e = e;
     }
- 
+
 }
- 

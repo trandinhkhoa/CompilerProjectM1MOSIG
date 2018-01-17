@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Main class of the Compiler. 
+ * Main class of the Compiler.
  * Here we generate the output ASML or ARM file,
  * depending on the given options and arguments,
  * corresponding to the .ml input file.
@@ -369,4 +369,3 @@ public class Main {
 	  }
   }
 }
-
