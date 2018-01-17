@@ -390,14 +390,24 @@ public class K_Norm implements ObjVisitor<Exp> {
  	 * @return the new expression.
  	 */
 	@Override
-	public Exp visit(Array e){		
-		try {
+	public Exp visit(Array e){
+		/**Generate variables for array parameters (size & init val)**/
+		Var size = new Var(new Id(gen()));
+		Var init = new Var(new Id(gen()));
+
+		Let l1 = new Let(size.id, new TArray(), e.e1.accept(this), new Array(size,init));
+		Let l2 = new Let(init.id, new TArray(), e.e2.accept(this), l1);
+		return l2;
+
+	
+/*		try {
+
 			throw new NotYetImplementedException("Array NotYetImplemented");
 		} catch (NotYetImplementedException e1) {
 			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
-		return null;
+		return null;*/
 	}
 
 	/**
@@ -409,13 +419,19 @@ public class K_Norm implements ObjVisitor<Exp> {
  	 */
 	@Override
 	public Exp visit(Get e) {
-		try {
+
+		Get g = new Get(e.e1.accept(this), e.e2.accept(this));
+		return g;
+
+
+		/*try {
+
 			throw new NotYetImplementedException("Get NotYetImplemented");
 		} catch (NotYetImplementedException e1) { 
 			
 			System.err.println(e1.getMessage()); System.exit(1);
 		}
-		return null;
+		return null;*/
 	}
 
 	

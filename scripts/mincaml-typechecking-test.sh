@@ -52,37 +52,8 @@ do
     fi
 done
 
-echo 
-echo "un-handled-cases****"
-echo 
-for test_case in tests/typechecking/valid/un-handled-cases/*.ml
-do
-    name=${test_case##*/}
-    echo -n "${name%.*}"
-    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
-    then 
-	echo "${Green}|-> OK${NC}"
-    else 
-	echo "${Red}|-> KO${NC}"
-    fi
-done
 echo "${Cyan}${Bold}Invalid Tests:${NC}${Normal}"
 for test_case in tests/typechecking/invalid/*.ml
-do
-    name=${test_case##*/}
-    echo -n "${name%.*}"
-    if $MINCAMLC -t "$test_case" 2> /dev/null 1> /dev/null
-    then
-        echo "${Red}|-> KO${NC}"
-    else 
-        echo "${Green}|-> OK${NC}"
-    fi
-done
-
-echo
-echo -n "un-handled-cases***"
-echo
-for test_case in tests/typechecking/invalid/un-handled-cases/*.ml
 do
     name=${test_case##*/}
     echo -n "${name%.*}"
