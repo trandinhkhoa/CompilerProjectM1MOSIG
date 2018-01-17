@@ -189,9 +189,7 @@ public class Main {
 							  System.out.println("Type check done.");   
 						  }
 				      }
-					
-					  
-					 
+
 				  }
 				  
 				  if(!topt) {
