@@ -70,7 +70,7 @@ public class Closure_Element {
      *
      * @param e input expression to make closure from
      *
-     * @return Return nothing
+     * 
      */
     public void set_Exp(Exp e) {
         this.code = e;
@@ -79,7 +79,7 @@ public class Closure_Element {
     /**
      * Print the closure element to the console.
      *
-     * @return Return nothing
+     * 
      */
     public void print() {
         if (label != null) {
@@ -111,7 +111,7 @@ public class Closure_Element {
     /**
      * Print the the list of parameters to file .
      *
-     * @return Return nothing
+     * 
      */
     public void printIn(FileWriter fw) {
         try {
@@ -134,7 +134,7 @@ public class Closure_Element {
     /**
      * Print the the ASML code for the function.
      *
-     * @return Return nothing
+     * 
      */
     public void printASML() {
         System.out.print("let " + label);
@@ -151,7 +151,7 @@ public class Closure_Element {
      *
      * @param fw FileWriter object
      *
-     * @return Return nothing
+     * 
      */
     public void headerFile(FileWriter fw) {
         try {
@@ -169,7 +169,7 @@ public class Closure_Element {
     /**
      * Print to console the the prologue of the function in ARM.
      *
-     * @return Return nothing
+     * 
      */
     public void prologue() {
         System.out.println("stmfd sp!, {fp, lr}");
@@ -179,7 +179,7 @@ public class Closure_Element {
     /**
      * Print to console the the epilogue of the function in ARM.
      *
-     * @return Return nothing
+     * 
      */
     public void epilogue() {
         System.out.println("ldmfd sp!, {fp,lr}");
@@ -192,7 +192,7 @@ public class Closure_Element {
      *
      * @param fw FileWriter object
      *
-     * @return Return nothing
+     * 
      */
     public void prologueFile(FileWriter fw) {
         try {
@@ -209,7 +209,7 @@ public class Closure_Element {
      *
      * @param fw FileWriter object
      *
-     * @return Return nothing
+     * 
      */
     public void epilogueFile(FileWriter fw) {
         try {
