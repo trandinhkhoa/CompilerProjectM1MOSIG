@@ -7,7 +7,7 @@ import java.util.*;
  *
  */
 
-public class alpha_conversion implements ObjVisitor<Exp> {
+public class Alpha_conversion implements ObjVisitor<Exp> {
 
     /**
     * Stack of environments; environments are updated and pushed onto the stack when going down the tree where declarations happen, then popped when going up from where declarations happen.
@@ -28,7 +28,7 @@ public class alpha_conversion implements ObjVisitor<Exp> {
      *
      * @param x index to generate new variable name
      */
-    public alpha_conversion(int x) {
+    public Alpha_conversion(int x) {
         this.x = x;
         hashmapStack = new Stack();
     }
