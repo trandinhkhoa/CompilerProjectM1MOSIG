@@ -42,4 +42,16 @@
 ### Generate ASML Code
 
 		scripts/mincamlc -asml input file -o [output file] 
+		
+### Limitation
+#### Integer
+                Because of the ldr and str operation we can only use integer that can be written in less than 32 bits.
+		
+#### Stack
+      
+                We are using the "spill everithing" allocation so for some really big programms the size of the stack can be not enough.
+		
+#### Language
 
+              Arrays and tuples are not allowed and LetRec code can be generated but not type checked. 
+	      You can also use first order functions but high order functions and partial functions are not allowed. 
