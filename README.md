@@ -49,9 +49,10 @@
 		
 #### Stack
       
-		We are using the "spill everithing" allocation so for some really big programms the size of the stack can be not enough.
+		We are using the "spill everithing" allocation so for some really big programms 
+		the size of the stack can be not enough.
 		
 #### Language
 
 		Arrays and tuples are not allowed and LetRec code can be generated but not type checked. 
-	      You can also use first order functions but high order functions and partial functions are not allowed. 
+	        You can also use first order functions but high order functions and partial functions are not allowed. 
