@@ -44,13 +44,18 @@
 		scripts/mincamlc -asml input file -o [output file] 
 		
 ### Limitation
+
 #### Integer
+
+
 		Because of the ldr and str operation we can only use integer that can be written in less than 32 bits.
 		
 #### Stack
-      
+
+
 		We are using the "spill everithing" allocation so for some really big programms 
 		the size of the stack can be not enough.
+		
 		
 #### Language
 
