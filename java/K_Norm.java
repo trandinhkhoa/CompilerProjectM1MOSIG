@@ -286,7 +286,9 @@ public class K_Norm implements ObjVisitor<Exp> {
      */
     @Override
     public Exp visit(Var e) {
-        return e;
+    	Var v1 = new Var(new Id(gen()));
+    	Let l = new Let(v1.id, new TVar(e.id.id),e, v1);
+       return l;
     }
 
 
